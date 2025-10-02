@@ -1,0 +1,868 @@
+@page "/commissariats"
+@using PNC.Services
+@using PNC.Models
+@inject NavigationManager Navigation
+@inject GeographieRdcService GeographieService
+
+<PageTitle>Gestion des Commissariats - PNC</PageTitle>
+
+<div class="commissariats-container">
+    <!-- En-tête de la page -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-building"></i>
+                Gestion des Commissariats
+            </h1>
+            <p class="page-subtitle">Administration des commissariats et unités de police</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-sm btn-primary" @onclick="() => ShowAddModal()">
+                <i class="bi bi-plus-circle"></i>
+                Nouveau Commissariat
+            </button>
+        </div>
+    </div>
+
+    <!-- Barre de recherche et filtres -->
+    <div class="search-filters-section">
+        <div class="search-filters-container">
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <i class="bi bi-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        class="form-control search-input" 
+                        placeholder="Rechercher un commissariat..."
+                        @bind="searchTerm" 
+                        @oninput="OnSearchInput"
+                    />
+                </div>
+            </div>
+            
+            <select class="form-select filter-select" @bind="selectedProvince" @bind:after="@(() => OnProvinceFilterChanged())">
+                <option value="">Toutes les provinces</option>
+                @foreach (var province in provinces)
+                {
+                    <option value="@province">@province</option>
+                }
+            </select>
+            
+            <select class="form-select filter-select" @bind="selectedTerritoire" @bind:after="@(() => OnTerritoireFilterChanged())">
+                <option value="">Tous les territoires</option>
+                @foreach (var territoire in territoires)
+                {
+                    <option value="@territoire">@territoire</option>
+                }
+            </select>
+            
+            <button class="btn btn-secondary btn-filter" @onclick="ClearFilters">
+                <i class="bi bi-x-circle"></i>
+                Effacer
+            </button>
+        </div>
+    </div>
+
+    <!-- Tableau des commissariats -->
+    <div class="table-section">
+        <div class="table-header">
+            <div class="table-title">
+                <h3>Liste des Commissariats</h3>
+                <span class="table-count">@filteredCommissariats.Count résultat(s)</span>
+            </div>
+            <div class="table-actions">
+                                 <button class="btn btn-outline-secondary btn-sm" @onclick="ExportToExcel">
+                     <i class="bi bi-download"></i>
+                     Exporter
+                 </button>
+            </div>
+        </div>
+
+        @if (isLoading)
+        {
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Chargement des commissariats...</p>
+            </div>
+        }
+        else if (!filteredCommissariats.Any())
+        {
+                         <div class="empty-state">
+                 <i class="bi bi-search"></i>
+                 <h4>Aucun commissariat trouvé</h4>
+                 <p>@(string.IsNullOrEmpty(searchTerm) ? "Aucun commissariat n'a été créé pour le moment." : $"Aucun commissariat ne correspond à la recherche '{searchTerm}'.")</p>
+                 @if (!string.IsNullOrEmpty(searchTerm))
+                 {
+                     <button class="btn btn-primary btn-modern" @onclick="ClearFilters">
+                         Effacer les filtres
+                     </button>
+                 }
+             </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-modern">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th @onclick="@(() => SortBy("Nom"))" class="sortable">
+                                Nom
+                                                                 @if (sortColumn == "Nom")
+                                 {
+                                     <i class="bi bi-arrow-@(sortDirection == "asc" ? "up" : "down")"></i>
+                                 }
+                                 else
+                                 {
+                                     <i class="bi bi-arrow-down-up"></i>
+                                 }
+                            </th>
+                            <th>Province</th>
+                            <th>Territoire</th>
+                            <th>District</th>
+                            <th>Policiers</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var commissariat in paginatedCommissariats)
+                        {
+                            <tr class="table-row">
+                                                                 <td class="code-cell">
+                                     <span class="code-badge">@commissariat.Id.Substring(0, Math.Min(8, commissariat.Id.Length))</span>
+                                 </td>
+                                <td class="name-cell">
+                                    <div class="name-content">
+                                        <strong>@commissariat.Nom</strong>
+                                                                                 @if (!string.IsNullOrEmpty(commissariat.District))
+                                         {
+                                             <small class="description">@commissariat.District</small>
+                                         }
+                                    </div>
+                                </td>
+                                <td>@commissariat.Province</td>
+                                <td>@commissariat.Territoire</td>
+                                                                 <td>@commissariat.District</td>
+                                <td>
+                                    <span class="policiers-count">
+                                        @GetPoliciersCountFromCache(commissariat.Nom ?? "")
+                                    </span>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                                                                 <button class="btn btn-sm btn-outline-primary" @onclick="() => ViewCommissariat(commissariat.Id)" title="Voir">
+                                             <i class="bi bi-eye"></i>
+                                         </button>
+                                         <button class="btn btn-sm btn-outline-secondary" @onclick="async () => await EditCommissariat(commissariat)" title="Modifier">
+                                             <i class="bi bi-pencil"></i>
+                                         </button>
+                                         <button class="btn btn-sm btn-outline-info" @onclick="() => ViewPoliciers(commissariat.Id)" title="Policiers">
+                                             <i class="bi bi-people"></i>
+                                         </button>
+                                         <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteCommissariat(commissariat.Id)" title="Supprimer">
+                                             <i class="bi bi-trash"></i>
+                                         </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            @if (totalPages > 1)
+            {
+                <div class="pagination-section">
+                    <div class="pagination-info">
+                        Affichage de @((currentPage - 1) * pageSize + 1) à @Math.Min(currentPage * pageSize, filteredCommissariats.Count) sur @filteredCommissariats.Count
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePage(1)" disabled="@(currentPage == 1)">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePage(currentPage - 1)" disabled="@(currentPage == 1)">
+                            <i class="fas fa-angle-left"></i>
+                        </button>
+                        
+                        @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                        {
+                            var pageNumber = i;
+                            <button class="btn btn-sm @(pageNumber == currentPage ? "btn-primary" : "btn-outline-secondary")" @onclick="() => ChangePage(pageNumber)">
+                                @pageNumber
+                            </button>
+                        }
+                        
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePage(currentPage + 1)" disabled="@(currentPage == totalPages)">
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePage(totalPages)" disabled="@(currentPage == totalPages)">
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Modal d'ajout/modification -->
+@if (showModal)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>
+                    @if (editingCommissariat == null)
+                    {
+                        <i class="bi bi-plus-circle-fill" style="color: #10b981;"></i>
+                        <span>Nouveau Commissariat</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-pencil-square" style="color: #3b82f6;"></i>
+                        <span>Modifier le Commissariat</span>
+                    }
+                </h3>
+                <button class="btn-close" @onclick="CloseModal">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nom">
+                        <i class="bi bi-building" style="margin-right: 8px; color: #6b7280;"></i>
+                        Nom du commissariat
+                    </label>
+                    <input 
+                        type="text" 
+                        id="nom" 
+                        class="form-control @(HasValidationError("Nom") ? "is-invalid" : "")" 
+                        @bind="formCommissariat.Nom" 
+                        placeholder="Ex: Commissariat Central de Kinshasa"
+                    />
+                    @if (HasValidationError("Nom"))
+                    {
+                        <div class="validation-error">@GetValidationError("Nom")</div>
+                    }
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="province">
+                            <i class="bi bi-geo-alt" style="margin-right: 8px; color: #6b7280;"></i>
+                            Province
+                        </label>
+                        <select 
+                            id="province" 
+                            class="form-control @(HasValidationError("Province") ? "is-invalid" : "")" 
+                            value="@formCommissariat.Province"
+                            @onchange="OnProvinceChanged"
+                        >
+                            <option value="">-- Sélectionner une province --</option>
+                            @foreach (var province in allProvinces)
+                            {
+                                <option value="@province">@province</option>
+                            }
+                        </select>
+                        @if (HasValidationError("Province"))
+                        {
+                            <div class="validation-error">@GetValidationError("Province")</div>
+                        }
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="territoire">
+                            <i class="bi bi-map" style="margin-right: 8px; color: #6b7280;"></i>
+                            Territoire/Commune/Ville
+                        </label>
+                        <select 
+                            id="territoire" 
+                            class="form-control @(HasValidationError("Territoire") ? "is-invalid" : "")" 
+                            value="@formCommissariat.Territoire"
+                            @onchange="@((ChangeEventArgs e) => formCommissariat.Territoire = e.Value?.ToString() ?? "")"
+                            disabled="@(string.IsNullOrEmpty(formCommissariat.Province))"
+                        >
+                            <option value="">-- Sélectionner un territoire/commune/ville --</option>
+                            @foreach (var territoire in availableTerritoires)
+                            {
+                                <option value="@territoire">@territoire</option>
+                            }
+                        </select>
+                        @if (HasValidationError("Territoire"))
+                        {
+                            <div class="validation-error">@GetValidationError("Territoire")</div>
+                        }
+                        @if (string.IsNullOrEmpty(formCommissariat.Province))
+                        {
+                            <small class="form-text text-muted">Veuillez d'abord sélectionner une province</small>
+                        }
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="district">
+                        <i class="bi bi-geo" style="margin-right: 8px; color: #6b7280;"></i>
+                        District
+                    </label>
+                    <input 
+                        type="text" 
+                        id="district" 
+                        class="form-control @(HasValidationError("District") ? "is-invalid" : "")" 
+                        @bind="formCommissariat.District" 
+                        placeholder="Ex: Limete"
+                    />
+                    @if (HasValidationError("District"))
+                    {
+                        <div class="validation-error">@GetValidationError("District")</div>
+                    }
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modern btn-sm btn-secondary" @onclick="CloseModal">
+                    <i class="bi bi-x-circle"></i>
+                    Annuler
+                </button>
+                <button class="btn-modern btn-sm btn-primary" @onclick="SaveCommissariat" disabled="@isSaving">
+                    @if (isSaving)
+                    {
+                        <i class="bi bi-arrow-clockwise" style="animation: spin 1s linear infinite;"></i>
+                        <span>Sauvegarde...</span>
+                    }
+                    else
+                    {
+                        @if (editingCommissariat == null)
+                        {
+                            <i class="bi bi-check-circle"></i>
+                            <span>Créer</span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-pencil-square"></i>
+                            <span>Modifier</span>
+                        }
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal de confirmation de suppression -->
+@if (showDeleteModal)
+{
+    <div class="modal-overlay" @onclick="CloseDeleteModal">
+        <div class="modal-content delete-modal" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>
+                    <i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i>
+                    <span>Confirmer la suppression</span>
+                </h3>
+                <button class="btn-close" @onclick="CloseDeleteModal">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="delete-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <p>Êtes-vous sûr de vouloir supprimer le commissariat <strong>@commissariatToDelete?.Nom</strong> ?</p>
+                    <p class="text-muted">Cette action est irréversible et supprimera définitivement toutes les données associées.</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modern btn-sm btn-secondary" @onclick="CloseDeleteModal">
+                    <i class="bi bi-x-circle"></i>
+                    Annuler
+                </button>
+                <button class="btn-modern btn-sm btn-danger" @onclick="ConfirmDelete" disabled="@isDeleting">
+                    @if (isDeleting)
+                    {
+                        <i class="bi bi-arrow-clockwise" style="animation: spin 1s linear infinite;"></i>
+                        <span>Suppression...</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-trash"></i>
+                        <span>Supprimer</span>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    // Services
+    [Inject] private ICommissariatService CommissariatService { get; set; } = default!;
+    
+    // Données
+    private List<Commissariat> allCommissariats = new();
+    private List<Commissariat> filteredCommissariats = new();
+    private List<Commissariat> paginatedCommissariats = new();
+    
+    // Filtres et recherche
+    private string searchTerm = "";
+    private string selectedProvince = "";
+    private string selectedTerritoire = "";
+    private List<string> provinces = new();
+    private List<string> territoires = new();
+    
+    // Listes géographiques pour les formulaires
+    private List<string> allProvinces = new();
+    private List<string> availableTerritoires = new();
+    
+    // Pagination
+    private int currentPage = 1;
+    private int pageSize = 20;
+    private int totalPages = 1;
+    
+    // Modal
+    private bool showModal = false;
+    private bool showDeleteModal = false;
+    private Commissariat? editingCommissariat = null;
+    private Commissariat? commissariatToDelete = null;
+    private Commissariat formCommissariat = new();
+    
+    // États
+    private bool isLoading = true;
+    private bool isSaving = false;
+    private bool isDeleting = false;
+    
+    // Tri
+    private string sortColumn = "Nom";
+    private string sortDirection = "asc";
+    
+    // Validation
+    private Dictionary<string, List<string>> validationErrors = new();
+    
+    // Statistiques
+    private int totalCommissariats = 0;
+    private int totalPoliciers = 0;
+    private int provincesCount = 0;
+    private int territoiresCount = 0;
+    
+    // Cache pour les compteurs de policiers
+    private Dictionary<string, int> policiersCountCache = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCommissariatsOptimized();
+        await LoadGeographicData();
+    }
+    
+    private async Task LoadCommissariatsOptimized()
+    {
+        try
+        {
+            isLoading = true;
+            
+            // Utiliser la nouvelle méthode optimisée qui récupère tout en une fois
+            var overview = await CommissariatService.GetCommissariatsOverviewAsync();
+            
+            allCommissariats = overview.Commissariats;
+            totalCommissariats = overview.TotalCommissariats;
+            totalPoliciers = overview.TotalPoliciers;
+            provincesCount = overview.ProvincesCount;
+            territoiresCount = overview.TerritoiresCount;
+            policiersCountCache = overview.PoliciersCountByCommissariat;
+            
+            // Extraire les provinces et territoires uniques
+            provinces = allCommissariats.Select(c => c.Province).Where(p => !string.IsNullOrEmpty(p)).Distinct().OrderBy(p => p!).ToList();
+            territoires = allCommissariats.Select(c => c.Territoire).Where(t => !string.IsNullOrEmpty(t)).Distinct().OrderBy(t => t!).ToList();
+            
+            ApplyFilters();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des commissariats: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+    
+    // Méthode legacy maintenue pour compatibilité
+    private async Task LoadCommissariats()
+    {
+        await LoadCommissariatsOptimized();
+    }
+    
+    // Méthode legacy maintenue pour compatibilité
+    private async Task LoadStatistics()
+    {
+        // Les statistiques sont déjà chargées dans LoadCommissariatsOptimized
+        // Cette méthode est maintenue pour compatibilité avec le code existant
+    }
+    
+    private async Task LoadGeographicData()
+    {
+        try
+        {
+            allProvinces = GeographieService.GetProvinces().Select(p => p.Nom).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des données géographiques: {ex.Message}");
+        }
+    }
+    
+    private async Task OnProvinceChanged(ChangeEventArgs e)
+    {
+        formCommissariat.Province = e.Value?.ToString() ?? "";
+        formCommissariat.Territoire = ""; // Reset territoire quand province change
+        
+        if (!string.IsNullOrEmpty(formCommissariat.Province))
+        {
+            availableTerritoires = GeographieService.GetTerritoiresEtCommunes(formCommissariat.Province);
+        }
+        else
+        {
+            availableTerritoires = new List<string>();
+        }
+        
+        StateHasChanged();
+    }
+    
+    private void ApplyFilters()
+    {
+                 filteredCommissariats = allCommissariats
+             .Where(c => 
+                              (string.IsNullOrEmpty(searchTerm) || 
+               (c.Nom != null && c.Nom.ToLower().Contains(searchTerm.ToLower())) ||
+               (c.Province != null && c.Province.ToLower().Contains(searchTerm.ToLower())) ||
+               (c.Territoire != null && c.Territoire.ToLower().Contains(searchTerm.ToLower())) ||
+               (c.District != null && c.District.ToLower().Contains(searchTerm.ToLower()))) &&
+                 (string.IsNullOrEmpty(selectedProvince) || c.Province == selectedProvince) &&
+                 (string.IsNullOrEmpty(selectedTerritoire) || c.Territoire == selectedTerritoire))
+             .ToList();
+        
+                 ApplySorting();
+         ApplyPagination();
+     }
+     
+     private void ApplySorting()
+     {
+         filteredCommissariats = sortColumn switch
+         {
+             "Nom" => sortDirection == "asc" 
+                 ? filteredCommissariats.OrderBy(c => c.Nom).ToList()
+                 : filteredCommissariats.OrderByDescending(c => c.Nom).ToList(),
+             _ => filteredCommissariats.OrderBy(c => c.Nom).ToList()
+         };
+     }
+    
+    private void ApplyPagination()
+    {
+        totalPages = (int)Math.Ceiling((double)filteredCommissariats.Count / pageSize);
+        currentPage = Math.Max(1, Math.Min(currentPage, totalPages));
+        
+        var startIndex = (currentPage - 1) * pageSize;
+        paginatedCommissariats = filteredCommissariats
+            .Skip(startIndex)
+            .Take(pageSize)
+            .ToList();
+    }
+    
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? "";
+        currentPage = 1;
+        ApplyFilters();
+    }
+    
+    private void OnProvinceFilterChanged()
+    {
+        currentPage = 1;
+        ApplyFilters();
+    }
+    
+    private void OnTerritoireFilterChanged()
+    {
+        currentPage = 1;
+        ApplyFilters();
+    }
+    
+    private void ClearFilters()
+    {
+        searchTerm = "";
+        selectedProvince = "";
+        selectedTerritoire = "";
+        currentPage = 1;
+        ApplyFilters();
+    }
+    
+    private void SortBy(string column)
+    {
+        if (sortColumn == column)
+        {
+            sortDirection = sortDirection == "asc" ? "desc" : "asc";
+        }
+        else
+        {
+            sortColumn = column;
+            sortDirection = "asc";
+        }
+        
+        ApplySorting();
+        ApplyPagination();
+    }
+    
+    private void ChangePage(int page)
+    {
+        currentPage = page;
+        ApplyPagination();
+    }
+    
+    private void ShowAddModal()
+    {
+        editingCommissariat = null;
+        formCommissariat = new Commissariat
+        {
+            Id = GenerateShortId()
+        };
+        availableTerritoires = new List<string>(); // Réinitialiser les territoires
+        ClearValidationErrors();
+        showModal = true;
+    }
+    
+    private async Task EditCommissariat(Commissariat commissariat)
+    {
+        editingCommissariat = commissariat;
+        formCommissariat = new Commissariat
+        {
+            Id = commissariat.Id,
+            Nom = commissariat.Nom,
+            Province = commissariat.Province,
+            Territoire = commissariat.Territoire,
+            District = commissariat.District
+        };
+        
+        // Charger les territoires disponibles pour la province sélectionnée
+        if (!string.IsNullOrEmpty(formCommissariat.Province))
+        {
+            availableTerritoires = GeographieService.GetTerritoiresEtCommunes(formCommissariat.Province);
+        }
+        else
+        {
+            availableTerritoires = new List<string>();
+        }
+        
+        ClearValidationErrors();
+        showModal = true;
+        StateHasChanged();
+    }
+    
+    private void CloseModal()
+    {
+        showModal = false;
+        editingCommissariat = null;
+        formCommissariat = new();
+        ClearValidationErrors();
+    }
+    
+    private async Task SaveCommissariat()
+    {
+        if (!ValidateForm())
+            return;
+        
+        try
+        {
+            isSaving = true;
+            bool success;
+            
+            if (editingCommissariat == null)
+            {
+                success = await CommissariatService.CreateCommissariatAsync(formCommissariat);
+            }
+            else
+            {
+                success = await CommissariatService.UpdateCommissariatAsync(formCommissariat);
+            }
+            
+            if (success)
+            {
+                CloseModal();
+                await LoadCommissariats();
+                await LoadStatistics();
+            }
+            else
+            {
+                AddValidationError("General", "Erreur lors de la sauvegarde du commissariat");
+            }
+        }
+        catch (Exception ex)
+        {
+            AddValidationError("General", $"Erreur: {ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+    
+    private void DeleteCommissariat(string id)
+    {
+        commissariatToDelete = allCommissariats.FirstOrDefault(c => c.Id == id);
+        showDeleteModal = true;
+    }
+    
+    private void CloseDeleteModal()
+    {
+        showDeleteModal = false;
+        commissariatToDelete = null;
+    }
+    
+    private async Task ConfirmDelete()
+    {
+        if (commissariatToDelete == null) return;
+        
+        try
+        {
+            isDeleting = true;
+            bool success = await CommissariatService.DeleteCommissariatAsync(commissariatToDelete.Id);
+            
+            if (success)
+            {
+                CloseDeleteModal();
+                await LoadCommissariats();
+                await LoadStatistics();
+            }
+            else
+            {
+                // Afficher un message d'erreur
+                Console.WriteLine("Impossible de supprimer le commissariat");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la suppression: {ex.Message}");
+        }
+        finally
+        {
+            isDeleting = false;
+        }
+    }
+    
+    private void ViewCommissariat(string id)
+    {
+        // Navigation vers la page de détail du commissariat
+        Navigation.NavigateTo($"/commissariat/{id}");
+    }
+    
+    private void ViewPoliciers(string id)
+    {
+        // Navigation vers la liste des policiers du commissariat
+        Navigation.NavigateTo($"/commissariat/{id}/policiers");
+    }
+    
+    private async Task<int> GetPoliciersCount(string commissariatId)
+    {
+        // Utiliser le cache en priorité
+        if (policiersCountCache.TryGetValue(commissariatId, out int count))
+        {
+            return count;
+        }
+
+        // Si pas dans le cache, essayer de récupérer depuis la base
+        try
+        {
+            return await CommissariatService.GetPoliciersCountByCommissariatAsync(commissariatId);
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+    
+    // Nouvelle méthode optimisée qui utilise directement le cache
+    private int GetPoliciersCountFromCache(string commissariatNom)
+    {
+        return policiersCountCache.TryGetValue(commissariatNom, out int count) ? count : 0;
+    }
+    
+    private void ExportToExcel()
+    {
+        // TODO: Implémenter l'export Excel
+        Console.WriteLine("Export Excel à implémenter");
+    }
+    
+    // Validation
+    private bool ValidateForm()
+    {
+        ClearValidationErrors();
+        bool isValid = true;
+        
+        
+        
+        if (string.IsNullOrWhiteSpace(formCommissariat.Nom))
+        {
+            AddValidationError("Nom", "Le nom est obligatoire");
+            isValid = false;
+        }
+        
+        if (string.IsNullOrWhiteSpace(formCommissariat.Province))
+        {
+            AddValidationError("Province", "La province est obligatoire");
+            isValid = false;
+        }
+        
+        if (string.IsNullOrWhiteSpace(formCommissariat.Territoire))
+        {
+            AddValidationError("Territoire", "Le territoire est obligatoire");
+            isValid = false;
+        }
+        
+                 if (string.IsNullOrWhiteSpace(formCommissariat.District))
+         {
+             AddValidationError("District", "Le district est obligatoire");
+             isValid = false;
+         }
+        
+        return isValid;
+    }
+    
+    private void AddValidationError(string field, string message)
+    {
+        if (!validationErrors.ContainsKey(field))
+            validationErrors[field] = new List<string>();
+        
+        validationErrors[field].Add(message);
+    }
+    
+    private bool HasValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field) && validationErrors[field].Any();
+    }
+    
+    private string GetValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field) && validationErrors[field].Any()
+            ? validationErrors[field].First()
+            : string.Empty;
+    }
+    
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+    }
+    
+    /// <summary>
+    /// Génère un ID unique de 10 caractères pour les commissariats
+    /// </summary>
+    private string GenerateShortId()
+    {
+        // Utiliser les 8 premiers caractères du GUID + 2 caractères aléatoires
+        var guid = Guid.NewGuid().ToString("N"); // Format sans tirets
+        var random = new Random();
+        var randomChars = new string(Enumerable.Range(0, 2)
+            .Select(_ => (char)random.Next('A', 'Z' + 1))
+            .ToArray());
+        
+        return guid.Substring(0, 8) + randomChars;
+    }
+}

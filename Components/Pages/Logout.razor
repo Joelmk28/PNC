@@ -1,0 +1,48 @@
+@page "/logout"
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@inject IHttpContextAccessor HttpContextAccessor
+@inject NavigationManager Navigation
+
+<PageTitle>Déconnexion - PNC</PageTitle>
+
+<div class="logout-container">
+    <div class="logout-card">
+        <div class="logout-header">
+            <i class="bi bi-box-arrow-right logout-icon"></i>
+            <h2>Déconnexion en cours...</h2>
+            <p>Veuillez patienter pendant que nous vous déconnectons.</p>
+        </div>
+        <div class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var httpContext = HttpContextAccessor.HttpContext;
+            if (httpContext != null)
+            {
+                // Déconnexion de l'utilisateur
+                await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                
+                // Attendre un peu pour que l'utilisateur voie le message
+                await Task.Delay(1500);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la déconnexion: {ex.Message}");
+        }
+        finally
+        {
+            // Rediriger vers la page de connexion
+            Navigation.NavigateTo("/login");
+        }
+    }
+}
+

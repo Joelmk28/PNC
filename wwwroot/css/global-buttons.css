@@ -1,0 +1,334 @@
+/* Global Button Styles - Standardisation de tous les boutons du projet */
+
+/* Boutons principaux modernes */
+.btn-modern {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.025em;
+    min-height: 36px;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern.btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    min-height: 32px;
+}
+
+.btn-modern.btn-lg {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+    min-height: 44px;
+}
+
+/* Variantes de couleurs */
+.btn-modern.btn-primary {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(30, 27, 75, 0.3);
+}
+
+.btn-modern.btn-primary:hover {
+    background: linear-gradient(135deg, #312e81 0%, #4338ca 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 27, 75, 0.4);
+}
+
+.btn-modern.btn-secondary {
+    background: white;
+    border: 2px solid #e5e7eb;
+    color: #374151;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-modern.btn-secondary:hover {
+    background: #f8fafc;
+    border-color: #1e1b4b;
+    color: #1e1b4b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(30, 27, 75, 0.15);
+}
+
+.btn-modern.btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-modern.btn-danger:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+}
+
+.btn-modern.btn-success {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+}
+
+.btn-modern.btn-success:hover {
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+    transition: transform 0.1s ease;
+}
+
+/* Boutons de filtre */
+.btn-filter {
+    padding: 8px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 36px;
+}
+
+.btn-filter:hover {
+    border-color: #1e1b4b;
+    color: #1e1b4b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15);
+}
+
+/* Boutons d'action dans les tableaux */
+.btn {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    min-height: 28px;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.btn-outline-primary:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    border-color: #6b7280;
+    color: #6b7280;
+}
+
+.btn-outline-secondary:hover {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-outline-info {
+    background: transparent;
+    border-color: #06b6d4;
+    color: #06b6d4;
+}
+
+.btn-outline-info:hover {
+    background: #06b6d4;
+    color: white;
+}
+
+.btn-outline-danger {
+    background: transparent;
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.btn-outline-danger:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* Boutons de pagination */
+.pagination-btn {
+    padding: 6px 10px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: #f8fafc;
+    border-color: #1e1b4b;
+    color: #1e1b4b;
+}
+
+.pagination-btn.active {
+    background: #1e1b4b;
+    color: white;
+    border-color: #1e1b4b;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Boutons d'action dans les cartes */
+.btn-action {
+    background: rgba(243, 244, 246, 0.5);
+    border: 1px solid transparent;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 12px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    min-height: 28px;
+    min-width: 28px;
+}
+
+.btn-action:hover {
+    background: rgba(243, 244, 246, 0.8);
+    color: #1e1b4b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-action.danger {
+    background: rgba(254, 242, 242, 0.5);
+    color: #dc2626;
+}
+
+.btn-action.danger:hover {
+    background: rgba(254, 242, 242, 0.8);
+    color: #dc2626;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+/* Boutons de fermeture des modals */
+.btn-close {
+    background: #f8fafc;
+    border: 2px solid #e5e7eb;
+    font-size: 16px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close:hover {
+    background: #1e1b4b;
+    color: white;
+    border-color: #1e1b4b;
+    transform: scale(1.05);
+}
+
+/* Boutons dans les modals */
+.modal-footer .btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    min-width: 90px;
+    min-height: 40px;
+}
+
+/* Boutons désactivés */
+.btn:disabled,
+.btn-modern:disabled,
+.btn-filter:disabled,
+.pagination-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .btn-modern {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-height: 32px;
+    }
+    
+    .btn-filter {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-height: 32px;
+    }
+    
+    .btn {
+        padding: 3px 6px;
+        font-size: 10px;
+        min-height: 24px;
+    }
+}
+

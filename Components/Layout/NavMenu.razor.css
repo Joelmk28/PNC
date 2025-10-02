@@ -1,0 +1,201 @@
+/* Sidebar Navigation Styles */
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.brand-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.nav-menu {
+    padding: 0 1rem;
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.nav-title {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.nav-item {
+    margin-bottom: 0.25rem;
+}
+
+/* Styles spécifiques pour forcer la couleur blanche */
+.nav-item .nav-link,
+.nav-item .nav-link:visited,
+.nav-item .nav-link:active,
+.nav-item .nav-link:focus {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+    text-decoration: none;
+}
+
+.nav-item .nav-link.active {
+    background-color: #3b82f6;
+    color: white !important;
+}
+
+.nav-link i {
+    font-size: 1.125rem;
+    width: 1.25rem;
+    text-align: center;
+    color: #fbbf24;
+}
+
+.nav-text {
+    flex: 1;
+    color: white !important;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.user-card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.125rem;
+}
+
+.user-status {
+    display: block;
+    color: #10b981;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .brand-text,
+    .nav-text,
+    .user-details {
+        display: block;
+    }
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed .brand-text,
+.sidebar.collapsed .nav-text,
+.sidebar.collapsed .nav-title,
+.sidebar.collapsed .user-details {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .sidebar-footer {
+    padding: 1rem 0.5rem;
+}
+
+.sidebar.collapsed .nav-menu {
+    padding: 0 0.5rem;
+}
+
+.sidebar.collapsed .nav-link {
+    padding: 0.75rem;
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-link i {
+    margin: 0;
+}
+
+.sidebar.collapsed .user-card {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.sidebar.collapsed .user-avatar-placeholder {
+    width: 32px;
+    height: 32px;
+}
+
+.sidebar.collapsed .brand-logo {
+    width: 32px;
+    height: 32px;
+}

@@ -1,0 +1,910 @@
+@page "/capture-documents/{PolicierId}"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@using PNC.Services
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject IDocumentService DocumentService
+@implements IAsyncDisposable
+
+<PageTitle>Capture Documents - Policier @PolicierId - PNC</PageTitle>
+
+<div class="capture-documents-page">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-file-earmark-image-fill me-3"></i>
+                Capture Documents
+            </h1>
+            @if (policier != null)
+            {
+                <p class="page-subtitle">
+                    @policier.Nom @policier.PostNom @policier.Prenom - Matricule: @policier.Matricule
+                </p>
+            }
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-outline" @onclick="GoBack">
+                <i class="bi bi-arrow-left"></i>
+                Retour
+            </button>
+        </div>
+    </div>
+
+    <!-- Messages d'état -->
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = null"></button>
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (isLoading)
+    {
+        <div class="loading-container">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p>Chargement de la caméra...</p>
+            </div>
+        </div>
+    }
+    else if (policier == null)
+    {
+        <div class="error-container">
+            <div class="error-card">
+                <i class="bi bi-exclamation-triangle"></i>
+                <h3>Policier non trouvé</h3>
+                <p>Le policier demandé n'existe pas ou a été supprimé.</p>
+                <button class="btn-modern btn-primary" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Retour à la liste
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Main Content Grid -->
+        <div class="main-content-grid">
+            <!-- Section caméra -->
+            <div class="camera-card" id="cameraSection">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="bi bi-camera-video"></i>
+                        Caméra
+                    </h3>
+                    @if (isCameraActive)
+                    {
+                        <span class="status-badge status-active">
+                            <i class="bi bi-circle-fill"></i> 
+                            Caméra @(currentCameraIndex + 1) active
+                        </span>
+                    }
+                </div>
+                <div class="camera-video-container @(isCameraActive ? "active" : "")">
+                    <video id="video" autoplay playsinline></video>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-modern btn-primary" @onclick="StartCamera" disabled="@isCameraActive">
+                        <i class="bi bi-camera-video"></i> 
+                        @if (isCameraActive)
+                        {
+                            <span>Caméra activée</span>
+                        }
+                        else
+                        {
+                            <span>Activer la caméra</span>
+                        }
+                    </button>
+                    <button class="btn-modern btn-info" @onclick="ToggleCameraSelection" disabled="@isCameraActive">
+                        <i class="bi bi-gear"></i> 
+                        @if (showCameraSelection)
+                        {
+                            <span>Masquer les options</span>
+                        }
+                        else
+                        {
+                            <span>Choisir la caméra</span>
+                        }
+                    </button>
+                    <button class="btn-modern btn-success" @onclick="CaptureDocument" disabled="@(!isCameraActive)">
+                        <i class="bi bi-camera-fill"></i> Capturer le document
+                    </button>
+                    <button class="btn-modern btn-secondary" @onclick="StopCamera" disabled="@(!isCameraActive)">
+                        <i class="bi bi-stop-circle"></i> Arrêter la caméra
+                    </button>
+                </div>
+                
+                @if (showCameraSelection)
+                {
+                    <div class="camera-selection">
+                        <h5><i class="bi bi-camera-video"></i> Sélection de la caméra</h5>
+                        @if (availableCameras.Any())
+                        {
+                            <div class="camera-select-container">
+                                <label for="cameraSelect" class="camera-select-label">
+                                    <i class="bi bi-camera-video"></i>
+                                    Choisir une caméra :
+                                </label>
+                                <select id="cameraSelect" 
+                                        class="camera-select" 
+                                        @bind="selectedCameraId">
+                                    @foreach (var camera in availableCameras)
+                                    {
+                                        <option value="@camera.DeviceId">
+                                            @if (string.IsNullOrEmpty(camera.Label))
+                                            {
+                                                <text>Caméra @(availableCameras.IndexOf(camera) + 1)</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@camera.Label</text>
+                                            }
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="camera-actions">
+                                <button class="btn-modern btn-primary btn-sm" @onclick="SwitchCamera" disabled="@(!isCameraActive)">
+                                    <i class="bi bi-arrow-repeat"></i> Changer de caméra
+                                </button>
+                                <button class="btn-modern btn-secondary btn-sm" @onclick="LoadAvailableCameras">
+                                    <i class="bi bi-arrow-clockwise"></i> Actualiser
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="no-cameras">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                <p>Aucune caméra détectée. Vérifiez que votre caméra est connectée et autorisée.</p>
+                                <button class="btn-modern btn-primary btn-sm" @onclick="LoadAvailableCameras">
+                                    <i class="bi bi-arrow-clockwise"></i> Réessayer
+                                </button>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <!-- Section document capturé avec formulaire -->
+            <div class="document-card" id="documentSection" style="display:none;">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="bi bi-file-earmark-image"></i>
+                        Document et Informations
+                    </h3>
+                </div>
+                
+                <div class="document-layout">
+                    <!-- Colonne gauche : Document capturé -->
+                    <div class="document-original-column">
+                        <h4 class="section-title">
+                            <i class="bi bi-image-fill"></i> Document capturé
+                        </h4>
+                        <div class="document-container">
+                            @if (!string.IsNullOrEmpty(capturedImageData))
+                            {
+                                <img id="document" src="@capturedImageData" alt="Document capturé" />
+                            }
+                            else
+                            {
+                                <div class="document-placeholder">
+                                    <i class="bi bi-image"></i>
+                                    <p>Aucun document capturé</p>
+                                </div>
+                            }
+                        </div>
+                        <div class="document-actions">
+                            <button class="btn-modern btn-warning" @onclick="RetakeDocument">
+                                <i class="bi bi-arrow-clockwise"></i> Reprendre
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Colonne droite : Formulaire d'informations -->
+                    <div class="document-form-column">
+                        <h4 class="section-title">
+                            <i class="bi bi-info-circle"></i> Informations du document
+                        </h4>
+                        
+                        <div class="document-form">
+                            <div class="form-group">
+                                <label for="documentLabel">Nom du document *</label>
+                                <input type="text" 
+                                       id="documentLabel" 
+                                       @bind="newDocument.Label" 
+                                       class="form-control" 
+                                       placeholder="Ex: Carte d'identité, Permis de conduire, etc." />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="documentDescription">Description (optionnel)</label>
+                                <textarea id="documentDescription" 
+                                          @bind="newDocument.Description" 
+                                          class="form-control" 
+                                          rows="3" 
+                                          placeholder="Description du document..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="documentType">Type de document</label>
+                                <select id="documentType" @bind="newDocument.TypeDocument" class="form-control">
+                                    <option value="Photo">Photo</option>
+                                    <option value="Carte_Identite">Carte d'identité</option>
+                                    <option value="Permis_Conduire">Permis de conduire</option>
+                                    <option value="Diplome">Diplôme</option>
+                                    <option value="Attestation">Attestation</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button class="btn-modern btn-primary" @onclick="SaveDocument" disabled="@(string.IsNullOrEmpty(capturedImageData) || isSaving)">
+                                    <i class="bi bi-save"></i> 
+                                    @if (isSaving)
+                                    {
+                                        <span>Enregistrement...</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Enregistrer le document</span>
+                                    }
+                                </button>
+                                <button class="btn-modern btn-secondary" @onclick="CancelDocument">
+                                    <i class="bi bi-x-circle"></i> Annuler
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section liste des documents existants -->
+            @if (documents.Any())
+            {
+                <div class="documents-list-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="bi bi-folder2-open"></i>
+                            Documents existants (@documents.Count)
+                        </h3>
+                    </div>
+                    <div class="documents-grid">
+                        @foreach (var document in documents)
+                        {
+                            <div class="document-item">
+                                <div class="document-preview">
+                                    @if (!string.IsNullOrEmpty(document.UrlDocument))
+                                    {
+                                        <img src="@document.UrlDocument" alt="@document.Label" />
+                                    }
+                                    else
+                                    {
+                                        <div class="document-placeholder">
+                                            <i class="bi bi-file-earmark-image"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="document-info">
+                                    <h5>@document.Label</h5>
+                                    <p class="document-type">@document.TypeDocument</p>
+                                    @if (!string.IsNullOrEmpty(document.Description))
+                                    {
+                                        <p class="document-description">@document.Description</p>
+                                    }
+                                    <div class="document-meta">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar"></i> 
+                                            @document.DateCreation.ToString("dd/MM/yyyy HH:mm")
+                                        </small>
+                                        <span class="document-status @document.GetStatusCssClass()">@document.GetStatusLabel()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Modal de sélection de caméra -->
+    @if (showCameraModal)
+    {
+        <div class="modal-backdrop show" style="display: block;"></div>
+        <div class="modal show" style="display: block;" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-camera-video"></i>
+                            Sélection de la caméra
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-3">Choisissez la caméra que vous souhaitez utiliser :</p>
+                        
+                        @if (availableCameras.Any())
+                        {
+                            <div class="camera-modal-list">
+                                @foreach (var camera in availableCameras)
+                                {
+                                    <div class="camera-modal-option @(camera.DeviceId == selectedCameraId ? "selected" : "")"
+                                         @onclick="@(() => selectedCameraId = camera.DeviceId)">
+                                        <div class="camera-info">
+                                            <i class="bi bi-camera-video"></i>
+                                            <div class="camera-details">
+                                                @if (string.IsNullOrEmpty(camera.Label))
+                                                {
+                                                    <span class="camera-name">Caméra @(availableCameras.IndexOf(camera) + 1)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="camera-name">@camera.Label</span>
+                                                }
+                                                <small class="camera-id">ID: @camera.DeviceId.Substring(0, 8)...</small>
+                                            </div>
+                                        </div>
+                                        @if (camera.DeviceId == selectedCameraId)
+                                        {
+                                            <i class="bi bi-check-circle-fill text-primary"></i>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted">
+                                <i class="bi bi-exclamation-triangle fs-1"></i>
+                                <p class="mt-2">Aucune caméra détectée</p>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CancelCameraSelection">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="ConfirmCameraSelection" disabled="@(!availableCameras.Any())">
+                            <i class="bi bi-check-circle"></i> Confirmer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string PolicierId { get; set; } = "";
+    
+    // Data properties
+    private Policier? policier;
+    private List<Document> documents = new();
+    private Document newDocument = new();
+    private bool isLoading = true;
+    private bool isSaving = false;
+    private bool isCameraActive = false;
+    private string? capturedImageData = null;
+    private int currentCameraIndex = 0;
+    private int totalCameras = 0;
+    private string? errorMessage;
+    private string? successMessage;
+    private List<MediaDeviceInfo> availableCameras = new();
+    private string selectedCameraId = string.Empty;
+    private bool showCameraSelection = false;
+    private bool showCameraModal = false;
+
+    // Classe pour représenter les informations de la caméra
+    public class MediaDeviceInfo
+    {
+        public string DeviceId { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
+        public string Kind { get; set; } = string.Empty;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPolicierData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Pas besoin de charger de script externe, le JavaScript est intégré
+            Console.WriteLine("✅ Page de capture de documents initialisée");
+            
+            // Charger les caméras disponibles et afficher le modal de sélection
+            await LoadAvailableCameras();
+            
+            if (availableCameras.Any())
+            {
+                showCameraModal = true;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task LoadPolicierData()
+    {
+        try
+        {
+            isLoading = true;
+            using var context = await DbFactory.CreateDbContextAsync();
+            
+            policier = await context.Policiers
+                .FirstOrDefaultAsync(p => p.Id == PolicierId);
+            
+            if (policier != null)
+            {
+                await LoadDocuments();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du chargement du policier: {ex.Message}");
+            errorMessage = $"Erreur lors du chargement des données: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadDocuments()
+    {
+        try
+        {
+            documents = await DocumentService.GetDocumentsByPolicierIdAsync(PolicierId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du chargement des documents: {ex.Message}");
+        }
+    }
+
+    private async Task LoadAvailableCameras()
+    {
+        try
+        {
+            var cameras = await JSRuntime.InvokeAsync<List<MediaDeviceInfo>>("getAvailableCameras");
+            availableCameras = cameras ?? new List<MediaDeviceInfo>();
+            
+            if (availableCameras.Any())
+            {
+                selectedCameraId = availableCameras.First().DeviceId;
+                Console.WriteLine($"📹 {availableCameras.Count} caméra(s) trouvée(s)");
+            }
+            else
+            {
+                Console.WriteLine("⚠️ Aucune caméra trouvée");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du chargement des caméras: {ex.Message}");
+            availableCameras = new List<MediaDeviceInfo>();
+        }
+    }
+
+    private async Task StartCamera()
+    {
+        try
+        {
+            Console.WriteLine("🎥 Démarrage de la caméra pour les documents...");
+            errorMessage = null;
+            successMessage = null;
+            
+            // Utiliser la caméra sélectionnée (pas besoin de recharger les caméras)
+            Console.WriteLine($"📹 Utilisation de la caméra sélectionnée: {selectedCameraId}");
+            var success = await JSRuntime.InvokeAsync<bool>("startDocumentCamera", selectedCameraId);
+            
+            if (success)
+            {
+                isCameraActive = true;
+                StateHasChanged();
+                Console.WriteLine("✅ Caméra démarrée avec succès");
+                successMessage = "✅ Caméra activée avec succès ! Vous pouvez maintenant capturer des documents.";
+            }
+            else
+            {
+                errorMessage = "❌ Impossible de démarrer la caméra. Vérifiez les autorisations et que votre caméra est disponible.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du démarrage de la caméra: {ex.Message}");
+            errorMessage = $"Erreur lors du démarrage de la caméra: {ex.Message}";
+        }
+    }
+
+    private async Task SwitchCamera()
+    {
+        try
+        {
+            if (!isCameraActive)
+            {
+                errorMessage = "❌ Veuillez d'abord démarrer la caméra";
+                return;
+            }
+
+            Console.WriteLine("🔄 Changement de caméra...");
+            
+            // Arrêter la caméra actuelle
+            await JSRuntime.InvokeVoidAsync("stopDocumentCamera");
+            isCameraActive = false;
+            
+            // Démarrer avec la nouvelle caméra
+            await Task.Delay(500);
+            var success = await JSRuntime.InvokeAsync<bool>("startDocumentCamera", selectedCameraId);
+            
+            if (success)
+            {
+                isCameraActive = true;
+                successMessage = "✅ Caméra changée avec succès";
+                Console.WriteLine("✅ Caméra changée avec succès");
+            }
+            else
+            {
+                errorMessage = "❌ Impossible de changer de caméra";
+                Console.WriteLine("❌ Échec du changement de caméra");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du changement de caméra: {ex.Message}");
+            errorMessage = $"Erreur lors du changement de caméra: {ex.Message}";
+        }
+    }
+
+    private void ToggleCameraSelection()
+    {
+        showCameraSelection = !showCameraSelection;
+    }
+
+    private async Task ConfirmCameraSelection()
+    {
+        try
+        {
+            showCameraModal = false;
+            StateHasChanged();
+            
+            // Démarrer la caméra avec la sélection
+            await Task.Delay(100);
+            await StartCamera();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la confirmation de sélection: {ex.Message}");
+            errorMessage = $"Erreur lors de la sélection de caméra: {ex.Message}";
+        }
+    }
+
+    private void CancelCameraSelection()
+    {
+        showCameraModal = false;
+        StateHasChanged();
+    }
+
+    private async Task StopCamera()
+    {
+        try
+        {
+            Console.WriteLine("🛑 Arrêt de la caméra pour les documents...");
+            await JSRuntime.InvokeVoidAsync("stopDocumentCamera");
+            isCameraActive = false;
+            StateHasChanged();
+            Console.WriteLine("✅ Caméra arrêtée avec succès");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'arrêt de la caméra: {ex.Message}");
+        }
+    }
+
+    private async Task CaptureDocument()
+    {
+        try
+        {
+            Console.WriteLine("📸 Capture du document...");
+            errorMessage = null;
+            successMessage = null;
+            
+            capturedImageData = await JSRuntime.InvokeAsync<string>("captureDocumentPhoto");
+            
+            if (!string.IsNullOrEmpty(capturedImageData))
+            {
+                // Masquer la section caméra et afficher la section document
+                await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'none'");
+                await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('documentSection').style.display = 'block'");
+                
+                isCameraActive = false;
+                StateHasChanged();
+                
+                Console.WriteLine("✅ Document capturé avec succès");
+                successMessage = "✅ Document capturé ! Remplissez les informations et enregistrez.";
+            }
+            else
+            {
+                Console.WriteLine("❌ Erreur lors de la capture du document");
+                errorMessage = "Erreur lors de la capture du document";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la capture: {ex.Message}");
+            errorMessage = $"Erreur lors de la capture du document: {ex.Message}";
+        }
+    }
+
+    private async Task RetakeDocument()
+    {
+        try
+        {
+            // Réinitialiser les données
+            capturedImageData = null;
+            newDocument = new Document();
+            
+            // Masquer la section document et réafficher la section caméra
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('documentSection').style.display = 'none'");
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'block'");
+            
+            StateHasChanged();
+            
+            successMessage = "📸 Prêt pour un nouveau document";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la reprise: {ex.Message}");
+        }
+    }
+
+    private async Task SaveDocument()
+    {
+        if (string.IsNullOrEmpty(newDocument.Label) || string.IsNullOrEmpty(capturedImageData))
+        {
+            errorMessage = "❌ Veuillez remplir le nom du document et capturer une photo.";
+            return;
+        }
+
+        isSaving = true;
+        errorMessage = null;
+        successMessage = null;
+        
+        try
+        {
+            var imageUrl = await DocumentService.SaveDocumentImageAsync(
+                capturedImageData, 
+                PolicierId, 
+                newDocument.Label, 
+                newDocument.Description, 
+                newDocument.TypeDocument
+            );
+            
+            Console.WriteLine($"✅ Document sauvegardé: {imageUrl}");
+            successMessage = "✅ Document sauvegardé avec succès !";
+            
+            // Réinitialiser le formulaire
+            newDocument = new Document();
+            capturedImageData = null;
+            
+            // Masquer la section document et réafficher la section caméra
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('documentSection').style.display = 'none'");
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'block'");
+            
+            // Recharger la liste des documents
+            await LoadDocuments();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la sauvegarde: {ex.Message}");
+            errorMessage = $"❌ Erreur lors de la sauvegarde du document: {ex.Message}";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private async Task CancelDocument()
+    {
+        try
+        {
+            // Réinitialiser les données
+            capturedImageData = null;
+            newDocument = new Document();
+            
+            // Masquer la section document et réafficher la section caméra
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('documentSection').style.display = 'none'");
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'block'");
+            
+            StateHasChanged();
+            
+            successMessage = "📸 Prêt pour un nouveau document";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'annulation: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/policiers");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (isCameraActive)
+            {
+                await JSRuntime.InvokeVoidAsync("stopDocumentCamera");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du nettoyage: {ex.Message}");
+        }
+    }
+}
+
+<script>
+    // Variables globales pour la caméra
+    let video;
+    let stream;
+
+    // Obtenir la liste des caméras disponibles
+    window.getAvailableCameras = async function() {
+        try {
+            console.log('📹 Recherche des caméras disponibles...');
+            
+            // Vérifier si getUserMedia est supporté
+            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                console.warn('⚠️ enumerateDevices non supporté');
+                return [];
+            }
+            
+            // Obtenir la liste des périphériques
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const cameras = devices
+                .filter(device => device.kind === 'videoinput')
+                .map(device => ({
+                    deviceId: device.deviceId,
+                    label: device.label || `Caméra ${device.deviceId.substring(0, 8)}...`,
+                    kind: device.kind
+                }));
+            
+            console.log(`📹 ${cameras.length} caméra(s) trouvée(s):`, cameras);
+            return cameras;
+        } catch (error) {
+            console.error('❌ Erreur lors de la recherche des caméras:', error);
+            return [];
+        }
+    };
+
+    // Démarrer la caméra pour les documents
+    window.startDocumentCamera = async function(cameraId = null) {
+        try {
+            console.log('🎥 Initialisation de la caméra pour les documents...');
+            
+            // Récupérer l'élément vidéo
+            video = document.getElementById("video");
+            if (!video) {
+                console.error('❌ Élément vidéo non trouvé');
+                return false;
+            }
+
+            console.log('📹 Élément vidéo trouvé, demande d\'accès à la caméra...');
+            console.log('📹 ID de caméra sélectionnée:', cameraId);
+
+            // Configuration de la caméra
+            const constraints = {
+                video: cameraId ? { deviceId: { exact: cameraId } } : true
+            };
+
+            // Demander l'accès à la caméra
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
+            console.log('✅ Accès à la caméra accordé');
+            
+            video.srcObject = stream;
+            console.log('✅ Caméra document activée');
+            return true;
+        } catch (err) {
+            console.error("❌ Erreur d'accès à la caméra:", err);
+            
+            // Messages d'erreur clairs
+            let errorMessage = '';
+            switch (err.name) {
+                case 'NotAllowedError':
+                    errorMessage = '🔐 Accès à la caméra refusé\n\nVeuillez cliquer sur "Autoriser" dans la popup de votre navigateur.';
+                    break;
+                case 'NotFoundError':
+                    errorMessage = '📷 Aucune caméra trouvée\n\nVérifiez que votre caméra est connectée.';
+                    break;
+                case 'NotReadableError':
+                    errorMessage = '⚠️ Caméra déjà utilisée\n\nFermez les autres applications qui utilisent la caméra.';
+                    break;
+                case 'OverconstrainedError':
+                    errorMessage = '⚠️ Caméra non compatible\n\nEssayez une autre caméra.';
+                    break;
+                default:
+                    errorMessage = '❌ Erreur: ' + err.message;
+            }
+            
+            alert(errorMessage);
+            return false;
+        }
+    };
+
+    // Arrêter la caméra pour les documents
+    window.stopDocumentCamera = function() {
+        try {
+            console.log('🛑 Arrêt de la caméra document...');
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            if (video) {
+                video.srcObject = null;
+            }
+            
+            console.log('✅ Caméra document arrêtée');
+        } catch (error) {
+            console.error('❌ Erreur lors de l\'arrêt de la caméra:', error);
+        }
+    };
+
+    // Capturer un document (inspiré de capturePhoto)
+    window.captureDocumentPhoto = function() {
+        return new Promise((resolve, reject) => {
+            try {
+                console.log('📸 Capture du document...');
+                
+                if (!video || !video.srcObject) {
+                    reject('Aucune caméra active');
+                    return;
+                }
+
+                // Créer un canvas temporaire
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                
+                // Définir les dimensions du canvas
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // Dessiner l'image de la vidéo sur le canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Récupérer l'image en Base64
+                const imageData = canvas.toDataURL("image/png");
+                console.log('📸 Document capturé, taille:', imageData.length);
+                
+                resolve(imageData);
+            } catch (error) {
+                console.error('❌ Erreur capture document:', error);
+                reject(error);
+            }
+        });
+    };
+</script>

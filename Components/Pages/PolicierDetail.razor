@@ -1,0 +1,811 @@
+@page "/policiers/{id}"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject NavigationManager Navigation
+
+<PageTitle>Détail Policier - @(policier?.Nom ?? "Chargement...")</PageTitle>
+
+@if (policier == null)
+{
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>Chargement des détails du policier...</p>
+    </div>
+}
+else
+{
+    <div class="policier-detail-page">
+        <!-- Header avec photo et infos principales -->
+        <div class="detail-header">
+            <div class="header-content">
+                <div class="policier-photo-section">
+                    @if (!string.IsNullOrEmpty(policier.Photo))
+                    {
+                        <img src="@policier.Photo" alt="Photo de @policier.Nom" class="policier-photo-large" />
+                    }
+                    else
+                    {
+                        <div class="no-photo-large">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                    }
+                </div>
+                
+                <div class="policier-main-info">
+                    <h1 class="policier-name">@policier.Nom @policier.PostNom @policier.Prenom</h1>
+                    <div class="policier-badges">
+                        <span class="badge-modern primary">@policier.Matricule</span>
+                        <span class="badge-modern accent">@policier.NatureGrade</span>
+                        @if (!string.IsNullOrEmpty(policier.FonctionActuelle))
+                        {
+                            <span class="badge badge-function">@policier.FonctionActuelle</span>
+                        }
+                    </div>
+                    <div class="policier-unit">
+                        <i class="bi bi-building"></i>
+                        @(policier.IdCommissariatNavigation?.Nom ?? "Non assigné")
+                    </div>
+                    <div class="policier-meta">
+                        <div class="meta-item">
+                            <i class="bi bi-calendar-check"></i>
+                            <span>Entré le @policier.DateEntreePolice.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-geo-alt"></i>
+                            <span>@(policier.ProvinceOrigine ?? "Province non renseignée")</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-actions">
+                    <button type="button" class="btn-modern btn-primary" @onclick="GoBack">
+                        <i class="bi bi-arrow-left"></i> Retour à la liste
+                    </button>
+                    <button type="button" class="btn-modern btn-outline">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informations détaillées -->
+        <div class="detail-content">
+            <!-- Informations personnelles -->
+            <div class="info-section">
+                <h3><i class="bi bi-person-fill"></i> Informations personnelles</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Date de naissance</label>
+                        <span>@policier.DateNaissance.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Lieu de naissance</label>
+                        <span>@(policier.VilleNaissance ?? "Non renseigné")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Sexe</label>
+                        <span>@(policier.Sexe ?? "Non renseigné")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>État civil</label>
+                        <span>@(policier.EtatCivil ?? "Non renseigné")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Nationalité</label>
+                        <span>@(policier.PaysNaissance ?? "Non renseignée")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Adresse</label>
+                        <span>@(policier.Rue + ", " + policier.Commune ?? "Non renseignée")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Téléphone</label>
+                        <span>@(policier.Telephone ?? "Non renseigné")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Groupe sanguin</label>
+                        <span>@(policier.GroupeSanguin + policier.Rhesus ?? "Non renseigné")</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations professionnelles -->
+            <div class="info-section">
+                <h3><i class="bi bi-briefcase-fill"></i> Informations professionnelles</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Matricule</label>
+                        <span>@(policier.Matricule ?? "Non renseigné")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Grade</label>
+                        <span>@policier.NatureGrade</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Fonction</label>
+                        <span>@(policier.FonctionActuelle ?? "Non renseignée")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Unité</label>
+                        <span>@(policier.UniteAffectation ?? "Non renseignée")</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Commissariat</label>
+                        <span>@(policier.IdCommissariatNavigation?.Nom ?? "Non assigné")</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collections -->
+            <div class="collections-container">
+                <!-- Conjoints -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-heart-fill"></i> Conjoints (@(policier.Conjoints?.Count ?? 0))
+                    </h3>
+                    @if (policier.Conjoints?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var conjoint in policier.Conjoints)
+                            {
+                                <div class="collection-item">
+                                    <strong>@conjoint.Nom @conjoint.PostNom @conjoint.Prenom</strong>
+                                    <div class="item-details">
+                                        <span><i class="bi bi-calendar"></i> @conjoint.DateMariage?.ToString("dd/MM/yyyy")</span>
+                                        @if (!string.IsNullOrEmpty(conjoint.Profession))
+                                        {
+                                            <span><i class="bi bi-briefcase"></i> @conjoint.Profession</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucun conjoint enregistré.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Enfants -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-people-fill"></i> Enfants (@(policier.Enfants?.Count ?? 0))
+                    </h3>
+                    @if (policier.Enfants?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var enfant in policier.Enfants)
+                            {
+                                <div class="collection-item">
+                                    <strong>@enfant.Nom @enfant.PostNom @enfant.Prenom</strong>
+                                    <div class="item-details">
+                                        <span><i class="bi bi-calendar"></i> @enfant.DateNaissance.ToString("dd/MM/yyyy")</span>
+                                        <span><i class="bi bi-map"></i> @enfant.VilleNaissance</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucun enfant enregistré.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Formations -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-mortarboard-fill"></i> Formations (@(policier.Formations?.Count ?? 0))
+                    </h3>
+                    @if (policier.Formations?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var formation in policier.Formations)
+                            {
+                                <div class="collection-item">
+                                    <strong>@formation.TypeFormation</strong>
+                                    <div class="item-details">
+                                        @if (!string.IsNullOrEmpty(formation.Ecole))
+                                        {
+                                            <span><i class="bi bi-building"></i> @formation.Ecole</span>
+                                        }
+                                        <span><i class="bi bi-calendar"></i> @formation.Annee</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucune formation enregistrée.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Langues -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-translate"></i> Langues (@(policier.Langues?.Count ?? 0))
+                    </h3>
+                    @if (policier.Langues?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var langue in policier.Langues)
+                            {
+                                <div class="collection-item">
+                                    <strong>@langue.Libelle</strong>
+                                    <div class="item-details">
+                                        <span><i class="bi bi-star"></i> Lecture: @langue.NiveauLecture</span>
+                                        <span><i class="bi bi-star"></i> Écriture: @langue.NiveauEcriture</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucune langue enregistrée.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Sports -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-trophy-fill"></i> Sports (@(policier.Sports?.Count ?? 0))
+                    </h3>
+                    @if (policier.Sports?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var sport in policier.Sports)
+                            {
+                                <div class="collection-item">
+                                    <strong>@sport.Libelle</strong>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucun sport enregistré. Cliquez sur + pour en ajouter un.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Distinctions honorifiques -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-award-fill"></i> Distinctions honorifiques (@(policier.DistinctionHonorifiques?.Count ?? 0))
+                    </h3>
+                    @if (policier.DistinctionHonorifiques?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var distinction in policier.DistinctionHonorifiques)
+                            {
+                                <div class="collection-item">
+                                    <strong>@distinction.Motif</strong>
+                                    <div class="item-details">
+                                        <span><i class="bi bi-calendar"></i> @distinction.DateDecision.ToString("dd/MM/yyyy")</span>
+                                        <span><i class="bi bi-file-text"></i> @distinction.NumeroDecision</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucune distinction enregistrée. Cliquez sur + pour en ajouter une.</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Historique des affectations -->
+                <div class="collection-section">
+                    <h3>
+                        <i class="bi bi-clock-history"></i> Historique des affectations (@(policier.HistAffectations?.Count ?? 0))
+                    </h3>
+                    @if (policier.HistAffectations?.Any() == true)
+                    {
+                        <div class="collection-items">
+                            @foreach (var affectation in policier.HistAffectations.OrderByDescending(a => a.DateActe))
+                            {
+                                <div class="collection-item">
+                                    <strong>@affectation.Denomination</strong>
+                                    <div class="item-details">
+                                        <span><i class="bi bi-calendar-check"></i> @affectation.DateActe.ToString("dd/MM/yyyy")</span>
+                                        <span><i class="bi bi-geo-alt"></i> @affectation.Lieu</span>
+                                        <span><i class="bi bi-file-text"></i> @affectation.ActeDenomination</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-collection">
+                            <p><i class="bi bi-info-circle"></i> Aucune affectation enregistrée. Cliquez sur + pour en ajouter une.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modales d'ajout -->
+
+<!-- Modal Ajouter Conjoint -->
+@if (showAddConjointModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddConjointModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-heart-fill"></i> Ajouter un conjoint</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddConjointModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nom *</label>
+                    <input @bind="newConjoint.Nom" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Post-nom</label>
+                    <input @bind="newConjoint.PostNom" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input @bind="newConjoint.Prenom" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Nationalité *</label>
+                    <input @bind="newConjoint.Nationalite" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Profession *</label>
+                    <input @bind="newConjoint.Profession" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Matricule</label>
+                    <input @bind="newConjoint.Matricule" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Date de mariage</label>
+                    <input @bind="newConjoint.DateMariage" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddConjointModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveConjoint">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Enfant -->
+@if (showAddEnfantModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddEnfantModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-people-fill"></i> Ajouter un enfant</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddEnfantModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nom *</label>
+                    <input @bind="newEnfant.Nom" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Post-nom</label>
+                    <input @bind="newEnfant.PostNom" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input @bind="newEnfant.Prenom" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Date de naissance *</label>
+                    <input @bind="newEnfant.DateNaissance" type="date" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Pays de naissance *</label>
+                    <input @bind="newEnfant.PaysNaissance" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Ville de naissance *</label>
+                    <input @bind="newEnfant.VilleNaissance" type="text" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddEnfantModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveEnfant">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Formation -->
+@if (showAddFormationModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddFormationModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-mortarboard-fill"></i> Ajouter une formation</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddFormationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Type de formation *</label>
+                    <input @bind="newFormation.TypeFormation" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>École *</label>
+                    <input @bind="newFormation.Ecole" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Pays *</label>
+                    <input @bind="newFormation.Pays" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Ville *</label>
+                    <input @bind="newFormation.Ville" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Année *</label>
+                    <input @bind="newFormation.Annee" type="number" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Diplôme *</label>
+                    <input @bind="newFormation.Diplome" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Nom du diplôme *</label>
+                    <input @bind="newFormation.NomDiplome" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Durée *</label>
+                    <input @bind="newFormation.Duree" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Nature *</label>
+                    <input @bind="newFormation.Nature" type="text" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddFormationModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveFormation">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Langue -->
+@if (showAddLangueModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddLangueModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-translate"></i> Ajouter une langue</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddLangueModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Langue *</label>
+                    <input @bind="newLangue.Libelle" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Niveau d'écriture (1-5) *</label>
+                    <input @bind="newLangue.NiveauEcriture" type="number" min="1" max="5" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Niveau de lecture (1-5) *</label>
+                    <input @bind="newLangue.NiveauLecture" type="number" min="1" max="5" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddLangueModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveLangue">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Sport -->
+@if (showAddSportModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddSportModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-trophy-fill"></i> Ajouter un sport</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddSportModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Sport *</label>
+                    <input @bind="newSport.Libelle" type="text" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddSportModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveSport">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Distinction -->
+@if (showAddDistinctionModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddDistinctionModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-award-fill"></i> Ajouter une distinction</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddDistinctionModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Date de décision *</label>
+                    <input @bind="newDistinction.DateDecision" type="date" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Numéro de décision *</label>
+                    <input @bind="newDistinction.NumeroDecision" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Motif *</label>
+                    <input @bind="newDistinction.Motif" type="text" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddDistinctionModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveDistinction">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal Ajouter Historique Affectation -->
+@if (showAddHistAffectationModal)
+{
+    <div class="modal-overlay" @onclick="CloseAddHistAffectationModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h4><i class="bi bi-clock-history"></i> Ajouter une affectation</h4>
+                <button type="button" class="btn-close" @onclick="CloseAddHistAffectationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Lieu *</label>
+                    <input @bind="newHistAffectation.Lieu" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Dénomination *</label>
+                    <input @bind="newHistAffectation.Denomination" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Acte de dénomination *</label>
+                    <input @bind="newHistAffectation.ActeDenomination" type="text" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>Date de l'acte *</label>
+                    <input @bind="newHistAffectation.DateActe" type="date" class="form-control" required />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modern btn-outline" @onclick="CloseAddHistAffectationModal">Annuler</button>
+                <button type="button" class="btn-modern btn-success" @onclick="SaveHistAffectation">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public string Id { get; set; } = string.Empty;
+    
+    private Policier? policier;
+    
+    // Variables pour les modales d'ajout
+    private bool showAddConjointModal = false;
+    private bool showAddEnfantModal = false;
+    private bool showAddFormationModal = false;
+    private bool showAddLangueModal = false;
+    private bool showAddSportModal = false;
+    private bool showAddDistinctionModal = false;
+    private bool showAddHistAffectationModal = false;
+
+    // Nouveaux objets pour les formulaires
+    private Conjoint newConjoint = new();
+    private Enfant newEnfant = new();
+    private Formation newFormation = new();
+    private Langue newLangue = new();
+    private Sport newSport = new();
+    private DistinctionHonorifique newDistinction = new();
+    private HistAffectation newHistAffectation = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPolicierDetail();
+    }
+
+    private async Task LoadPolicierDetail()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        try
+        {
+            policier = await context.Policiers
+                .Include(p => p.Conjoints)
+                .Include(p => p.Enfants)
+                .Include(p => p.Formations)
+                .Include(p => p.Langues)
+                .Include(p => p.Sports)
+                .Include(p => p.DistinctionHonorifiques)
+                .Include(p => p.HistAffectations)
+                .Include(p => p.HistFonctions)
+                .Include(p => p.HistGrades)
+                .Include(p => p.Empreintes)
+                .Include(p => p.PersonnePrevenirs)
+                .Include(p => p.Fris)
+                .Include(p => p.IdCommissariatNavigation)
+                .FirstOrDefaultAsync(p => p.Id == Id);
+
+            if (policier == null)
+            {
+                // Redirection vers la liste si le policier n'existe pas
+                Navigation.NavigateTo("/policiers");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement du policier: {ex.Message}");
+            Navigation.NavigateTo("/policiers");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/policiers");
+    }
+
+    // Méthodes pour ouvrir les modales
+    private void OpenAddConjointModal() { newConjoint = new(); showAddConjointModal = true; }
+    private void OpenAddEnfantModal() { newEnfant = new(); showAddEnfantModal = true; }
+    private void OpenAddFormationModal() { newFormation = new(); showAddFormationModal = true; }
+    private void OpenAddLangueModal() { newLangue = new(); showAddLangueModal = true; }
+    private void OpenAddSportModal() { newSport = new(); showAddSportModal = true; }
+    private void OpenAddDistinctionModal() { newDistinction = new(); showAddDistinctionModal = true; }
+    private void OpenAddHistAffectationModal() { newHistAffectation = new(); showAddHistAffectationModal = true; }
+
+    // Méthodes pour fermer les modales
+    private void CloseAddConjointModal() { showAddConjointModal = false; }
+    private void CloseAddEnfantModal() { showAddEnfantModal = false; }
+    private void CloseAddFormationModal() { showAddFormationModal = false; }
+    private void CloseAddLangueModal() { showAddLangueModal = false; }
+    private void CloseAddSportModal() { showAddSportModal = false; }
+    private void CloseAddDistinctionModal() { showAddDistinctionModal = false; }
+    private void CloseAddHistAffectationModal() { showAddHistAffectationModal = false; }
+
+    // Méthodes pour sauvegarder
+    private async Task SaveConjoint()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newConjoint.Id = Guid.NewGuid().ToString();
+        newConjoint.IdPolicier = policier.Id;
+        
+        context.Conjoints.Add(newConjoint);
+        await context.SaveChangesAsync();
+        
+        CloseAddConjointModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveEnfant()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newEnfant.Id = Guid.NewGuid().ToString();
+        newEnfant.IdPolicier = policier.Id;
+        
+        context.Enfants.Add(newEnfant);
+        await context.SaveChangesAsync();
+        
+        CloseAddEnfantModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveFormation()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newFormation.Id = Guid.NewGuid().ToString();
+        newFormation.IdPolicier = policier.Id;
+        
+        context.Formations.Add(newFormation);
+        await context.SaveChangesAsync();
+        
+        CloseAddFormationModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveLangue()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newLangue.Id = Guid.NewGuid().ToString();
+        newLangue.IdPolicier = policier.Id;
+        
+        context.Langues.Add(newLangue);
+        await context.SaveChangesAsync();
+        
+        CloseAddLangueModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveSport()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newSport.Id = Guid.NewGuid().ToString();
+        newSport.IdPolicier = policier.Id;
+        
+        context.Sports.Add(newSport);
+        await context.SaveChangesAsync();
+        
+        CloseAddSportModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveDistinction()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newDistinction.Id = Guid.NewGuid().ToString();
+        newDistinction.IdPolicier = policier.Id;
+        
+        context.DistinctionHonorifiques.Add(newDistinction);
+        await context.SaveChangesAsync();
+        
+        CloseAddDistinctionModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+
+    private async Task SaveHistAffectation()
+    {
+        if (policier == null) return;
+        
+        using var context = DbFactory.CreateDbContext();
+        newHistAffectation.Id = Guid.NewGuid().ToString();
+        newHistAffectation.IdPolicier = policier.Id;
+        
+        context.HistAffectations.Add(newHistAffectation);
+        await context.SaveChangesAsync();
+        
+        CloseAddHistAffectationModal();
+        await LoadPolicierDetail();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,526 @@
+@page "/utilisateur/{Id}"
+@using PNC.Models
+@using PNC.Services
+@inject IUtilisateurService UtilisateurService
+@inject IRoleService RoleService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Détail Utilisateur - PNC</PageTitle>
+
+<div class="utilisateur-detail-page">
+    @if (utilisateur != null)
+    {
+        <!-- Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <button class="btn-back" @onclick="RetourListe">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <div>
+                    <h1 class="page-title">
+                        <i class="bi bi-person-circle me-3"></i>
+                        @utilisateur.Nom @utilisateur.Prenom
+                    </h1>
+                    <p class="page-subtitle">
+                        Détails et gestion du compte utilisateur
+                    </p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-modern btn-outline" @onclick="ToggleModeEdition">
+                    <i class="bi bi-pencil"></i>
+                    @(modeEdition ? "Annuler" : "Modifier")
+                </button>
+                @if (modeEdition)
+                {
+                    <button class="btn-modern btn-primary" @onclick="SauvegarderModifications">
+                        <i class="bi bi-check-lg"></i>
+                        Sauvegarder
+                    </button>
+                }
+                else
+                {
+                    <button class="btn-modern btn-warning" @onclick="OuvrirModalResetPassword">
+                        <i class="bi bi-key"></i>
+                        Reset Mot de Passe
+                    </button>
+                    @if (utilisateur.EstActif)
+                    {
+                        <button class="btn-modern btn-outline" @onclick="DesactiverUtilisateur">
+                            <i class="bi bi-person-x"></i>
+                            Désactiver
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn-modern btn-success" @onclick="ActiverUtilisateur">
+                            <i class="bi bi-person-check"></i>
+                            Activer
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- Informations Principales -->
+        <div class="info-sections">
+            <!-- Section Identité -->
+            <div class="info-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-card-text"></i> Identité</h3>
+                </div>
+                <div class="section-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nom *</label>
+                            @if (modeEdition)
+                            {
+                                <input type="text" @bind="utilisateur.Nom" class="form-input" required />
+                            }
+                            else
+                            {
+                                <div class="info-value">@utilisateur.Nom</div>
+                            }
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Prénom</label>
+                            @if (modeEdition)
+                            {
+                                <input type="text" @bind="utilisateur.Prenom" class="form-input" />
+                            }
+                            else
+                            {
+                                <div class="info-value">@(string.IsNullOrEmpty(utilisateur.Prenom) ? "Non renseigné" : utilisateur.Prenom)</div>
+                            }
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Nom d'utilisateur *</label>
+                            @if (modeEdition)
+                            {
+                                <input type="text" @bind="utilisateur.NomUtilisateur" class="form-input" required />
+                            }
+                            else
+                            {
+                                <div class="info-value username">@utilisateur.NomUtilisateur</div>
+                            }
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>ID Utilisateur</label>
+                            <div class="info-value user-id">@utilisateur.Id</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Contact -->
+            <div class="info-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-envelope"></i> Contact</h3>
+                </div>
+                <div class="section-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Email</label>
+                            @if (modeEdition)
+                            {
+                                <input type="email" @bind="utilisateur.Email" class="form-input" />
+                            }
+                            else
+                            {
+                                <div class="info-value">@(string.IsNullOrEmpty(utilisateur.Email) ? "Non renseigné" : utilisateur.Email)</div>
+                            }
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Téléphone</label>
+                            @if (modeEdition)
+                            {
+                                <input type="tel" @bind="utilisateur.Telephone" class="form-input" />
+                            }
+                            else
+                            {
+                                <div class="info-value">@(string.IsNullOrEmpty(utilisateur.Telephone) ? "Non renseigné" : utilisateur.Telephone)</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Rôle et Permissions -->
+            <div class="info-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-shield"></i> Rôle et Permissions</h3>
+                </div>
+                <div class="section-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Rôle *</label>
+                            @if (modeEdition)
+                            {
+                                <select @bind="utilisateur.IdRole" class="form-select" required>
+                                    <option value="">Sélectionnez un rôle</option>
+                                    @if (roles?.Any() == true)
+                                    {
+                                        @foreach (var role in roles.Where(r => r.EstActif))
+                                        {
+                                            <option value="@role.Id">@role.Nom</option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                @if (utilisateur.IdRoleNavigation != null)
+                                {
+                                    <div class="info-value">
+                                        <span class="role-badge">@utilisateur.IdRoleNavigation.Nom</span>
+                                        @if (!string.IsNullOrEmpty(utilisateur.IdRoleNavigation.Description))
+                                        {
+                                            <div class="role-description">@utilisateur.IdRoleNavigation.Description</div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="info-value no-role">Aucun rôle assigné</div>
+                                }
+                            }
+                        </div>
+                        
+                        @if (!modeEdition && utilisateur.IdRoleNavigation != null)
+                        {
+                            <div class="form-group full-width">
+                                <label>Permissions du rôle</label>
+                                <div class="permissions-list">
+                                    @if (permissionsDuRole?.Any() == true)
+                                    {
+                                        @foreach (var permission in permissionsDuRole)
+                                        {
+                                            <div class="permission-item">
+                                                <span class="permission-name">@permission.Nom</span>
+                                                <span class="permission-module">@permission.Module</span>
+                                                <span class="permission-action">@permission.Action</span>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="no-permissions">Aucune permission assignée à ce rôle</div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Statut et Connexion -->
+            <div class="info-section">
+                <div class="section-header">
+                    <h3><i class="bi bi-info-circle"></i> Statut et Connexion</h3>
+                </div>
+                <div class="section-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Statut</label>
+                            @if (modeEdition)
+                            {
+                                <label class="checkbox-label">
+                                    <input type="checkbox" @bind="utilisateur.EstActif" />
+                                    <span class="checkmark"></span>
+                                    Utilisateur actif
+                                </label>
+                            }
+                            else
+                            {
+                                <div class="info-value">
+                                    <span class="status-badge @(utilisateur.EstActif ? "active" : "inactive")">
+                                        @(utilisateur.EstActif ? "Actif" : "Inactif")
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Date de création</label>
+                            <div class="info-value">@utilisateur.DateCreation.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Dernière connexion</label>
+                            <div class="info-value">
+                                @if (utilisateur.DerniereConnexion.HasValue)
+                                {
+                                    @utilisateur.DerniereConnexion.Value.ToString("dd/MM/yyyy HH:mm")
+                                }
+                                else
+                                {
+                                    <span class="never-login">Jamais connecté</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Enquêteur (si applicable) -->
+            @if (!string.IsNullOrEmpty(utilisateur.IdEnqueteur))
+            {
+                <div class="info-section">
+                    <div class="section-header">
+                        <h3><i class="bi bi-search"></i> Lien avec l'Enquêteur</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>ID Enquêteur</label>
+                                <div class="info-value">@utilisateur.IdEnqueteur</div>
+                            </div>
+                            
+                            @if (utilisateur.IdEnqueteurNavigation != null)
+                            {
+                                <div class="form-group">
+                                    <label>Nom de l'enquêteur</label>
+                                    <div class="info-value">@utilisateur.IdEnqueteurNavigation.Nom</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- État de chargement ou utilisateur non trouvé -->
+        <div class="loading-state">
+            @if (chargement)
+            {
+                <div class="spinner">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    <span>Chargement...</span>
+                </div>
+            }
+            else
+            {
+                <div class="not-found">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <h2>Utilisateur non trouvé</h2>
+                    <p>L'utilisateur demandé n'existe pas ou a été supprimé.</p>
+                    <button class="btn-modern btn-primary" @onclick="RetourListe">
+                        Retour à la liste
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Modal Reset Mot de Passe -->
+@if (showModalResetPassword)
+{
+    <div class="modal-overlay" @onclick="FermerModalResetPassword">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <div class="modal-header">
+                <h3>Réinitialiser le Mot de Passe</h3>
+                <button class="btn-close" @onclick="FermerModalResetPassword">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <p>Voulez-vous réinitialiser le mot de passe de l'utilisateur <strong>@utilisateur?.Nom @utilisateur?.Prenom</strong> ?</p>
+                <p>Le nouveau mot de passe sera : <strong>@nouveauMotDePasse</strong></p>
+                <p class="warning">⚠️ L'utilisateur devra changer ce mot de passe lors de sa prochaine connexion.</p>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modern btn-outline" @onclick="FermerModalResetPassword">Annuler</button>
+                <button class="btn-modern btn-warning" @onclick="ConfirmerResetMotDePasse">Réinitialiser</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = "";
+    
+    private Utilisateur? utilisateur;
+    private List<Role> roles = new();
+    private List<Permission> permissionsDuRole = new();
+    private bool modeEdition = false;
+    private bool chargement = true;
+    private bool showModalResetPassword = false;
+    private string nouveauMotDePasse = "";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await ChargerUtilisateur();
+        await ChargerRoles();
+    }
+    
+    private async Task ChargerUtilisateur()
+    {
+        try
+        {
+            chargement = true;
+            utilisateur = await UtilisateurService.GetUtilisateurByIdAsync(Id);
+            
+            if (utilisateur != null)
+            {
+                await ChargerPermissionsDuRole();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement de l'utilisateur: {ex.Message}");
+        }
+        finally
+        {
+            chargement = false;
+        }
+    }
+    
+    private async Task ChargerRoles()
+    {
+        try
+        {
+            roles = await RoleService.GetAllRolesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des rôles: {ex.Message}");
+        }
+    }
+    
+    private async Task ChargerPermissionsDuRole()
+    {
+        if (utilisateur?.IdRole != null)
+        {
+            try
+            {
+                permissionsDuRole = await RoleService.GetPermissionsDuRoleAsync(utilisateur.IdRole);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors du chargement des permissions: {ex.Message}");
+            }
+        }
+    }
+    
+    private void ToggleModeEdition()
+    {
+        modeEdition = !modeEdition;
+    }
+    
+    private async Task SauvegarderModifications()
+    {
+        try
+        {
+            if (utilisateur != null)
+            {
+                var utilisateurModifie = await UtilisateurService.UpdateUtilisateurAsync(utilisateur);
+                if (utilisateurModifie != null)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Modifications sauvegardées avec succès.");
+                    modeEdition = false;
+                    await ChargerUtilisateur(); // Recharger pour mettre à jour les permissions
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur lors de la sauvegarde: {ex.Message}");
+        }
+    }
+    
+    private void OuvrirModalResetPassword()
+    {
+        nouveauMotDePasse = GeneratePassword();
+        showModalResetPassword = true;
+    }
+    
+    private void FermerModalResetPassword()
+    {
+        showModalResetPassword = false;
+        nouveauMotDePasse = "";
+    }
+    
+    private async Task ConfirmerResetMotDePasse()
+    {
+        try
+        {
+            if (utilisateur != null)
+            {
+                var success = await UtilisateurService.ResetMotDePasseAsync(utilisateur.Id, nouveauMotDePasse);
+                if (success)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", $"Mot de passe réinitialisé avec succès. Nouveau mot de passe: {nouveauMotDePasse}");
+                    FermerModalResetPassword();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur: {ex.Message}");
+        }
+    }
+    
+    private async Task ActiverUtilisateur()
+    {
+        try
+        {
+            if (utilisateur != null)
+            {
+                var success = await UtilisateurService.ActiverUtilisateurAsync(utilisateur.Id);
+                if (success)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Utilisateur activé avec succès.");
+                    await ChargerUtilisateur();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur: {ex.Message}");
+        }
+    }
+    
+    private async Task DesactiverUtilisateur()
+    {
+        try
+        {
+            if (utilisateur != null)
+            {
+                var success = await UtilisateurService.DesactiverUtilisateurAsync(utilisateur.Id);
+                if (success)
+                {
+                    await JSRuntime.InvokeVoidAsync("alert", "Utilisateur désactivé avec succès.");
+                    await ChargerUtilisateur();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Erreur: {ex.Message}");
+        }
+    }
+    
+    private void RetourListe()
+    {
+        Navigation.NavigateTo("/utilisateurs");
+    }
+    
+    private string GeneratePassword()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var random = new Random();
+        return new string(Enumerable.Repeat(chars, 8).Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+}
+

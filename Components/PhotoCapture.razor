@@ -1,0 +1,202 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<div class="photo-capture-container">
+    <div class="photo-capture-header">
+        <h4><i class="bi bi-camera"></i> Capture de Photo</h4>
+        <button type="button" class="btn-close" @onclick="CloseModal">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div class="photo-capture-content">
+        @if (!isCameraActive)
+        {
+            <div class="camera-setup">
+                <div class="camera-icon">
+                    <i class="bi bi-camera-video"></i>
+                </div>
+                <p>Cliquez sur "Activer la caméra" pour commencer la capture</p>
+                <button type="button" class="btn-modern btn-primary" @onclick="StartCamera">
+                    <i class="bi bi-camera"></i>
+                    Activer la caméra
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="camera-active">
+                <video id="videoElement" autoplay playsinline class="camera-video"></video>
+                <canvas id="canvasElement" style="display: none;"></canvas>
+                
+                <div class="camera-controls">
+                    <button type="button" class="btn-modern btn-primary" @onclick="CapturePhoto">
+                        <i class="bi bi-camera"></i>
+                        Prendre la photo
+                    </button>
+                    <button type="button" class="btn-modern btn-outline" @onclick="RetakePhoto" style="display: @(hasPhoto ? "inline-block" : "none")">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Reprendre
+                    </button>
+                    <button type="button" class="btn-modern btn-outline" @onclick="StopCamera">
+                        <i class="bi bi-stop-circle"></i>
+                        Arrêter la caméra
+                    </button>
+                </div>
+
+                @if (hasPhoto)
+                {
+                    <div class="photo-preview">
+                        <h5>Photo capturée</h5>
+                        <img src="@capturedPhotoDataUrl" alt="Photo capturée" class="preview-image" />
+                        <div class="photo-actions">
+                            <button type="button" class="btn-modern btn-success" @onclick="SavePhoto">
+                                <i class="bi bi-check"></i>
+                                Utiliser cette photo
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="error-message">
+            <i class="bi bi-exclamation-triangle"></i>
+            @errorMessage
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public EventCallback<string> OnPhotoCaptured { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private bool isCameraActive = false;
+    private bool hasPhoto = false;
+    private string capturedPhotoDataUrl = string.Empty;
+    private string errorMessage = string.Empty;
+    private string? mediaStreamId;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "PhotoCapture component initialized");
+        }
+    }
+
+    private async Task StartCamera()
+    {
+        try
+        {
+            errorMessage = string.Empty;
+            StateHasChanged();
+
+            // Vérifier si la caméra est disponible
+            var isAvailable = await JSRuntime.InvokeAsync<bool>("isCameraAvailable");
+            if (!isAvailable)
+            {
+                errorMessage = "La caméra n'est pas disponible sur votre appareil";
+                StateHasChanged();
+                return;
+            }
+
+            // Démarrer la caméra via JavaScript
+            var result = await JSRuntime.InvokeAsync<string>("startCameraAndGetStreamId");
+            if (!string.IsNullOrEmpty(result))
+            {
+                mediaStreamId = result;
+                isCameraActive = true;
+                hasPhoto = false;
+                capturedPhotoDataUrl = string.Empty;
+                StateHasChanged();
+            }
+            else
+            {
+                errorMessage = "Impossible de démarrer la caméra";
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de l'activation de la caméra : {ex.Message}";
+            StateHasChanged();
+        }
+    }
+
+    private async Task CapturePhoto()
+    {
+        try
+        {
+            // Capturer l'image depuis la vidéo
+            await JSRuntime.InvokeVoidAsync("capturePhotoFromVideo", "videoElement", "canvasElement");
+            
+            // Récupérer l'image capturée
+            capturedPhotoDataUrl = await JSRuntime.InvokeAsync<string>("getCanvasImageData", "canvasElement");
+            
+            hasPhoto = true;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de la capture : {ex.Message}";
+            StateHasChanged();
+        }
+    }
+
+    private void RetakePhoto()
+    {
+        hasPhoto = false;
+        capturedPhotoDataUrl = string.Empty;
+        StateHasChanged();
+    }
+
+    private async Task SavePhoto()
+    {
+        if (!string.IsNullOrEmpty(capturedPhotoDataUrl))
+        {
+            await OnPhotoCaptured.InvokeAsync(capturedPhotoDataUrl);
+            await CloseModal();
+        }
+    }
+
+    private async Task StopCamera()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(mediaStreamId))
+            {
+                // Arrêter la caméra via JavaScript
+                await JSRuntime.InvokeVoidAsync("stopCameraByStreamId", mediaStreamId);
+                mediaStreamId = null;
+            }
+
+            isCameraActive = false;
+            hasPhoto = false;
+            capturedPhotoDataUrl = string.Empty;
+            
+            await JSRuntime.InvokeVoidAsync("stopVideoStream", "videoElement");
+            
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de l'arrêt de la caméra : {ex.Message}";
+            StateHasChanged();
+        }
+    }
+
+    private async Task CloseModal()
+    {
+        await StopCamera();
+        await OnClose.InvokeAsync();
+    }
+
+    public void Dispose()
+    {
+        _ = StopCamera();
+    }
+}

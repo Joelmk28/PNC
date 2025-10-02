@@ -1,0 +1,195 @@
+@page "/test-camera"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Test Caméra Simple</PageTitle>
+
+<div class="camera-test-container">
+    <h1>Test Simple de la Caméra</h1>
+    
+    <div class="camera-status">
+        <p><strong>Statut:</strong> 
+            @if (isCameraActive)
+            {
+                <span class="status-active">Caméra active</span>
+            }
+            else
+            {
+                <span class="status-inactive">Caméra inactive</span>
+            }
+        </p>
+    </div>
+
+    @if (!isCameraActive)
+    {
+        <div class="camera-setup">
+            <button class="btn-activate" @onclick="ActivateCamera">
+                <i class="bi bi-camera-video"></i>
+                Activer la Caméra
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="camera-active">
+            <video id="testVideo" autoplay playsinline class="camera-video"></video>
+            <canvas id="testCanvas" style="display: none;"></canvas>
+            
+            <div class="camera-controls">
+                <button class="btn-capture" @onclick="CapturePhoto">
+                    <i class="bi bi-camera"></i>
+                    Prendre la Photo
+                </button>
+                <button class="btn-stop" @onclick="StopCamera">
+                    <i class="bi bi-stop-circle"></i>
+                    Arrêter la Caméra
+                </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(capturedPhoto))
+            {
+                <div class="photo-result">
+                    <h3>Photo Capturée:</h3>
+                    <img src="@capturedPhoto" alt="Photo test" class="captured-image" />
+                    <p>La photo a été capturée avec succès !</p>
+                </div>
+            }
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="error-message">
+            <i class="bi bi-exclamation-triangle"></i>
+            @errorMessage
+        </div>
+    }
+
+    <div class="debug-info">
+        <h4>Informations de débogage:</h4>
+        <p><strong>Stream ID:</strong> @(streamId ?? "Aucun")</p>
+        <p><strong>Erreur:</strong> @(errorMessage ?? "Aucune")</p>
+    </div>
+</div>
+
+@code {
+    private bool isCameraActive = false;
+    private string capturedPhoto = string.Empty;
+    private string errorMessage = string.Empty;
+    private string? streamId;
+
+    private async Task ActivateCamera()
+    {
+        try
+        {
+            errorMessage = string.Empty;
+            StateHasChanged();
+
+            Console.WriteLine("Début de l'activation de la caméra...");
+
+            // Vérifier si la caméra est disponible
+            try
+            {
+                var isAvailable = await JSRuntime.InvokeAsync<bool>("isCameraAvailable");
+                Console.WriteLine($"Résultat isCameraAvailable: {isAvailable}");
+                
+                if (!isAvailable)
+                {
+                    errorMessage = "La caméra n'est pas disponible sur votre appareil";
+                    StateHasChanged();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la vérification de la caméra: {ex.Message}");
+                errorMessage = $"Erreur lors de la vérification de la caméra: {ex.Message}";
+                StateHasChanged();
+                return;
+            }
+
+            Console.WriteLine("Caméra disponible, démarrage...");
+
+            // Démarrer la caméra
+            var result = await JSRuntime.InvokeAsync<string>("startCameraAndGetStreamId", "testVideo");
+            Console.WriteLine($"Résultat startCameraAndGetStreamId: {result}");
+            
+            if (!string.IsNullOrEmpty(result))
+            {
+                streamId = result;
+                isCameraActive = true;
+                capturedPhoto = string.Empty;
+                StateHasChanged();
+                Console.WriteLine("Caméra activée avec succès");
+                
+                // Attendre un peu puis déboguer l'élément vidéo
+                await Task.Delay(1000);
+                await JSRuntime.InvokeVoidAsync("debugVideoElement", "testVideo");
+            }
+            else
+            {
+                errorMessage = "Impossible de démarrer la caméra";
+                StateHasChanged();
+                Console.WriteLine("Échec du démarrage de la caméra");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de l'activation de la caméra : {ex.Message}";
+            Console.WriteLine($"Exception lors de l'activation: {ex.Message}");
+            StateHasChanged();
+        }
+    }
+
+    private async Task CapturePhoto()
+    {
+        try
+        {
+            Console.WriteLine("Début de la capture de photo...");
+            
+            // Capturer l'image depuis la vidéo
+            await JSRuntime.InvokeVoidAsync("capturePhotoFromVideo", "testVideo", "testCanvas");
+            
+            // Récupérer l'image capturée
+            capturedPhoto = await JSRuntime.InvokeAsync<string>("getCanvasImageData", "testCanvas");
+            
+            Console.WriteLine($"Photo capturée, longueur: {capturedPhoto?.Length ?? 0}");
+            
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de la capture : {ex.Message}";
+            Console.WriteLine($"Exception lors de la capture: {ex.Message}");
+            StateHasChanged();
+        }
+    }
+
+    private async Task StopCamera()
+    {
+        try
+        {
+            Console.WriteLine("Arrêt de la caméra...");
+            
+            if (!string.IsNullOrEmpty(streamId))
+            {
+                await JSRuntime.InvokeVoidAsync("stopCameraByStreamId", streamId);
+                streamId = null;
+            }
+
+            await JSRuntime.InvokeVoidAsync("stopVideoStream", "testVideo");
+            
+            isCameraActive = false;
+            capturedPhoto = string.Empty;
+            StateHasChanged();
+            
+            Console.WriteLine("Caméra arrêtée");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Erreur lors de l'arrêt de la caméra : {ex.Message}";
+            Console.WriteLine($"Exception lors de l'arrêt: {ex.Message}");
+            StateHasChanged();
+        }
+    }
+}

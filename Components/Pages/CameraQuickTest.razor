@@ -1,0 +1,89 @@
+@page "/camera-quick-test"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Test Rapide Caméra - PNC</PageTitle>
+
+<div class="camera-quick-test">
+    <div class="container">
+        <h1>📹 Test Rapide de la Caméra</h1>
+        <p>Page de test simple pour vérifier que la caméra fonctionne immédiatement</p>
+        
+        <div class="test-section">
+            <h3>🎥 Test Immédiat</h3>
+            <button class="btn btn-primary" @onclick="TestCameraImmediately">
+                <i class="bi bi-camera"></i> Tester la Caméra Maintenant
+            </button>
+            
+            <div class="camera-display">
+                <video id="quickTestVideo" autoplay playsinline style="width: 100%; max-width: 400px; border: 2px solid #ddd; background-color: #000; margin-top: 20px;"></video>
+            </div>
+            
+            <div class="status-info">
+                <p><strong>Statut:</strong> <span id="cameraStatus">En attente...</span></p>
+                <p><strong>Erreur:</strong> <span id="cameraError">Aucune</span></p>
+            </div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🔍 Informations de Débogage</h3>
+            <button class="btn btn-secondary" @onclick="CheckJavaScriptFunctions">
+                <i class="bi bi-code"></i> Vérifier les Fonctions JavaScript
+            </button>
+            
+            <div class="debug-info" id="debugInfo">
+                <p>Cliquez sur le bouton pour vérifier les fonctions disponibles</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Vérifier immédiatement les fonctions JavaScript
+            await CheckJavaScriptFunctions();
+        }
+    }
+
+    private async Task TestCameraImmediately()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("updateStatus", "cameraStatus", "Test en cours...");
+            await JSRuntime.InvokeVoidAsync("updateStatus", "cameraError", "Aucune");
+            
+            // Test simple de la caméra
+            var success = await JSRuntime.InvokeAsync<bool>("testCameraSimple");
+            
+            if (success)
+            {
+                await JSRuntime.InvokeVoidAsync("updateStatus", "cameraStatus", "✅ Caméra fonctionne");
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("updateStatus", "cameraStatus", "❌ Caméra ne fonctionne pas");
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("updateStatus", "cameraStatus", "❌ Erreur");
+            await JSRuntime.InvokeVoidAsync("updateStatus", "cameraError", ex.Message);
+        }
+    }
+
+    private async Task CheckJavaScriptFunctions()
+    {
+        try
+        {
+            var debugInfo = await JSRuntime.InvokeAsync<string>("getDebugInfo");
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", debugInfo);
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", $"Erreur: {ex.Message}");
+        }
+    }
+}

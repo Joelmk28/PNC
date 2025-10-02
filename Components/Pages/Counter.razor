@@ -1,0 +1,49 @@
+﻿@page "/counter"
+
+<PageTitle>Counter - PNC</PageTitle>
+
+<div class="counter-page">
+    <div class="page-header">
+        <h1>Counter</h1>
+        <p>This is a simple example of a component that maintains state.</p>
+    </div>
+
+    <div class="counter-card">
+        <div class="counter-content">
+            <div class="counter-display">
+                <span class="counter-value">@currentCount</span>
+            </div>
+            
+            <div class="counter-actions">
+                <button class="btn btn-primary" @onclick="IncrementCount">
+                    <i class="bi bi-plus-circle"></i>
+                    Increment
+                </button>
+                
+                <button class="btn btn-outline" @onclick="ResetCount">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Reset
+                </button>
+            </div>
+            
+            <div class="counter-info">
+                <p>Current count: <strong>@currentCount</strong></p>
+                <p>Click the button to increment the counter.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+    
+    private void ResetCount()
+    {
+        currentCount = 0;
+    }
+}

@@ -1,0 +1,160 @@
+# Cursor Rules - PNC Project
+
+## Project Intelligence
+
+### Architecture Patterns
+- **N-Tier Architecture**: Clear separation between Presentation (Blazor), Business (Services), Data Access (EF), and Database layers
+- **Service Layer Pattern**: Business logic centralized in service classes with clear interfaces
+- **Repository Pattern**: Data access abstracted through Entity Framework context
+- **Dependency Injection**: Services registered in Program.cs and injected into components
+- **Interface Segregation**: Each service has a specific interface (IPolicierService, IPolicierValidationService, etc.)
+
+### Code Organization
+- **Services**: Business logic and validation (PolicierService, ValidationService, etc.)
+- **Models**: Data entities with navigation properties (Policier, Commissariat, etc.)
+- **Components**: Blazor UI components with .razor.css styling
+- **Data**: Entity Framework context and data access layer
+
+### Naming Conventions
+- **Interfaces**: Prefixed with 'I' (IPolicierService, IPolicierValidationService)
+- **Classes**: Suffixed with 'Service' (PolicierService, PolicierValidationService)
+- **Methods**: Verb + noun (GetPoliciersPaginatedAsync, ValidateAndSavePolicierAsync)
+- **Files**: Same name as the main class (PolicierService.cs, ValidationResult.cs)
+
+### Validation Patterns
+- **ValidationResult Class**: Centralized validation results with field-specific errors
+- **Step-by-Step Validation**: 7-step validation process for policier form
+- **Business Rules**: Age limits, date consistency, required fields validation
+- **Error Messages**: Structured error feedback for user guidance
+
+### Data Management
+- **Entity Framework Core 9.0.8**: Primary ORM with SQL Server provider
+- **Navigation Properties**: Properly configured relationships between entities
+- **Eager Loading**: Use Include() for related data to avoid N+1 queries
+- **Pagination**: Skip/Take pattern for large data sets
+
+### UI Patterns
+- **Blazor Server**: Server-side rendering with interactive components
+- **Multi-Step Forms**: 7-step policier form with validation at each step
+- **Responsive Design**: CSS files (.razor.css) for component-specific styling
+- **Component Injection**: @inject directive for service dependencies
+
+## Development Preferences
+
+### Code Style
+- **Async/Await**: Use consistently for all I/O operations
+- **Error Handling**: Try-catch blocks with Console.WriteLine logging (to be replaced)
+- **Validation**: Centralized validation service with structured results
+- **Services**: Scoped lifetime for business services
+
+### Database Patterns
+- **Connection String**: Configured in appsettings.json with 20-minute timeout
+- **Context Factory**: Use DbContextFactory for better performance
+- **Transactions**: Implicit transactions through Entity Framework
+- **Migrations**: Entity Framework migrations for schema changes
+
+### Testing Strategy
+- **Unit Tests**: Focus on service layer business logic
+- **Integration Tests**: Test data access layer with EF context
+- **UI Tests**: Test Blazor components and user interactions
+- **Performance Tests**: Validate response times and database performance
+
+## Known Challenges
+
+### Current Issues
+- **No Automated Tests**: Critical gap requiring immediate attention
+- **Basic Logging**: Console.WriteLine should be replaced with proper logging
+- **Hard-coded Configuration**: Connection strings and settings in code
+- **No Authentication**: Application lacks security controls
+
+### Performance Considerations
+- **Large Data Sets**: Pagination implemented for policier lists
+- **Database Queries**: Optimize with Include() and proper indexing
+- **Command Timeout**: 20-minute timeout for complex operations
+- **Memory Management**: Blazor Server memory considerations
+
+### Security Requirements
+- **Input Validation**: Server-side validation mandatory
+- **Data Sanitization**: Clean data before database operations
+- **Audit Trail**: Track all modifications for compliance
+- **Role-based Access**: Implement user permissions and roles
+
+## Evolution Strategy
+
+### Immediate Priorities
+1. **Testing Infrastructure**: Create unit and integration tests
+2. **Authentication System**: Implement login and authorization
+3. **Logging System**: Replace Console.WriteLine with proper logging
+4. **Configuration Management**: Externalize settings and connection strings
+
+### Medium-term Goals
+1. **Performance Optimization**: Query optimization and caching
+2. **Security Enhancement**: Audit logging and access controls
+3. **Monitoring**: Application performance and error tracking
+4. **Documentation**: User guides and API documentation
+
+### Long-term Vision
+1. **Advanced Features**: Export/import, notifications, workflows
+2. **Scalability**: Support for increased user load and data volume
+3. **Mobile Support**: Responsive design and mobile optimization
+4. **Integration**: APIs for external system integration
+
+## Technical Decisions
+
+### Framework Choices
+- **.NET 9.0**: Latest framework for performance and features
+- **Blazor Server**: Server-side rendering for simplicity and security
+- **Entity Framework Core**: Mature ORM with SQL Server support
+- **SQL Server**: Enterprise database with Windows authentication
+
+### Architecture Decisions
+- **Service Layer**: Centralized business logic for maintainability
+- **Interface Segregation**: Specific interfaces for each responsibility
+- **Dependency Injection**: Automatic service lifecycle management
+- **Validation Centralization**: Single validation service for consistency
+
+### Performance Decisions
+- **Pagination**: Handle large data sets efficiently
+- **Eager Loading**: Load related data in single queries
+- **Command Timeout**: 20-minute timeout for complex operations
+- **Scoped Services**: Appropriate service lifetime management
+
+## Best Practices
+
+### Code Quality
+- **Single Responsibility**: Each service has one clear purpose
+- **Interface Segregation**: Keep interfaces focused and specific
+- **Error Handling**: Consistent error handling across all services
+- **Async Operations**: Use async/await for all I/O operations
+
+### Data Management
+- **Validation First**: Always validate before database operations
+- **Transaction Safety**: Use EF transactions for data consistency
+- **Relationship Management**: Properly configure navigation properties
+- **Performance Monitoring**: Track query performance and optimize
+
+### User Experience
+- **Step-by-Step Forms**: Break complex forms into manageable steps
+- **Real-time Validation**: Provide immediate feedback on user input
+- **Error Messages**: Clear, actionable error messages
+- **Responsive Design**: Support various screen sizes and devices
+
+## Project-Specific Knowledge
+
+### Business Domain
+- **Police Management**: Understanding of police force organizational structure
+- **Validation Rules**: Age limits, date consistency, required fields
+- **Data Relationships**: Policier, Commissariat, and related entities
+- **Workflow Processes**: Multi-step data entry and validation
+
+### Technical Domain
+- **Blazor Server**: Component lifecycle and state management
+- **Entity Framework**: Query optimization and relationship management
+- **SQL Server**: Performance tuning and configuration
+- **ASP.NET Core**: Middleware and dependency injection
+
+### User Workflows
+- **Data Entry**: 7-step policier form with validation
+- **Data Management**: CRUD operations for policiers and commissariats
+- **Reporting**: Statistics generation and data analysis
+- **Administration**: User management and system configuration

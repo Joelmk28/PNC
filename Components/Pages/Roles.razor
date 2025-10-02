@@ -1,0 +1,413 @@
+@page "/roles"
+@using PNC.Models
+@using PNC.Services
+@inject IRoleService RoleService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Gestion des Rôles - PNC</PageTitle>
+
+<div class="roles-page">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-shield-fill me-3"></i>
+                Gestion des Rôles
+            </h1>
+            <p class="page-subtitle">
+                Administration des rôles et des permissions système
+            </p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-primary" @onclick="RedictToAjout">
+                <i class="bi bi-shield-plus"></i>
+                Nouveau Rôle
+            </button>
+        </div>
+    </div>
+
+    <!-- Filtres et Recherche -->
+    <div class="filters-section">
+        <div class="search-box">
+            <div class="search-input-group">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" 
+                       @bind="searchTerm" 
+                       @bind:event="oninput"
+                       @onkeyup="RechercherRoles"
+                       placeholder="Rechercher par nom ou description..."
+                       class="search-input" />
+                <button class="btn-search" @onclick="RechercherRoles">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="filter-controls">
+            <select @bind="selectedStatus" @bind:after="FiltrerParStatus" class="filter-select">
+                <option value="">Tous les statuts</option>
+                <option value="true">Actifs</option>
+                <option value="false">Inactifs</option>
+            </select>
+            
+            <button class="btn-modern btn-outline" @onclick="ReinitialiserFiltres">
+                <i class="bi bi-arrow-clockwise"></i>
+                Réinitialiser
+            </button>
+        </div>
+    </div>
+
+    <!-- Tableau des Rôles -->
+    <div class="table-container">
+        <div class="table-header">
+            <h3>Liste des Rôles</h3>
+            <div class="table-actions">
+                <span class="results-count">@rolesFiltres.Count() résultat(s)</span>
+            </div>
+        </div>
+        
+        @if (rolesFiltres?.Any() == true)
+        {
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rôle</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th>Date de création</th>
+                            <th>Permissions</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in rolesFiltres.Skip((currentPage - 1) * pageSize).Take(pageSize))
+                        {
+                            <tr class="@(role.EstActif ? "" : "inactive-row")">
+                                <td>
+                                    <div class="role-info">
+                                        <div class="role-icon">
+                                            <i class="bi bi-shield"></i>
+                                        </div>
+                                        <div class="role-details">
+                                            <div class="role-name">@role.Nom</div>
+                                            <div class="role-id">ID: @role.Id        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmation de suppression -->
+@if (showDeleteModal)
+{
+    <div class="modal-overlay" @onclick="FermerModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+                         <div class="modal-header">
+                 <h3 class="modal-title">
+                     <i class="bi bi-shield-exclamation text-warning"></i>
+                     Confirmer la suppression
+                 </h3>
+                 <button class="modal-close" @onclick="FermerModal">
+                     <i class="bi bi-x"></i>
+                 </button>
+             </div>
+            
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer le rôle <strong>@roleToDelete?.Nom</strong> ?</p>
+                                 <div class="warning-message">
+                     <i class="bi bi-exclamation-triangle"></i>
+                     <span>Cette action est irréversible et supprimera définitivement le rôle et toutes ses permissions associées.</span>
+                 </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-modern btn-outline" @onclick="FermerModal">
+                    <i class="bi bi-x-circle"></i>
+                    Annuler
+                </button>
+                <button class="btn-modern btn-danger" @onclick="ConfirmerSuppression" disabled="@isDeleting">
+                    <i class="bi bi-trash"></i>
+                    @if (isDeleting)
+                    {
+                        <span>Suppression en cours...</span>
+                    }
+                    else
+                    {
+                        <span>Supprimer définitivement</span>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+}
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(role.Description))
+                                    {
+                                        <span class="description">@role.Description</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="no-description">Aucune description</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="status-badge @(role.EstActif ? "active" : "inactive")">
+                                        @(role.EstActif ? "Actif" : "Inactif")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="creation-date">@role.DateCreation.ToString("dd/MM/yyyy")</span>
+                                </td>
+                                <td>
+                                    <span class="users-count">@(role.RolePermissions?.Count ?? 0) permission(s)</span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn-action btn-edit" @onclick="() => ModifierRole(role)" title="Modifier">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn-action btn-view" @onclick="() => VoirRole(role)" title="Voir">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        @if (role.EstActif)
+                                        {
+                                            <button class="btn-action btn-deactivate" @onclick="() => DesactiverRole(role.Id)" title="Désactiver">
+                                                <i class="bi bi-shield-x"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn-action btn-activate" @onclick="() => ActiverRole(role.Id)" title="Activer">
+                                                <i class="bi bi-shield-check"></i>
+                                            </button>
+                                        }
+                                        <button class="btn-action btn-delete" @onclick="() => SupprimerRole(role.Id)" title="Supprimer">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            @if (rolesFiltres.Count() > pageSize)
+            {
+                <div class="pagination">
+                    <button class="btn-pagination" @onclick="() => ChangerPage(currentPage - 1)" disabled="@(currentPage <= 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    
+                    @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                    {
+                        <button class="btn-pagination @(i == currentPage ? "active" : "")" @onclick="() => ChangerPage(i)">
+                            @i
+                        </button>
+                    }
+                    
+                    <button class="btn-pagination" @onclick="() => ChangerPage(currentPage + 1)" disabled="@(currentPage >= totalPages)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-data">
+                <i class="bi bi-shield-slash"></i>
+                <h3>Aucun rôle trouvé</h3>
+                <p>@(string.IsNullOrEmpty(searchTerm) ? "Aucun rôle n'a été créé pour le moment." : "Aucun rôle ne correspond à votre recherche.")</p>
+                @if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    <button class="btn-modern btn-outline" @onclick="ReinitialiserFiltres">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Réinitialiser la recherche
+                    </button>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Role>? roles;
+    private IEnumerable<Role> rolesFiltres = new List<Role>();
+    private string searchTerm = "";
+    private string selectedStatus = "";
+    private int currentPage = 1;
+    private int pageSize = 10;
+    private int totalPages => (int)Math.Ceiling((double)rolesFiltres.Count() / pageSize);
+    
+    // Variables pour le modal de suppression
+    private bool showDeleteModal = false;
+    private Role? roleToDelete = null;
+    private bool isDeleting = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ChargerRoles();
+    }
+
+    private async Task ChargerRoles()
+    {
+        try
+        {
+            roles = await RoleService.GetAllRolesAsync();
+            AppliquerFiltres();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des rôles: {ex.Message}");
+        }
+    }
+
+    private void AppliquerFiltres()
+    {
+        if (roles == null) return;
+
+        rolesFiltres = roles.AsEnumerable();
+
+        // Filtre par recherche
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            rolesFiltres = rolesFiltres.Where(r => 
+                r.Nom.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                (r.Description != null && r.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            );
+        }
+
+        // Filtre par statut
+        if (!string.IsNullOrEmpty(selectedStatus))
+        {
+            bool status = bool.Parse(selectedStatus);
+            rolesFiltres = rolesFiltres.Where(r => r.EstActif == status);
+        }
+
+        currentPage = 1;
+    }
+
+    private void RechercherRoles()
+    {
+        AppliquerFiltres();
+    }
+
+    private void FiltrerParStatus()
+    {
+        AppliquerFiltres();
+    }
+
+    private void ReinitialiserFiltres()
+    {
+        searchTerm = "";
+        selectedStatus = "";
+        AppliquerFiltres();
+    }
+
+    private void ChangerPage(int page)
+    {
+        if (page >= 1 && page <= totalPages)
+        {
+            currentPage = page;
+        }
+    }
+
+    private void RedictToAjout()
+    {
+        Navigation.NavigateTo("/role/ajouter");
+    }
+
+    private void ModifierRole(Role role)
+    {
+        Navigation.NavigateTo($"/role/modifier/{role.Id}");
+    }
+
+    private void VoirRole(Role role)
+    {
+        // Pour l'instant, rediriger vers la modification (on peut créer une page de vue plus tard)
+        Navigation.NavigateTo($"/role/modifier/{role.Id}");
+    }
+
+    private async Task ActiverRole(string id)
+    {
+        try
+        {
+            var success = await RoleService.ActiverRoleAsync(id);
+            if (success)
+            {
+                await ChargerRoles();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'activation du rôle: {ex.Message}");
+        }
+    }
+
+    private async Task DesactiverRole(string id)
+    {
+        try
+        {
+            var success = await RoleService.DesactiverRoleAsync(id);
+            if (success)
+            {
+                await ChargerRoles();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la désactivation du rôle: {ex.Message}");
+        }
+    }
+
+    private async Task SupprimerRole(string id)
+    {
+        try
+        {
+            // Trouver le rôle à supprimer pour afficher son nom dans le modal
+            var role = roles?.FirstOrDefault(r => r.Id == id);
+            if (role != null)
+            {
+                roleToDelete = role;
+                showDeleteModal = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'ouverture du modal de suppression: {ex.Message}");
+        }
+    }
+
+    private async Task ConfirmerSuppression()
+    {
+        if (roleToDelete == null) return;
+
+        isDeleting = true;
+        
+        try
+        {
+            var success = await RoleService.DeleteRoleAsync(roleToDelete.Id);
+            if (success)
+            {
+                await ChargerRoles();
+                FermerModal();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la suppression du rôle: {ex.Message}");
+        }
+        finally
+        {
+            isDeleting = false;
+        }
+    }
+
+    private void FermerModal()
+    {
+        showDeleteModal = false;
+        roleToDelete = null;
+        isDeleting = false;
+    }
+}

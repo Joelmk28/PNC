@@ -1,0 +1,188 @@
+.camera-test-container[b-wqou3veqyf] {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.camera-test-container h1[b-wqou3veqyf] {
+    text-align: center;
+    color: #1e293b;
+    margin-bottom: 30px;
+}
+
+.camera-status[b-wqou3veqyf] {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.status-active[b-wqou3veqyf] {
+    color: #059669;
+    font-weight: 600;
+}
+
+.status-inactive[b-wqou3veqyf] {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.camera-setup[b-wqou3veqyf] {
+    text-align: center;
+    padding: 40px;
+}
+
+.btn-activate[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-activate:hover[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.camera-active[b-wqou3veqyf] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.camera-video[b-wqou3veqyf] {
+    width: 100%;
+    max-width: 600px;
+    max-height: 450px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: #000;
+}
+
+.camera-controls[b-wqou3veqyf] {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-capture[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-capture:hover[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.btn-stop[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-stop:hover[b-wqou3veqyf] {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+.photo-result[b-wqou3veqyf] {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 2px solid #22c55e;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.photo-result h3[b-wqou3veqyf] {
+    color: #15803d;
+    margin-bottom: 15px;
+}
+
+.captured-image[b-wqou3veqyf] {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.photo-result p[b-wqou3veqyf] {
+    color: #15803d;
+    font-weight: 600;
+    margin: 0;
+}
+
+.error-message[b-wqou3veqyf] {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.error-message i[b-wqou3veqyf] {
+    font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .camera-test-container[b-wqou3veqyf] {
+        padding: 15px;
+    }
+    
+    .camera-controls[b-wqou3veqyf] {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-capture[b-wqou3veqyf], .btn-stop[b-wqou3veqyf] {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .camera-video[b-wqou3veqyf] {
+        max-height: 300px;
+    }
+}

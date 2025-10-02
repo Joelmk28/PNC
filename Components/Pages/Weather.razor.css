@@ -1,0 +1,148 @@
+/* Weather Page Styles */
+.weather-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    color: #1f2937;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Loading State */
+.loading-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.loading-content i {
+    font-size: 3rem;
+    color: #3b82f6;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.loading-content p {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Weather Grid */
+.weather-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.weather-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.weather-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.weather-date {
+    margin-bottom: 1rem;
+}
+
+.weather-date .day {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.weather-date .date {
+    display: block;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.weather-icon {
+    margin-bottom: 1rem;
+}
+
+.weather-icon i {
+    font-size: 3rem;
+    color: #3b82f6;
+}
+
+.weather-temp {
+    margin-bottom: 1rem;
+}
+
+.temp-high {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.temp-low {
+    display: block;
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.weather-summary {
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .weather-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .weather-card {
+        padding: 1rem;
+    }
+    
+    .weather-icon i {
+        font-size: 2.5rem;
+    }
+    
+    .temp-high {
+        font-size: 1.25rem;
+    }
+}

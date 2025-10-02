@@ -1,0 +1,981 @@
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\appsettings.Development.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\appsettings.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.staticwebassets.endpoints.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.staticwebassets.runtime.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.exe
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.deps.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.runtimeconfig.json
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Azure.Core.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Azure.Identity.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Humanizer.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.ClientModel.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.CodeDom.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Composition.Convention.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Composition.Hosting.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Composition.Runtime.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Composition.TypedParts.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Drawing.Common.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Memory.Data.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Runtime.Caching.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Security.Permissions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\System.Windows.Extensions.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC enresgistrement okok\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.csproj.AssemblyReference.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.AssemblyInfoInputs.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.AssemblyInfo.cs
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.csproj.CoreCompileInputs.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.MvcApplicationPartsAssemblyInfo.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.sourcelink.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\Commissariats.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\Counter.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierForm.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\Policiers.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\Components\Pages\Weather.razor.rz.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\bundle\PNC.styles.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\scopedcss\projectbundle\PNC.bundle.scp.css
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\9qu6dyazu6-yhb0w2gz9h.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\1ozbzd2gol-bpk8xqwxhs.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\5eya5592te-8inm30yfxf.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\eody6imaia-8josvodh8s.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\koyzq2ydrr-4mmvf46aun.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\yqng7v48r4-w3v6i4x02w.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\compressed\hw4dw4dyei-w3v6i4x02w.gz
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\staticwebassets.build.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\staticwebassets.build.json.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\staticwebassets.development.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.csproj.Up2Date
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.dll
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\refint\PNC.dll
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\PNC.genruntimeconfig.cache
+D:\C#\web\PNC enresgistrement okok\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\appsettings.Development.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\appsettings.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.staticwebassets.endpoints.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.staticwebassets.runtime.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.exe
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.deps.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.runtimeconfig.json
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Azure.Core.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Azure.Identity.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Humanizer.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.ClientModel.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.CodeDom.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Composition.Convention.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Composition.Hosting.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Composition.Runtime.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Composition.TypedParts.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Drawing.Common.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Memory.Data.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Security.Permissions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - Camera2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.csproj.AssemblyReference.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.AssemblyInfoInputs.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.AssemblyInfo.cs
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.csproj.CoreCompileInputs.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.MvcApplicationPartsAssemblyInfo.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.sourcelink.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Commissariats.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Counter.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierDetail.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierForm.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Policiers.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurDetail.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Utilisateurs.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\Pages\Weather.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\PhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\SimpleCameraTest.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\Components\TestPhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\bundle\PNC.styles.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\scopedcss\projectbundle\PNC.bundle.scp.css
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\9qu6dyazu6-yhb0w2gz9h.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\1ozbzd2gol-bpk8xqwxhs.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\5eya5592te-8inm30yfxf.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\4y0forq0br-a2vkdw4eak.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\eody6imaia-8josvodh8s.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\zuf4vrfl7t-jmp8y27msi.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\5fpxh5zqjq-l87njlx7um.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\koyzq2ydrr-4mmvf46aun.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\g21wek1xnv-n2ehib61iz.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\d8c5nf6nd6-w0zs9kyirx.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\e4bko4dgvc-6qiygwnz8q.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\e150hbjneu-dl58hzntxt.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\yqng7v48r4-0vctkk8s5a.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\compressed\hw4dw4dyei-0vctkk8s5a.gz
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\staticwebassets.build.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\staticwebassets.build.json.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\staticwebassets.development.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.csproj.Up2Date
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\refint\PNC.dll
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\PNC.genruntimeconfig.cache
+D:\C#\web\PNC - Camera2\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\appsettings.Development.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\appsettings.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.staticwebassets.runtime.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.staticwebassets.endpoints.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.exe
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.deps.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.runtimeconfig.json
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Azure.Core.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Azure.Identity.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Humanizer.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.ClientModel.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.CodeDom.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Composition.Convention.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Composition.Hosting.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Composition.Runtime.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Composition.TypedParts.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Memory.Data.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Security.Permissions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - CameraRogneOK2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.csproj.AssemblyReference.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.AssemblyInfoInputs.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.AssemblyInfo.cs
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.csproj.CoreCompileInputs.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.MvcApplicationPartsAssemblyInfo.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.sourcelink.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Commissariats.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Counter.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierDetail.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierForm.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Policiers.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurDetail.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Utilisateurs.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\Pages\Weather.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\PhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\SimpleCameraTest.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\Components\TestPhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\bundle\PNC.styles.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\scopedcss\projectbundle\PNC.bundle.scp.css
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\9qu6dyazu6-yhb0w2gz9h.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\1ozbzd2gol-bpk8xqwxhs.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\5eya5592te-8inm30yfxf.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\8ohm1fmzw5-ewcpa0fris.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\acjv06q55s-3ucpkrku7u.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\cdz6fg3ngo-cpe40w4fd3.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\rs6497svo1-406whhdji9.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\4y0forq0br-a2vkdw4eak.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\eody6imaia-8josvodh8s.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\v7oh43jhro-u4iv3esmtr.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\5fpxh5zqjq-l87njlx7um.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\koyzq2ydrr-4mmvf46aun.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\g21wek1xnv-n2ehib61iz.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\e4bko4dgvc-6qiygwnz8q.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\207hsrtv5m-4lvlrw0k6k.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\e150hbjneu-dl58hzntxt.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\yqng7v48r4-0vctkk8s5a.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\compressed\hw4dw4dyei-0vctkk8s5a.gz
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\staticwebassets.build.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\staticwebassets.build.json.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\staticwebassets.development.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.csproj.Up2Date
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\refint\PNC.dll
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\PNC.genruntimeconfig.cache
+D:\C#\web\PNC - CameraRogneOK2\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\appsettings.Development.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\appsettings.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.staticwebassets.endpoints.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.staticwebassets.runtime.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.exe
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.deps.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.runtimeconfig.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Azure.Core.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Azure.Identity.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Humanizer.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.ClientModel.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.CodeDom.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Composition.Convention.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Composition.Hosting.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Composition.Runtime.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Composition.TypedParts.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Memory.Data.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Security.Permissions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.csproj.AssemblyReference.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.AssemblyInfoInputs.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.AssemblyInfo.cs
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.csproj.CoreCompileInputs.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.MvcApplicationPartsAssemblyInfo.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.sourcelink.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Commissariats.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Counter.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierDetail.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierForm.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Policiers.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\RoleForm.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Roles.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurDetail.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurForm.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Utilisateurs.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\Pages\Weather.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\PhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\SimpleCameraTest.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\Components\TestPhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\bundle\PNC.styles.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\scopedcss\projectbundle\PNC.bundle.scp.css
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\9qu6dyazu6-yhb0w2gz9h.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\1ozbzd2gol-bpk8xqwxhs.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\5eya5592te-8inm30yfxf.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\8ohm1fmzw5-ewcpa0fris.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\acjv06q55s-3ucpkrku7u.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\cdz6fg3ngo-cpe40w4fd3.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\rs6497svo1-406whhdji9.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\4y0forq0br-a2vkdw4eak.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\eody6imaia-8josvodh8s.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\v7oh43jhro-u4iv3esmtr.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\5fpxh5zqjq-l87njlx7um.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\koyzq2ydrr-4mmvf46aun.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\g21wek1xnv-n2ehib61iz.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\e4bko4dgvc-6qiygwnz8q.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\207hsrtv5m-4lvlrw0k6k.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\e150hbjneu-dl58hzntxt.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\yqng7v48r4-raeohko5fq.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\compressed\hw4dw4dyei-raeohko5fq.gz
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\staticwebassets.build.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\staticwebassets.build.json.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\staticwebassets.development.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.csproj.Up2Date
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\refint\PNC.dll
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\PNC.genruntimeconfig.cache
+D:\C#\web\PNC - CameraRogneOK3 - UtilisateurRole2\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC\bin\Debug\net9.0\appsettings.Development.json
+D:\C#\web\PNC\bin\Debug\net9.0\appsettings.json
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.staticwebassets.runtime.json
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.staticwebassets.endpoints.json
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.exe
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.deps.json
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.runtimeconfig.json
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.dll
+D:\C#\web\PNC\bin\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC\bin\Debug\net9.0\Azure.Core.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Azure.Identity.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Humanizer.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Build.Locator.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Identity.Client.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC\bin\Debug\net9.0\Mono.TextTemplating.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.ClientModel.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.CodeDom.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Composition.AttributedModel.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Composition.Convention.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Composition.Hosting.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Composition.Runtime.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Composition.TypedParts.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Drawing.Common.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Memory.Data.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Runtime.Caching.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Security.Permissions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\System.Windows.Extensions.dll
+D:\C#\web\PNC\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\C#\web\PNC\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.csproj.AssemblyReference.cache
+D:\C#\web\PNC\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.AssemblyInfoInputs.cache
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.AssemblyInfo.cs
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.csproj.CoreCompileInputs.cache
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.MvcApplicationPartsAssemblyInfo.cache
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.sourcelink.json
+D:\C#\web\PNC\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\C#\web\PNC\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\C#\web\PNC\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Layout\LoginLayout.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\CaptureDocuments.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\CaptureEmpreintes.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\CapturePhoto.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Commissariats.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Counter.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierDetail.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\PolicierForm.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Policiers.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\RoleForm.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Roles.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurDetail.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\UtilisateurForm.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Utilisateurs.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Weather.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\PhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\SimpleCameraTest.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\TestPhotoCapture.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\bundle\PNC.styles.css
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\projectbundle\PNC.bundle.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\9qu6dyazu6-yhb0w2gz9h.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\1ozbzd2gol-bpk8xqwxhs.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\5eya5592te-8inm30yfxf.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\8ohm1fmzw5-ewcpa0fris.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\acjv06q55s-3ucpkrku7u.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\cdz6fg3ngo-cpe40w4fd3.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\rs6497svo1-406whhdji9.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\4y0forq0br-a2vkdw4eak.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\eody6imaia-8josvodh8s.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\fj4dc7vt45-ssrzyyh36s.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\v7oh43jhro-u4iv3esmtr.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\pf1p87tfqj-oz4ou70893.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\5fpxh5zqjq-l87njlx7um.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\koyzq2ydrr-4mmvf46aun.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\g21wek1xnv-n2ehib61iz.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\e4bko4dgvc-6qiygwnz8q.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\lmm1312j8e-zls3b6s7ro.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\pyemxfbman-zls3b6s7ro.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\xaeo1eu72q-koqpat97a6.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\3jnoc2jyqm-ay2brt0oda.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\lx4fwqmryy-f8b5cf5crx.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\mkupax9n9h-nfddcfn7hp.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\byctg74ce8-cax0gkf9r7.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\mg72j5qo6t-ay2brt0oda.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\u1u1h4nrq6-f8b5cf5crx.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\wxgvafd3zp-zls3b6s7ro.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\p8t1thwucm-ay2brt0oda.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\crdmb27rku-zls3b6s7ro.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\ikkyjhgset-koqpat97a6.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\e150hbjneu-dl58hzntxt.gz
+D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.build.json
+D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.build.json.cache
+D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.development.json
+D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.build.endpoints.json
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.csproj.Up2Date
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.dll
+D:\C#\web\PNC\obj\Debug\net9.0\refint\PNC.dll
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.pdb
+D:\C#\web\PNC\obj\Debug\net9.0\PNC.genruntimeconfig.cache
+D:\C#\web\PNC\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\6cvj0dj3y6-zls3b6s7ro.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\vpt9hsk77a-ay2brt0oda.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\edqhp1yjmw-koqpat97a6.gz
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Logout.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\qfv86mn5mg-msuyyqss6b.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\0ub85144ad-tnx8k7p3ix.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\vkryi7xv7i-bp8cmggccg.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\yqng7v48r4-ludg78pfcv.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\hw4dw4dyei-ludg78pfcv.gz

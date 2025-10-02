@@ -1,0 +1,829 @@
+/* ========================================
+   MODAL CAMÉRA PNC - DESIGN MODERNE ET COHÉRENT
+   ======================================== */
+
+/* Variables de couleurs PNC */
+:root {
+    --pnc-primary: #1e1b4b;
+    --pnc-primary-light: #312e81;
+    --pnc-primary-dark: #0f0e23;
+    --pnc-secondary: #e5e7eb;
+    --pnc-accent: #3b82f6;
+    --pnc-success: #059669;
+    --pnc-warning: #d97706;
+    --pnc-danger: #dc2626;
+    --pnc-info: #06b6d4;
+    --pnc-gray-50: #f9fafb;
+    --pnc-gray-100: #f3f4f6;
+    --pnc-gray-200: #e5e7eb;
+    --pnc-gray-300: #d1d5db;
+    --pnc-gray-400: #9ca3af;
+    --pnc-gray-500: #6b7280;
+    --pnc-gray-600: #4b5563;
+    --pnc-gray-700: #374151;
+    --pnc-gray-800: #1f2937;
+    --pnc-gray-900: #111827;
+    --pnc-white: #ffffff;
+    --pnc-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --pnc-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --pnc-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --pnc-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --pnc-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --pnc-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ========================================
+   OVERLAY ET CONTAINER PRINCIPAL
+   ======================================== */
+
+.camera-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(30, 27, 75, 0.95) 0%, rgba(49, 46, 129, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: overlayFadeIn 0.4s ease-out;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(20px);
+    }
+}
+
+.camera-modal-container {
+    background: var(--pnc-white);
+    border-radius: 24px;
+    box-shadow: var(--pnc-shadow-2xl);
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid var(--pnc-gray-200);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ========================================
+   EN-TÊTE DU MODAL - STYLE PNC
+   ======================================== */
+
+.camera-modal-header {
+    background: linear-gradient(135deg, var(--pnc-primary) 0%, var(--pnc-primary-light) 100%);
+    color: var(--pnc-white);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.camera-modal-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.camera-modal-title i {
+    font-size: 24px;
+    color: var(--pnc-accent);
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+}
+
+.camera-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: var(--pnc-white);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+}
+
+.camera-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   CORPS DU MODAL
+   ======================================== */
+
+.camera-modal-body {
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
+    background: linear-gradient(135deg, var(--pnc-gray-50) 0%, var(--pnc-white) 100%);
+}
+
+/* ========================================
+   SECTION CAMÉRA - DESIGN MODERNE
+   ======================================== */
+
+.camera-section {
+    text-align: center;
+    padding: 32px;
+    background: var(--pnc-white);
+    border-radius: 20px;
+    border: 2px dashed var(--pnc-primary);
+    box-shadow: var(--pnc-shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.camera-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(30, 27, 75, 0.03) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+}
+
+.camera-video-container {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.camera-video-container video {
+    width: 100%;
+    max-width: 640px;
+    border-radius: 20px;
+    border: 3px solid var(--pnc-primary);
+    box-shadow: var(--pnc-shadow-xl);
+    transition: all 0.3s ease;
+}
+
+.camera-video-container video:hover {
+    transform: scale(1.02);
+    box-shadow: var(--pnc-shadow-2xl);
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* ========================================
+   SECTION PHOTO AVEC RECADRAGE - AMÉLIORÉ
+   ======================================== */
+
+.photo-section {
+    display: none;
+}
+
+.photo-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Colonne gauche : Photo originale */
+.photo-original-column {
+    background: var(--pnc-white);
+    padding: 24px;
+    border-radius: 16px;
+    border: 2px solid var(--pnc-gray-200);
+    box-shadow: var(--pnc-shadow-md);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-original-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pnc-primary), var(--pnc-accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-original-column:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pnc-shadow-lg);
+    border-color: var(--pnc-primary);
+}
+
+.photo-original-column:hover::before {
+    opacity: 1;
+}
+
+.section-title {
+    margin: 0 0 18px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--pnc-primary);
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pnc-gray-200);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.section-title i {
+    color: var(--pnc-accent);
+    font-size: 18px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--pnc-accent), var(--pnc-primary));
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.section-title:hover::after {
+    width: 60px;
+}
+
+.photo-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.photo-container img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    border: 2px solid var(--pnc-gray-300);
+    box-shadow: var(--pnc-shadow-md);
+    transition: all 0.3s ease;
+}
+
+.photo-container img:hover {
+    transform: scale(1.01);
+    box-shadow: var(--pnc-shadow-lg);
+    border-color: var(--pnc-accent);
+}
+
+.photo-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Colonne droite : Résultat du recadrage */
+.photo-result-column {
+    background: var(--pnc-white);
+    padding: 24px;
+    border-radius: 16px;
+    border: 2px solid var(--pnc-gray-200);
+    box-shadow: var(--pnc-shadow-md);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-result-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--pnc-success), var(--pnc-accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-result-column:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pnc-shadow-lg);
+    border-color: var(--pnc-success);
+}
+
+.photo-result-column:hover::before {
+    opacity: 1;
+}
+
+.result-container {
+    display: none;
+    flex: 1;
+}
+
+.cropped-image-container {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.cropped-image-container img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    border: 3px solid var(--pnc-success);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.2);
+    transition: all 0.3s ease;
+}
+
+.cropped-image-container img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(5, 150, 105, 0.3);
+}
+
+.crop-info {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 2px solid var(--pnc-success);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 16px 0;
+    text-align: center;
+    color: var(--pnc-success);
+    font-weight: 600;
+    box-shadow: var(--pnc-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.crop-info:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--pnc-shadow-lg);
+}
+
+.crop-info i {
+    font-size: 16px;
+    color: var(--pnc-success);
+}
+
+.crop-instructions {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 2px solid var(--pnc-accent);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: var(--pnc-primary);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: var(--pnc-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.crop-instructions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.05) 50%, transparent 70%);
+    animation: shimmer 4s ease-in-out infinite;
+}
+
+.crop-instructions:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--pnc-shadow-lg);
+    border-color: var(--pnc-primary);
+}
+
+.crop-instructions i {
+    font-size: 20px;
+    color: var(--pnc-accent);
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+    position: relative;
+    z-index: 1;
+}
+
+.crop-instructions p {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+}
+
+.result-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+/* ========================================
+   BOUTONS MODERNES PNC - OPTIMISÉS
+   ======================================== */
+
+.btn-modern {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 100px;
+    box-shadow: var(--pnc-shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 32px;
+    letter-spacing: 0.025em;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-modern:hover::before {
+    left: 100%;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pnc-shadow-lg);
+}
+
+.btn-modern:active {
+    transform: translateY(0);
+}
+
+.btn-modern i {
+    font-size: 12px;
+}
+
+/* Variantes de boutons pour différentes tailles */
+.btn-modern.btn-sm {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-width: 80px;
+    min-height: 28px;
+}
+
+.btn-modern.btn-lg {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 120px;
+    min-height: 36px;
+}
+
+/* Bouton principal de capture - plus grand et attractif */
+.camera-controls .btn-modern {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 140px;
+    min-height: 40px;
+    border-radius: 8px;
+}
+
+.camera-controls .btn-modern i {
+    font-size: 16px;
+}
+
+/* Couleurs des boutons PNC */
+.btn-primary {
+    background: linear-gradient(135deg, var(--pnc-primary) 0%, var(--pnc-primary-light) 100%);
+    color: var(--pnc-white);
+    box-shadow: 0 4px 15px rgba(30, 27, 75, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--pnc-primary-light) 0%, var(--pnc-accent) 100%);
+    box-shadow: 0 8px 25px rgba(30, 27, 75, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--pnc-success) 0%, #047857 100%);
+    color: var(--pnc-white);
+    box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+    box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--pnc-info) 0%, #0891b2 100%);
+    color: var(--pnc-white);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--pnc-gray-600) 0%, var(--pnc-gray-700) 100%);
+    color: var(--pnc-white);
+    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, var(--pnc-gray-700) 0%, var(--pnc-gray-800) 100%);
+    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--pnc-warning) 0%, #b45309 100%);
+    color: var(--pnc-white);
+    box-shadow: 0 4px 15px rgba(217, 119, 6, 0.3);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #b45309 0%, #92400e 100%);
+    box-shadow: 0 8px 25px rgba(217, 119, 6, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--pnc-gray-600);
+    border: 2px solid var(--pnc-gray-300);
+    box-shadow: none;
+}
+
+.btn-outline:hover {
+    background: var(--pnc-gray-600);
+    color: var(--pnc-white);
+    border-color: var(--pnc-gray-600);
+    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+}
+
+/* ========================================
+   PIED DU MODAL
+   ======================================== */
+
+.camera-modal-footer {
+    background: var(--pnc-gray-50);
+    padding: 24px 32px;
+    border-top: 1px solid var(--pnc-gray-200);
+    text-align: center;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .camera-modal-container {
+        max-width: 95vw;
+        margin: 10px;
+    }
+    
+    .photo-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .camera-modal-overlay {
+        padding: 10px;
+    }
+    
+    .camera-modal-container {
+        max-height: 95vh;
+        border-radius: 20px;
+    }
+    
+    .camera-modal-header {
+        padding: 20px 24px;
+    }
+    
+    .camera-modal-title {
+        font-size: 24px;
+    }
+    
+    .camera-modal-body {
+        padding: 24px;
+    }
+    
+    .photo-original-column,
+    .photo-result-column {
+        padding: 24px;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn-modern {
+        min-width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .camera-modal-container {
+        border-radius: 16px;
+    }
+    
+    .camera-modal-header {
+        padding: 16px 20px;
+    }
+    
+    .camera-modal-body {
+        padding: 20px;
+    }
+    
+    .photo-original-column,
+    .photo-result-column {
+        padding: 20px;
+    }
+    
+    .camera-section {
+        padding: 24px;
+    }
+}
+
+/* ========================================
+   NOTIFICATIONS PNC
+   ======================================== */
+
+.notification {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    color: var(--pnc-white);
+    font-weight: 600;
+    z-index: 10000;
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 350px;
+    word-wrap: break-word;
+    box-shadow: var(--pnc-shadow-xl);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.notification.success {
+    background: linear-gradient(135deg, var(--pnc-success) 0%, #047857 100%);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, var(--pnc-danger) 0%, #b91c1c 100%);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, var(--pnc-info) 0%, #0891b2 100%);
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, var(--pnc-warning) 0%, #b45309 100%);
+    color: var(--pnc-white);
+}
+
+.notification.hide {
+    animation: slideOutRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   APERÇU DES PHOTOS SAUVEGARDÉES
+   ======================================== */
+
+.saved-photo-preview {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border: 2px solid var(--pnc-success);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+    text-align: center;
+    animation: slideInUp 0.5s ease-out;
+}
+
+.saved-photo-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--pnc-success);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.saved-photo-info i {
+    font-size: 16px;
+    color: var(--pnc-success);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

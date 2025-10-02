@@ -1,0 +1,242 @@
+@page "/test-camera-simple"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Test Caméra Simple - PNC</PageTitle>
+
+<div class="camera-test-page">
+    <div class="container">
+        <h1>📸 Test de la Caméra Simple</h1>
+        <p class="description">Test du système de capture et recadrage de photos</p>
+        
+        <div class="test-container">
+            <!-- Bloc caméra -->
+            <div class="camera-section" id="cameraSection">
+                <h3>🎥 Caméra</h3>
+                <video id="video" autoplay playsinline style="width: 100%; max-width: 500px; border-radius: 12px; border: 2px solid #ddd;"></video>
+                <br>
+                <button class="btn-modern btn-primary" @onclick="CapturePhoto">
+                    <i class="bi bi-camera"></i> Prendre une photo
+                </button>
+            </div>
+
+            <!-- Bloc photo prise -->
+            <div class="photo-section" id="photoSection" style="display:none;">
+                <h3>📷 Photo Capturée</h3>
+                <img id="photo" alt="Photo capturée" style="width: 100%; max-width: 500px; border-radius: 12px; border: 2px solid #ddd;" />
+                <br>
+                <button class="btn-modern btn-secondary" @onclick="StartCropping">
+                    <i class="bi bi-scissors"></i> Rogner
+                </button>
+                <button class="btn-modern btn-success" @onclick="SavePhoto">
+                    <i class="bi bi-check"></i> Utiliser cette photo
+                </button>
+                <button class="btn-modern btn-outline" @onclick="RetakePhoto">
+                    <i class="bi bi-arrow-repeat"></i> Reprendre
+                </button>
+            </div>
+
+            <!-- Résultat du rognage -->
+            <div class="result-section" id="resultSection" style="display:none;">
+                <h3>✅ Résultat du Rognage</h3>
+                <img id="croppedResult" style="width: 100%; max-width: 500px; border-radius: 12px; border: 2px solid #ddd; margin-top: 15px;" />
+                <br>
+                <button class="btn-modern btn-success" @onclick="SaveCroppedPhoto">
+                    <i class="bi bi-check"></i> Utiliser cette photo
+                </button>
+                <button class="btn-modern btn-outline" @onclick="CancelCrop">
+                    <i class="bi bi-x"></i> Annuler
+                </button>
+            </div>
+        </div>
+
+        <div class="debug-info">
+            <h4>🔍 Informations de Débogage</h4>
+            <p><strong>Photo capturée :</strong> <span id="photoStatus">Non</span></p>
+            <p><strong>Photo recadrée :</strong> <span id="cropStatus">Non</span></p>
+            <p><strong>Données photo :</strong> <span id="dataStatus">Aucune</span></p>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeCamera();
+        }
+    }
+
+    private async Task InitializeCamera()
+    {
+        try
+        {
+            var success = await JSRuntime.InvokeAsync<bool>("initSimpleCamera");
+            if (success)
+            {
+                Console.WriteLine("✅ Caméra initialisée avec succès");
+            }
+            else
+            {
+                Console.WriteLine("❌ Échec de l'initialisation de la caméra");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'initialisation: {ex.Message}");
+        }
+    }
+
+    private async Task CapturePhoto()
+    {
+        try
+        {
+            var photoData = await JSRuntime.InvokeAsync<string>("capturePhoto");
+            if (!string.IsNullOrEmpty(photoData))
+            {
+                Console.WriteLine("📸 Photo capturée avec succès");
+                await UpdateDebugInfo("Photo capturée", "Oui", photoData.Substring(0, 50) + "...");
+            }
+            else
+            {
+                Console.WriteLine("❌ Échec de la capture de la photo");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur capture photo: {ex.Message}");
+        }
+    }
+
+    private async Task StartCropping()
+    {
+        try
+        {
+            var success = await JSRuntime.InvokeAsync<bool>("startCropping");
+            if (success)
+            {
+                Console.WriteLine("✂️ Recadrage démarré");
+            }
+            else
+            {
+                Console.WriteLine("❌ Échec du démarrage du recadrage");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur démarrage recadrage: {ex.Message}");
+        }
+    }
+
+    private async Task ApplyCrop()
+    {
+        try
+        {
+            var croppedData = await JSRuntime.InvokeAsync<string>("applyCrop");
+            if (!string.IsNullOrEmpty(croppedData))
+            {
+                Console.WriteLine("✅ Recadrage appliqué avec succès");
+                await UpdateDebugInfo("Photo recadrée", "Oui", croppedData.Substring(0, 50) + "...");
+            }
+            else
+            {
+                Console.WriteLine("❌ Échec de l'application du recadrage");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur application recadrage: {ex.Message}");
+        }
+    }
+
+    private async Task RetakePhoto()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("retakePhoto");
+            Console.WriteLine("🔄 Retour à la capture");
+            await UpdateDebugInfo("Photo capturée", "Non", "Aucune");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur reprise photo: {ex.Message}");
+        }
+    }
+
+    private async Task CancelCrop()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("cancelCrop");
+            Console.WriteLine("❌ Recadrage annulé");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur annulation recadrage: {ex.Message}");
+        }
+    }
+
+    private async Task SavePhoto()
+    {
+        try
+        {
+            var photoData = await JSRuntime.InvokeAsync<string>("getFinalPhoto");
+            if (!string.IsNullOrEmpty(photoData))
+            {
+                Console.WriteLine("💾 Photo sauvegardée (originale)");
+                await UpdateDebugInfo("Photo sauvegardée", "Oui", "Photo originale utilisée");
+            }
+            else
+            {
+                Console.WriteLine("❌ Aucune photo à sauvegarder");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur sauvegarde photo: {ex.Message}");
+        }
+    }
+
+    private async Task SaveCroppedPhoto()
+    {
+        try
+        {
+            var photoData = await JSRuntime.InvokeAsync<string>("getFinalPhoto");
+            if (!string.IsNullOrEmpty(photoData))
+            {
+                Console.WriteLine("💾 Photo recadrée sauvegardée");
+                await UpdateDebugInfo("Photo sauvegardée", "Oui", "Photo recadrée utilisée");
+            }
+            else
+            {
+                Console.WriteLine("❌ Aucune photo à sauvegarder");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur sauvegarde photo recadrée: {ex.Message}");
+        }
+    }
+
+    private async Task UpdateDebugInfo(string field, string value, string data)
+    {
+        await JSRuntime.InvokeVoidAsync("eval", 
+            $"document.getElementById('photoStatus').textContent = '{value}';" +
+            $"document.getElementById('cropStatus').textContent = '{value}';" +
+            $"document.getElementById('dataStatus').textContent = '{data}';"
+        );
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("cleanupCamera");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du nettoyage: {ex.Message}");
+        }
+    }
+}

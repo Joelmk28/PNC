@@ -1,0 +1,153 @@
+/* Styles pour la page de test de la caméra */
+.camera-test-page {
+    padding: 20px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.camera-test-page .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.camera-test-page h1 {
+    text-align: center;
+    color: #1e1b4b;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.camera-test-page .description {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.test-container {
+    margin-bottom: 40px;
+}
+
+.camera-section,
+.photo-section,
+.result-section {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fafbfc;
+}
+
+.camera-section h3,
+.photo-section h3,
+.result-section h3 {
+    color: #1e1b4b;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+#video,
+#photo,
+#croppedResult {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.camera-section button,
+.photo-section button,
+.result-section button {
+    margin: 8px;
+    min-width: 140px;
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+.debug-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.debug-info h4 {
+    color: #1e1b4b;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.debug-info p {
+    margin: 8px 0;
+    color: #374151;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.debug-info strong {
+    color: #1e1b4b;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .camera-test-page .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .camera-test-page h1 {
+        font-size: 2rem;
+    }
+    
+    #video,
+    #photo,
+    #croppedResult {
+        max-width: 100%;
+    }
+    
+    .camera-section button,
+    .photo-section button,
+    .result-section button {
+        min-width: 120px;
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}
+
+/* Animations */
+.camera-section,
+.photo-section,
+.result-section {
+    transition: all 0.3s ease-in-out;
+}
+
+.camera-section:hover,
+.photo-section:hover,
+.result-section:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.1);
+}
+
+/* États spéciaux */
+.camera-section.active {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.photo-section.active {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.result-section.active {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}

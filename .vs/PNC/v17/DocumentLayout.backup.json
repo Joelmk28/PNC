@@ -1,0 +1,273 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\C#\\web\\PNC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\conjoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\conjoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\policier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\policier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\commissariat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\commissariat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\histaffectation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\histaffectation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\nutp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\nutp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\data\\bdpolicepnccontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:data\\bdpolicepnccontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\fri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\fri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\enqueteur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\enqueteur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\empreinte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\empreinte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\distinctionhonorifique.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\distinctionhonorifique.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|d:\\c#\\web\\pnc\\models\\sport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F510D5B-BF90-47E3-87D9-9AEE021308E9}|PNC.csproj|solutionrelative:models\\sport.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 13,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Policier.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Policier.cs",
+              "RelativeDocumentMoniker": "Models\\Policier.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Policier.cs",
+              "RelativeToolTip": "Models\\Policier.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAiwGkAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:25:40.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HistAffectation.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\HistAffectation.cs",
+              "RelativeDocumentMoniker": "Models\\HistAffectation.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\HistAffectation.cs",
+              "RelativeToolTip": "Models\\HistAffectation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:24:19.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Nutp.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Nutp.cs",
+              "RelativeDocumentMoniker": "Models\\Nutp.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Nutp.cs",
+              "RelativeToolTip": "Models\\Nutp.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:24:14.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Enqueteur.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Enqueteur.cs",
+              "RelativeDocumentMoniker": "Models\\Enqueteur.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Enqueteur.cs",
+              "RelativeToolTip": "Models\\Enqueteur.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:22:55.178Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Commissariat.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Commissariat.cs",
+              "RelativeDocumentMoniker": "Models\\Commissariat.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Commissariat.cs",
+              "RelativeToolTip": "Models\\Commissariat.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwA8AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:21:58.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Conjoint.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Conjoint.cs",
+              "RelativeDocumentMoniker": "Models\\Conjoint.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Conjoint.cs",
+              "RelativeToolTip": "Models\\Conjoint.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA1wBQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:22:20.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Empreinte.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Empreinte.cs",
+              "RelativeDocumentMoniker": "Models\\Empreinte.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Empreinte.cs",
+              "RelativeToolTip": "Models\\Empreinte.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:22:51.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DistinctionHonorifique.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\DistinctionHonorifique.cs",
+              "RelativeDocumentMoniker": "Models\\DistinctionHonorifique.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\DistinctionHonorifique.cs",
+              "RelativeToolTip": "Models\\DistinctionHonorifique.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:22:44.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Fri.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Fri.cs",
+              "RelativeDocumentMoniker": "Models\\Fri.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Fri.cs",
+              "RelativeToolTip": "Models\\Fri.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA5wBgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T14:57:50.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BdPolicePncContext.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Data\\BdPolicePncContext.cs",
+              "RelativeDocumentMoniker": "Data\\BdPolicePncContext.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Data\\BdPolicePncContext.cs",
+              "RelativeToolTip": "Data\\BdPolicePncContext.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAA4wC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T14:55:28.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T15:16:18.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\C#\\web\\PNC\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-13T15:11:04.717Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Sport.cs",
+              "DocumentMoniker": "D:\\C#\\web\\PNC\\Models\\Sport.cs",
+              "RelativeDocumentMoniker": "Models\\Sport.cs",
+              "ToolTip": "D:\\C#\\web\\PNC\\Models\\Sport.cs",
+              "RelativeToolTip": "Models\\Sport.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-13T14:56:59.179Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,764 @@
+@page "/policiers/capture-empreintes/{PolicierId}"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@using PNC.Services
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject IEmpreinteService EmpreinteService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+@rendermode InteractiveServer
+
+<PageTitle>Capture Empreintes - Policier @PolicierId - PNC</PageTitle>
+
+<div class="capture-empreintes-page">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-fingerprint me-3"></i>
+                Capture Empreintes
+            </h1>
+            @if (policier != null)
+            {
+                <p class="page-subtitle">
+                    @policier.Nom @policier.PostNom @policier.Prenom - Matricule: @policier.Matricule
+                </p>
+            }
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-outline" @onclick="GoBack">
+                <i class="bi bi-arrow-left"></i>
+                Retour
+            </button>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="loading-container">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p>Chargement des informations du policier...</p>
+            </div>
+        </div>
+    }
+    else if (policier == null)
+    {
+        <div class="error-container">
+            <div class="error-card">
+                <i class="bi bi-exclamation-triangle"></i>
+                <h3>Policier non trouvé</h3>
+                <p>Le policier demandé n'existe pas ou a été supprimé.</p>
+                <button class="btn-modern btn-primary" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Retour à la liste
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Main Content Grid -->
+        <div class="main-content-grid">
+            <!-- Section capture d'empreintes -->
+            <div class="empreintes-capture-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="bi bi-fingerprint"></i>
+                        Capture d'empreintes digitales
+                    </h3>
+                    <div class="progress-indicator">
+                        <span class="progress-text">@empreintesCaptured / 3 images capturées</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: @((empreintesCaptured * 100) / 3)%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    @if (isLoadingEmpreintes)
+                    {
+                        <div class="loading-empreintes">
+                            <div class="spinner"></div>
+                            <p>Chargement des empreintes...</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empreintes-grid">
+                            @{
+                                var empreinteDroite = empreintes.FirstOrDefault(e => e.TypeDoigt == TYPE_DOIGTS_DROITS);
+                                var empreinteGauche = empreintes.FirstOrDefault(e => e.TypeDoigt == TYPE_DOIGTS_GAUCHES);
+                                var empreintePouces = empreintes.FirstOrDefault(e => e.TypeDoigt == TYPE_POUCES);
+                            }
+                            
+                            <!-- 4 doigts de la main droite -->
+                            <div class="empreinte-card @(string.IsNullOrEmpty(empreinteDroite?.Urlepreinte) ? "not-captured" : "captured")" data-empreinte-type="@INPUT_DOIGTS_DROITS">
+                                <div class="empreinte-header">
+                                    <h4>4 Doigts de la Main Droite</h4>
+                                    <div class="status-badge @(string.IsNullOrEmpty(empreinteDroite?.Urlepreinte) ? "not-captured" : "captured")">
+                                        @if (string.IsNullOrEmpty(empreinteDroite?.Urlepreinte))
+                                        {
+                                            <i class="bi bi-x-circle"></i>
+                                            <span>Non capturée</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-check-circle"></i>
+                                            <span>Capturée</span>
+                                        }
+                                    </div>
+                                </div>
+                                
+                                <div class="empreinte-content">
+                                    @if (string.IsNullOrEmpty(empreinteDroite?.Urlepreinte))
+                                    {
+                                        <div class="upload-area" onclick="document.getElementById('file-@INPUT_DOIGTS_DROITS').click()">
+                                            <div class="empreinte-preview">
+                                                <div class="empreinte-fingers">
+                                                    <div class="finger finger-1"></div>
+                                                    <div class="finger finger-2"></div>
+                                                    <div class="finger finger-3"></div>
+                                                    <div class="finger finger-4"></div>
+                                                </div>
+                                                <div class="hand-label">Main Droite</div>
+                                            </div>
+                                            <div class="upload-icon">
+                                                <i class="bi bi-cloud-upload"></i>
+                                            </div>
+                                            <p>Cliquez pour uploader l'image des 4 doigts droits</p>
+                                            <small class="text-muted">Formats acceptés: .bmp, .png, .jpg</small>
+                                            <input type="file" 
+                                                   id="@($"file-{INPUT_DOIGTS_DROITS}")" 
+                                                   accept="image/*" 
+                                                   @onchange="@(async (e) => await HandleFileUpload(e, TYPE_DOIGTS_DROITS))"
+                                                   style="display: none;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="image-preview">
+                                            <img src="@empreinteDroite.Urlepreinte" alt="@ALT_DOIGTS_DROITS" />
+                                            <div class="image-actions">
+                                                <button class="btn-action btn-view" @onclick="() => ViewImage(empreinteDroite.Urlepreinte)">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn-action btn-replace" onclick="document.getElementById('file-@INPUT_DOIGTS_DROITS').click()">
+                                                    <i class="bi bi-arrow-clockwise"></i>
+                                                </button>
+                                                <button class="btn-action btn-delete" @onclick="() => DeleteEmpreinte(TYPE_DOIGTS_DROITS)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- 4 doigts de la main gauche -->
+                            <div class="empreinte-card @(string.IsNullOrEmpty(empreinteGauche?.Urlepreinte) ? "not-captured" : "captured")" data-empreinte-type="@INPUT_DOIGTS_GAUCHES">
+                                <div class="empreinte-header">
+                                    <h4>4 Doigts de la Main Gauche</h4>
+                                    <div class="status-badge @(string.IsNullOrEmpty(empreinteGauche?.Urlepreinte) ? "not-captured" : "captured")">
+                                        @if (string.IsNullOrEmpty(empreinteGauche?.Urlepreinte))
+                                        {
+                                            <i class="bi bi-x-circle"></i>
+                                            <span>Non capturée</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-check-circle"></i>
+                                            <span>Capturée</span>
+                                        }
+                                    </div>
+                                </div>
+                                
+                                <div class="empreinte-content">
+                                    @if (string.IsNullOrEmpty(empreinteGauche?.Urlepreinte))
+                                    {
+                                        <div class="upload-area" onclick="document.getElementById('file-@INPUT_DOIGTS_GAUCHES').click()">
+                                            <div class="empreinte-preview">
+                                                <div class="empreinte-fingers left-hand">
+                                                    <div class="finger finger-1"></div>
+                                                    <div class="finger finger-2"></div>
+                                                    <div class="finger finger-3"></div>
+                                                    <div class="finger finger-4"></div>
+                                                </div>
+                                                <div class="hand-label">Main Gauche</div>
+                                            </div>
+                                            <div class="upload-icon">
+                                                <i class="bi bi-cloud-upload"></i>
+                                            </div>
+                                            <p>Cliquez pour uploader l'image des 4 doigts gauches</p>
+                                            <small class="text-muted">Formats acceptés: .bmp, .png, .jpg</small>
+                                            <input type="file" 
+                                                   id="@($"file-{INPUT_DOIGTS_GAUCHES}")" 
+                                                   accept="image/*" 
+                                                   @onchange="(e) => HandleFileUpload(e, TYPE_DOIGTS_GAUCHES)"
+                                                   style="display: none;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="image-preview">
+                                            <img src="@empreinteGauche.Urlepreinte" alt="@ALT_DOIGTS_GAUCHES" />
+                                            <div class="image-actions">
+                                                <button class="btn-action btn-view" @onclick="() => ViewImage(empreinteGauche.Urlepreinte)">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn-action btn-replace" onclick="document.getElementById('file-@INPUT_DOIGTS_GAUCHES').click()">
+                                                    <i class="bi bi-arrow-clockwise"></i>
+                                                </button>
+                                                <button class="btn-action btn-delete" @onclick="() => DeleteEmpreinte(TYPE_DOIGTS_GAUCHES)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- 2 pouces -->
+                            <div class="empreinte-card @(string.IsNullOrEmpty(empreintePouces?.Urlepreinte) ? "not-captured" : "captured")" data-empreinte-type="@INPUT_POUCES">
+                                <div class="empreinte-header">
+                                    <h4>2 Pouces</h4>
+                                    <div class="status-badge @(string.IsNullOrEmpty(empreintePouces?.Urlepreinte) ? "not-captured" : "captured")">
+                                        @if (string.IsNullOrEmpty(empreintePouces?.Urlepreinte))
+                                        {
+                                            <i class="bi bi-x-circle"></i>
+                                            <span>Non capturée</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-check-circle"></i>
+                                            <span>Capturée</span>
+                                        }
+                                    </div>
+                                </div>
+                                
+                                <div class="empreinte-content">
+                                    @if (string.IsNullOrEmpty(empreintePouces?.Urlepreinte))
+                                    {
+                                        <div class="upload-area" onclick="document.getElementById('file-@INPUT_POUCES').click()">
+                                            <div class="empreinte-preview">
+                                                <div class="empreinte-thumbs">
+                                                    <div class="thumb thumb-left"></div>
+                                                    <div class="thumb thumb-right"></div>
+                                                </div>
+                                                <div class="hand-label">2 Pouces</div>
+                                            </div>
+                                            <div class="upload-icon">
+                                                <i class="bi bi-cloud-upload"></i>
+                                            </div>
+                                            <p>Cliquez pour uploader l'image des 2 pouces</p>
+                                            <small class="text-muted">Formats acceptés: .bmp, .png, .jpg</small>
+                                            <input type="file" 
+                                                   id="@($"file-{INPUT_POUCES}")" 
+                                                   accept="image/*" 
+                                                   @onchange="(e) => HandleFileUpload(e, TYPE_POUCES)"
+                                                   style="display: none;" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="image-preview">
+                                            <img src="@empreintePouces.Urlepreinte" alt="@ALT_POUCES" />
+                                            <div class="image-actions">
+                                                <button class="btn-action btn-view" @onclick="() => ViewImage(empreintePouces.Urlepreinte)">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn-action btn-replace" onclick="document.getElementById('file-@INPUT_POUCES').click()">
+                                                    <i class="bi bi-arrow-clockwise"></i>
+                                                </button>
+                                                <button class="btn-action btn-delete" @onclick="() => DeleteEmpreinte(TYPE_POUCES)">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="actions-footer">
+                            <button class="btn-modern btn-outline" @onclick="GoBack">
+                                <i class="bi bi-arrow-left"></i>
+                                Retour
+                            </button>
+                            <button class="btn-modern btn-primary" @onclick="SaveAllEmpreintes" disabled="@(isSaving)">
+                                @if (isSaving)
+                                {
+                                    <div class="spinner-small"></div>
+                                    <span>Sauvegarde...</span>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-save"></i>
+                                    <span>Sauvegarder toutes les empreintes</span>
+                                }
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Messages d'erreur et de succès -->
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = null"></button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string PolicierId { get; set; } = string.Empty;
+
+    private Policier? policier;
+    private List<Empreinte> empreintes = new();
+    private bool isLoading = true;
+    private bool isLoadingEmpreintes = false;
+    private bool isSaving = false;
+    private int empreintesCaptured = 0;
+    private string? errorMessage;
+    private string? successMessage;
+    private DotNetObjectReference<CaptureEmpreintes>? dotNetReference;
+
+    // Constantes pour les types d'empreintes
+    private const string TYPE_DOIGTS_DROITS = "4 Doigts Droits";
+    private const string TYPE_DOIGTS_GAUCHES = "4 Doigts Gauches";
+    private const string TYPE_POUCES = "2 Pouces";
+    
+    // Constantes pour les textes alternatifs
+    private const string ALT_DOIGTS_DROITS = "4 Doigts de la Main Droite";
+    private const string ALT_DOIGTS_GAUCHES = "4 Doigts de la Main Gauche";
+    private const string ALT_POUCES = "2 Pouces";
+    
+    // Constantes pour les identifiants des inputs
+    private const string INPUT_DOIGTS_DROITS = "4DoigtsDroits";
+    private const string INPUT_DOIGTS_GAUCHES = "4DoigtsGauches";
+    private const string INPUT_POUCES = "2Pouces";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPolicier();
+        if (policier != null)
+        {
+            await LoadEmpreintes();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Configurer le callback JavaScript après le premier rendu
+            dotNetReference = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setupBlazorCallback", dotNetReference);
+        }
+    }
+
+    private async Task LoadPolicier()
+    {
+        isLoading = true;
+        
+        try
+        {
+            using var context = DbFactory.CreateDbContext();
+            policier = await context.Policiers
+                .FirstOrDefaultAsync(p => p.Id == PolicierId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement du policier: {ex.Message}");
+            errorMessage = "Erreur lors du chargement des informations du policier.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadEmpreintes()
+    {
+        isLoadingEmpreintes = true;
+        
+        try
+        {
+            // Charger les empreintes existantes
+            var existingEmpreintes = await EmpreinteService.GetEmpreintesByPolicierIdAsync(PolicierId);
+            
+            // Obtenir les empreintes manquantes
+            var missingEmpreintes = await EmpreinteService.GetEmpreintesManquantesAsync(PolicierId);
+            
+            // Combiner les empreintes existantes et manquantes
+            empreintes = existingEmpreintes.Concat(missingEmpreintes)
+                .OrderBy(e => GetDoigtOrder(e.TypeDoigt))
+                .ToList();
+            
+            UpdateEmpreintesCaptured();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des empreintes: {ex.Message}");
+            errorMessage = "Erreur lors du chargement des empreintes.";
+        }
+        finally
+        {
+            isLoadingEmpreintes = false;
+        }
+    }
+
+    private int GetDoigtOrder(string typeDoigt)
+    {
+        return typeDoigt switch
+        {
+            "4 Doigts Droits" => 1,
+            "4 Doigts Gauches" => 2,
+            "2 Pouces" => 3,
+            _ => 99
+        };
+    }
+
+    private async Task UpdateEmpreintesCaptured()
+    {
+        empreintesCaptured = empreintes.Count(e => !string.IsNullOrEmpty(e.Urlepreinte));
+        
+        // Mettre à jour le compteur JavaScript
+        await JSRuntime.InvokeVoidAsync("updateProgressCounter");
+    }
+
+    [JSInvokable]
+    public async Task OnImageUploaded(string empreinteType, string imageUrl)
+    {
+        try
+        {
+            // Trouver l'empreinte correspondante
+            var empreinte = empreintes.FirstOrDefault(emp => emp.TypeDoigt == empreinteType);
+            if (empreinte != null)
+            {
+                empreinte.Urlepreinte = imageUrl;
+            }
+            else
+            {
+                // Créer une nouvelle empreinte si elle n'existe pas
+                empreinte = new Empreinte
+                {
+                    Id = GenerateShortId(),
+                    IdPolicier = PolicierId,
+                    TypeDoigt = empreinteType,
+                    Urlepreinte = imageUrl
+                };
+                empreintes.Add(empreinte);
+            }
+            
+            await UpdateEmpreintesCaptured();
+            
+            // Mettre à jour l'interface utilisateur via JavaScript
+            await JSRuntime.InvokeVoidAsync("updateEmpreinteStatus", empreinteType, true);
+            
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la mise à jour de l'empreinte: {ex.Message}");
+        }
+    }
+
+    private void OpenFileInput(string empreinteType)
+    {
+        // Utiliser une approche synchrone pour éviter l'erreur "user activation"
+        JSRuntime.InvokeVoidAsync("openFileInputSync", empreinteType);
+    }
+
+    private void OpenFileInputDirect(string empreinteType)
+    {
+        // Cette méthode sera appelée directement par JavaScript
+        // pour éviter l'erreur "user activation"
+    }
+
+    private async Task HandleFileUpload(ChangeEventArgs e, string empreinteType)
+    {
+        // Cette méthode n'est plus utilisée car le JavaScript gère maintenant l'upload
+        // Elle est conservée pour la compatibilité mais ne fait rien
+        await Task.CompletedTask;
+    }
+
+    private async Task SaveAllEmpreintes()
+    {
+        isSaving = true;
+        errorMessage = null;
+        successMessage = null;
+        
+        try
+        {
+            foreach (var empreinte in empreintes.Where(e => !string.IsNullOrEmpty(e.Urlepreinte)))
+            {
+                // Si l'image est en Base64 (data:image/...), la sauvegarder sur le serveur
+                if (empreinte.Urlepreinte.StartsWith("data:image/"))
+                {
+                    // Sauvegarder l'image sur le serveur et récupérer l'URL
+                    var imageUrl = await EmpreinteService.SaveEmpreinteImageAsync(empreinte.Urlepreinte, PolicierId, empreinte.TypeDoigt);
+                    empreinte.Urlepreinte = imageUrl;
+                }
+
+                if (string.IsNullOrEmpty(empreinte.Id) || empreinte.Id.Length < 10)
+                {
+                    // Créer une nouvelle empreinte
+                    empreinte.Id = GenerateShortId();
+                    await EmpreinteService.CreateEmpreinteAsync(empreinte);
+                }
+                else
+                {
+                    // Vérifier si l'empreinte existe dans la base de données
+                    var existingEmpreinte = await EmpreinteService.GetEmpreinteByIdAsync(empreinte.Id);
+                    if (existingEmpreinte != null)
+                    {
+                        // Mettre à jour l'empreinte existante
+                        await EmpreinteService.UpdateEmpreinteAsync(empreinte);
+                    }
+                    else
+                    {
+                        // L'empreinte n'existe plus, créer une nouvelle
+                        empreinte.Id = GenerateShortId();
+                        await EmpreinteService.CreateEmpreinteAsync(empreinte);
+                    }
+                }
+            }
+            
+            successMessage = "Toutes les empreintes ont été sauvegardées avec succès.";
+            await LoadEmpreintes(); // Recharger pour s'assurer de la cohérence
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+            errorMessage = "Erreur lors de la sauvegarde des empreintes.";
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private async Task DeleteEmpreinte(string empreinteType)
+    {
+        try
+        {
+            var empreinte = empreintes.FirstOrDefault(e => e.TypeDoigt == empreinteType);
+            if (empreinte != null)
+            {
+                empreinte.Urlepreinte = string.Empty;
+                await UpdateEmpreintesCaptured();
+                
+                // Mettre à jour l'interface utilisateur via JavaScript
+                await JSRuntime.InvokeVoidAsync("deleteEmpreinteImage", empreinteType);
+                
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la suppression: {ex.Message}");
+            errorMessage = "Erreur lors de la suppression de l'empreinte.";
+        }
+    }
+
+    private void ViewImage(string imageUrl)
+    {
+        JSRuntime.InvokeVoidAsync("window.open", imageUrl, "_blank");
+    }
+
+    private string GenerateShortId()
+    {
+        return Guid.NewGuid().ToString("N")[..10];
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/policiers");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        // Libérer la référence DotNet pour éviter les fuites mémoire
+        dotNetReference?.Dispose();
+        await Task.CompletedTask;
+    }
+}
+
+<script>
+    window.openFileInputSync = (empreinteType) => {
+        const fileInput = document.getElementById(`file-${empreinteType}`);
+        if (fileInput) {
+            fileInput.click();
+        }
+    };
+
+    window.setupBlazorCallback = (dotNetReference) => {
+        window.blazorUploadCallback = (empreinteType, imageUrl) => {
+            dotNetReference.invokeMethodAsync('OnImageUploaded', empreinteType, imageUrl);
+        };
+        
+        // Initialiser le compteur au chargement
+        updateProgressCounter();
+    };
+
+    window.handleFileUpload = (empreinteType, file) => {
+        return new Promise((resolve, reject) => {
+            // Vérifier la taille du fichier (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                reject("Le fichier est trop volumineux. Taille maximale : 5MB");
+                return;
+            }
+
+            // Vérifier le type de fichier
+            if (!file.type.startsWith("image/")) {
+                reject("Veuillez sélectionner un fichier image valide.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                
+                // Mettre à jour l'interface utilisateur
+                updateEmpreinteDisplay(empreinteType, imageUrl);
+                
+                // Résoudre avec l'URL de l'image
+                resolve(imageUrl);
+            };
+            reader.onerror = function() {
+                reject("Erreur lors de la lecture du fichier.");
+            };
+            reader.readAsDataURL(file);
+        });
+    };
+
+    function updateEmpreinteDisplay(empreinteType, imageUrl) {
+        // Trouver la carte correspondante
+        const card = document.querySelector(`[data-empreinte-type="${empreinteType}"]`);
+        if (!card) return;
+
+        // Cacher la zone d'upload
+        const uploadArea = card.querySelector('.upload-area');
+        if (uploadArea) {
+            uploadArea.style.display = 'none';
+        }
+
+        // Afficher la prévisualisation
+        const preview = card.querySelector('.image-preview');
+        if (preview) {
+            preview.style.display = 'block';
+            const img = preview.querySelector('img');
+            if (img) {
+                img.src = imageUrl;
+            }
+        }
+
+        // Mettre à jour le statut de l'empreinte
+        updateEmpreinteStatus(empreinteType, true);
+    }
+
+    function updateProgressCounter() {
+        const totalCards = document.querySelectorAll('[data-empreinte-type]').length;
+        const capturedCards = document.querySelectorAll('.status-badge.captured').length;
+        
+        const progressElement = document.querySelector('.progress-text');
+        if (progressElement) {
+            progressElement.textContent = `${capturedCards} / ${totalCards} images capturées`;
+        }
+    }
+
+    window.updateEmpreinteStatus = (empreinteType, isCaptured) => {
+        // Trouver la carte correspondante
+        const card = document.querySelector(`[data-empreinte-type="${empreinteType}"]`);
+        if (!card) return;
+
+        // Mettre à jour le badge de statut
+        const statusBadge = card.querySelector('.status-badge');
+        if (statusBadge) {
+            if (isCaptured) {
+                statusBadge.className = 'status-badge captured';
+                statusBadge.innerHTML = '<i class="bi bi-check-circle"></i><span>Capturée</span>';
+            } else {
+                statusBadge.className = 'status-badge not-captured';
+                statusBadge.innerHTML = '<i class="bi bi-x-circle"></i><span>Non capturée</span>';
+            }
+        }
+
+        // Mettre à jour la classe de la carte
+        if (isCaptured) {
+            card.className = card.className.replace('not-captured', 'captured');
+        } else {
+            card.className = card.className.replace('captured', 'not-captured');
+        }
+
+        // Mettre à jour le compteur de progression
+        updateProgressCounter();
+    };
+
+    window.deleteEmpreinteImage = (empreinteType) => {
+        // Trouver la carte correspondante
+        const card = document.querySelector(`[data-empreinte-type="${empreinteType}"]`);
+        if (!card) return;
+
+        // Cacher la prévisualisation
+        const preview = card.querySelector('.image-preview');
+        if (preview) {
+            preview.style.display = 'none';
+        }
+
+        // Afficher la zone d'upload
+        const uploadArea = card.querySelector('.upload-area');
+        if (uploadArea) {
+            uploadArea.style.display = 'block';
+        }
+
+        // Réinitialiser l'input file
+        const fileInput = card.querySelector('input[type="file"]');
+        if (fileInput) {
+            fileInput.value = '';
+        }
+
+        // Mettre à jour le statut
+        updateEmpreinteStatus(empreinteType, false);
+    };
+
+    // Gérer les événements de changement de fichier
+    document.addEventListener('change', function(e) {
+        if (e.target.type === 'file' && e.target.id.startsWith('file-')) {
+            const file = e.target.files[0];
+            if (file) {
+                const empreinteType = e.target.id.replace('file-', '');
+                handleFileUpload(empreinteType, file)
+                    .then(imageUrl => {
+                        console.log('Image uploadée avec succès:', empreinteType);
+                        // Notifier Blazor que l'image a été uploadée
+                        if (window.blazorUploadCallback) {
+                            window.blazorUploadCallback(empreinteType, imageUrl);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur upload:', error);
+                        alert(error);
+                    });
+            }
+        }
+    });
+</script>

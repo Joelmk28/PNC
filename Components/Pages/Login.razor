@@ -1,0 +1,301 @@
+@page "/login"
+@layout Layout.LoginLayout
+@using Microsoft.AspNetCore.Components
+@using Microsoft.JSInterop
+@using PNC.Services
+@using PNC.Models
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject CustomAuthenticationStateProvider AuthStateProvider
+
+
+<PageTitle>Connexion - Police Nationale Congolaise</PageTitle>
+
+<div class="login-container">
+    <!-- Background Pattern -->
+    <div class="background-pattern"></div>
+    
+    <!-- Login Card -->
+    <div class="login-card">
+        <!-- Logo and Header -->
+        <div class="login-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <img src="images/logopnc.png" alt="Logo PNC" class="logo-image" />
+                </div>
+                <h1 class="app-title"><strong>Police Nationale Congolaise</strong></h1>
+            </div>
+            <h2 class="login-title">Connexion</h2>
+        </div>
+
+        <!-- Login Form -->
+        <form class="login-form" @onsubmit="HandleLogin">
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="username" class="form-label">
+                    <i class="bi bi-person"></i>
+                    Nom d'utilisateur
+                </label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    class="form-input @(!string.IsNullOrEmpty(usernameError) ? "error" : "")"
+                    placeholder="Entrez votre nom d'utilisateur"
+                    @bind="username"
+                    @onfocus="ClearUsernameError"
+                    @onkeyup="HandleKeyPress"
+                    required
+                />
+                @if (!string.IsNullOrEmpty(usernameError))
+                {
+                    <span class="error-message">@usernameError</span>
+                }
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password" class="form-label">
+                    <i class="bi bi-lock"></i>
+                    Mot de passe
+                </label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-input @(!string.IsNullOrEmpty(passwordError) ? "error" : "")"
+                    placeholder="Entrez votre mot de passe"
+                    @bind="password"
+                    @onfocus="ClearPasswordError"
+                    @onkeyup="HandleKeyPress"
+                    required
+                />
+                @if (!string.IsNullOrEmpty(passwordError))
+                {
+                    <span class="error-message">@passwordError</span>
+                }
+            </div>
+
+            <!-- Remember Me and Forgot Password -->
+            <div class="form-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" @bind="rememberMe" />
+                    <span class="checkmark"></span>
+                    Se souvenir de moi
+                </label>
+                <a href="#" class="forgot-password" @onclick="HandleForgotPassword">Mot de passe oublié ?</a>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="login-button" disabled="@isLoading">
+                @if (isLoading)
+                {
+                    <div class="spinner"></div>
+                    <span>Connexion en cours...</span>
+                }
+                else
+                {
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Se connecter</span>
+                }
+            </button>
+        </form>
+
+       
+
+        <!-- Footer -->
+        <div class="login-footer">
+            <p>&copy; 2025 Police Nationale Congolaise. Tous droits réservés.</p>
+        </div>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="decoration-circle circle-1"></div>
+    <div class="decoration-circle circle-2"></div>
+    <div class="decoration-circle circle-3"></div>
+</div>
+
+<script>
+    // Fonction pour afficher les revendications côté client
+    window.displayUserClaims = function(claims) {
+        console.log("=== REVENDICATIONS CÔTÉ CLIENT ===");
+        console.log("Claims reçus:", claims);
+        
+        if (claims && claims.length > 0) {
+            claims.forEach(claim => {
+                console.log(`${claim.type}: ${claim.value}`);
+            });
+        }
+        console.log("=================================");
+    };
+</script>
+
+@code {
+    private string username = "";
+    private string password = "";
+    private bool rememberMe = false;
+    private bool isLoading = false;
+    private string usernameError = "";
+    private string passwordError = "";
+
+    protected override void OnInitialized()
+    {
+        // Vérifier si l'utilisateur est déjà connecté
+        // Si oui, rediriger vers la page d'accueil
+        // TODO: Implémenter la vérification de session existante
+    }
+
+    private async Task HandleLogin()
+    {
+        // Reset errors
+        ClearErrors();
+        
+        // Basic validation
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            usernameError = "Le nom d'utilisateur est requis";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            passwordError = "Le mot de passe est requis";
+            return;
+        }
+
+        isLoading = true;
+        
+        try
+        {
+            // Utiliser le service d'authentification personnalisé
+            var authResult = await AuthStateProvider.SignInAsync(username, password);
+            
+            if (authResult.Success)
+            {
+                // Récupérer l'utilisateur connecté
+                var currentUser = await AuthStateProvider.GetCurrentUserAsync();
+                
+                if (currentUser != null)
+                {
+                    // Afficher les revendications de l'utilisateur connecté
+                    await LogUserClaimsAsync(currentUser);
+                    
+                    // Afficher une notification de succès (optionnel)
+                    await JSRuntime.InvokeVoidAsync("console.log", 
+                        $"Connexion réussie - Utilisateur: {currentUser.NomUtilisateur}");
+                    
+                    // Rediriger vers le tableau de bord
+                    Navigation.NavigateTo("/");
+                }
+                else
+                {
+                    passwordError = "Erreur lors de la récupération des informations utilisateur.";
+                }
+            }
+            else
+            {
+                // Authentification échouée - afficher le message d'erreur
+                passwordError = authResult.ErrorMessage ?? "Nom d'utilisateur ou mot de passe incorrect";
+                Console.WriteLine($"❌ Échec de connexion: {authResult.ErrorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle login error
+            Console.WriteLine($"Login error: {ex.Message}");
+            passwordError = "Erreur de connexion. Veuillez réessayer.";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            // Allow form submission on Enter key
+            return;
+        }
+        
+        // Clear errors when user starts typing
+        if (!string.IsNullOrEmpty(usernameError) && e.Key != "Tab")
+        {
+            ClearUsernameError();
+        }
+        
+        if (!string.IsNullOrEmpty(passwordError) && e.Key != "Tab")
+        {
+            ClearPasswordError();
+        }
+    }
+
+
+    private void HandleForgotPassword()
+    {
+        // TODO: Implement forgot password functionality
+        Console.WriteLine("Forgot password clicked");
+    }
+
+    private void ClearErrors()
+    {
+        usernameError = "";
+        passwordError = "";
+    }
+
+    private void ClearUsernameError()
+    {
+        usernameError = "";
+    }
+
+    private void ClearPasswordError()
+    {
+        passwordError = "";
+    }
+
+    private async Task LogUserClaimsAsync(Utilisateur utilisateur)
+    {
+        try
+        {
+            Console.WriteLine("=== REVENDICATIONS UTILISATEUR ===");
+            Console.WriteLine($"🆔 ID: {utilisateur.Id}");
+            Console.WriteLine($"👤 Nom d'utilisateur: {utilisateur.NomUtilisateur}");
+            Console.WriteLine($"📝 Nom complet: {utilisateur.Nom} {utilisateur.Prenom}");
+            Console.WriteLine($"📧 Email: {utilisateur.Email}");
+            Console.WriteLine($"🔑 Rôle: {utilisateur.IdRoleNavigation?.Nom}");
+            Console.WriteLine($"✅ Compte actif: {utilisateur.EstActif}");
+            
+            // Vérifier les permissions
+            if (utilisateur.IdRoleNavigation?.RolePermissions != null)
+            {
+                Console.WriteLine("🔐 Permissions:");
+                foreach (var permission in utilisateur.IdRoleNavigation.RolePermissions)
+                {
+                    Console.WriteLine($"  - {permission.Permission?.Nom}");
+                }
+            }
+            Console.WriteLine("================================");
+            
+            // Créer un objet claims pour JavaScript
+            var claimsData = new
+            {
+                Id = utilisateur.Id,
+                Username = utilisateur.NomUtilisateur,
+                FullName = $"{utilisateur.Nom} {utilisateur.Prenom}".Trim(),
+                Email = utilisateur.Email,
+                Role = utilisateur.IdRoleNavigation?.Nom,
+                IsActive = utilisateur.EstActif,
+                Permissions = utilisateur.IdRoleNavigation?.RolePermissions?
+                    .Select(rp => rp.Permission?.Nom)
+                    .Where(p => !string.IsNullOrEmpty(p))
+                    .ToArray() ?? new string[0]
+            };
+            
+            // Appeler la fonction JavaScript pour afficher les claims côté client
+            await JSRuntime.InvokeVoidAsync("displayUserClaims", claimsData);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'affichage des revendications: {ex.Message}");
+        }
+    }
+}

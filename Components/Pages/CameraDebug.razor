@@ -1,0 +1,165 @@
+@page "/camera-debug"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Débogage Caméra - PNC</PageTitle>
+
+<div class="camera-debug-page">
+    <div class="container">
+        <h1>🔍 Débogage de la Caméra</h1>
+        <p class="description">Page de diagnostic pour résoudre les problèmes de caméra</p>
+        
+        <div class="debug-sections">
+            <!-- Section 1: Vérification de l'environnement -->
+            <div class="debug-section">
+                <h3>🌐 Vérification de l'Environnement</h3>
+                <div class="debug-info">
+                    <p><strong>Navigateur:</strong> <span id="browserInfo">Vérification...</span></p>
+                    <p><strong>HTTPS:</strong> <span id="httpsStatus">Vérification...</span></p>
+                    <p><strong>API MediaDevices:</strong> <span id="mediaDevicesStatus">Vérification...</span></p>
+                    <p><strong>Permissions API:</strong> <span id="permissionsStatus">Vérification...</span></p>
+                </div>
+            </div>
+
+            <!-- Section 2: Test de la caméra -->
+            <div class="debug-section">
+                <h3>📹 Test de la Caméra</h3>
+                <div class="camera-test">
+                    <video id="debugVideo" autoplay playsinline style="width: 100%; max-width: 400px; border: 2px solid #ddd; background-color: #000;"></video>
+                    <br>
+                    <button class="btn-modern btn-primary" @onclick="TestCamera">
+                        <i class="bi bi-camera"></i> Tester la Caméra
+                    </button>
+                    <button class="btn-modern btn-secondary" @onclick="ListCameras">
+                        <i class="bi bi-list"></i> Lister les Caméras
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section 3: Logs de débogage -->
+            <div class="debug-section">
+                <h3>📋 Logs de Débogage</h3>
+                <div class="debug-logs" id="debugLogs">
+                    <p class="log-entry">🚀 Page de débogage chargée</p>
+                </div>
+                <button class="btn-modern btn-outline" @onclick="ClearLogs">
+                    <i class="bi bi-trash"></i> Effacer les Logs
+                </button>
+            </div>
+
+            <!-- Section 4: Informations système -->
+            <div class="debug-section">
+                <h3>💻 Informations Système</h3>
+                <div class="system-info" id="systemInfo">
+                    <p>Chargement des informations...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CheckEnvironment();
+            await GetSystemInfo();
+        }
+    }
+
+    private async Task CheckEnvironment()
+    {
+        try
+        {
+            // Vérifier l'environnement
+            var browserInfo = await JSRuntime.InvokeAsync<string>("getBrowserInfo");
+            var httpsStatus = await JSRuntime.InvokeAsync<bool>("isHttps");
+            var mediaDevicesStatus = await JSRuntime.InvokeAsync<bool>("isMediaDevicesAvailable");
+            var permissionsStatus = await JSRuntime.InvokeAsync<bool>("isPermissionsAvailable");
+
+            // Mettre à jour l'interface
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", "browserInfo", browserInfo);
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", "httpsStatus", httpsStatus ? "✅ Oui" : "❌ Non");
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", "mediaDevicesStatus", mediaDevicesStatus ? "✅ Disponible" : "❌ Non disponible");
+            await JSRuntime.InvokeVoidAsync("updateDebugInfo", "permissionsStatus", permissionsStatus ? "✅ Disponible" : "❌ Non disponible");
+
+            await AddLog($"🌐 Environnement vérifié - Navigateur: {browserInfo}");
+        }
+        catch (Exception ex)
+        {
+            await AddLog($"❌ Erreur lors de la vérification: {ex.Message}");
+        }
+    }
+
+    private async Task TestCamera()
+    {
+        try
+        {
+            await AddLog("📹 Test de la caméra démarré...");
+            
+            var success = await JSRuntime.InvokeAsync<bool>("testCameraDebug");
+            
+            if (success)
+            {
+                await AddLog("✅ Test de la caméra réussi");
+            }
+            else
+            {
+                await AddLog("❌ Test de la caméra échoué");
+            }
+        }
+        catch (Exception ex)
+        {
+            await AddLog($"❌ Erreur lors du test: {ex.Message}");
+        }
+    }
+
+    private async Task ListCameras()
+    {
+        try
+        {
+            await AddLog("📋 Récupération de la liste des caméras...");
+            
+            var cameras = await JSRuntime.InvokeAsync<string>("listCamerasDebug");
+            
+            if (!string.IsNullOrEmpty(cameras))
+            {
+                await AddLog($"📹 Caméras trouvées: {cameras}");
+            }
+            else
+            {
+                await AddLog("❌ Aucune caméra trouvée");
+            }
+        }
+        catch (Exception ex)
+        {
+            await AddLog($"❌ Erreur lors de la liste: {ex.Message}");
+        }
+    }
+
+    private async Task GetSystemInfo()
+    {
+        try
+        {
+            var systemInfo = await JSRuntime.InvokeAsync<string>("getSystemInfo");
+            await JSRuntime.InvokeVoidAsync("updateSystemInfo", systemInfo);
+            await AddLog("💻 Informations système récupérées");
+        }
+        catch (Exception ex)
+        {
+            await AddLog($"❌ Erreur informations système: {ex.Message}");
+        }
+    }
+
+    private async Task AddLog(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("addDebugLog", message);
+    }
+
+    private async Task ClearLogs()
+    {
+        await JSRuntime.InvokeVoidAsync("clearDebugLogs");
+        await AddLog("🗑️ Logs effacés");
+    }
+}

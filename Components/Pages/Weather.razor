@@ -1,0 +1,92 @@
+﻿@page "/weather"
+
+<PageTitle>Weather - PNC</PageTitle>
+
+<div class="weather-page">
+    <div class="page-header">
+        <h1>Weather Forecast</h1>
+        <p>This component demonstrates fetching data from a service.</p>
+    </div>
+
+    @if (forecasts == null)
+    {
+        <div class="loading-card">
+            <div class="loading-content">
+                <i class="bi bi-cloud-sun"></i>
+                <p>Loading weather data...</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="weather-grid">
+            @foreach (var forecast in forecasts)
+            {
+                <div class="weather-card">
+                    <div class="weather-date">
+                        <span class="day">@forecast.Date.ToString("ddd")</span>
+                        <span class="date">@forecast.Date.ToString("MMM dd")</span>
+                    </div>
+                    
+                    <div class="weather-icon">
+                        <i class="bi @GetWeatherIcon(forecast.Summary)"></i>
+                    </div>
+                    
+                    <div class="weather-temp">
+                        <span class="temp-high">@forecast.TemperatureF°F</span>
+                        <span class="temp-low">@forecast.TemperatureC°C</span>
+                    </div>
+                    
+                    <div class="weather-summary">
+                        @forecast.Summary
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate async loading
+        await Task.Delay(1000);
+        
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = startDate.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
+        }).ToArray();
+    }
+    
+    private string GetWeatherIcon(string summary)
+    {
+        return summary switch
+        {
+            "Freezing" => "bi-snow",
+            "Bracing" => "bi-wind",
+            "Chilly" => "bi-cloud",
+            "Cool" => "bi-cloud-sun",
+            "Mild" => "bi-sun",
+            "Warm" => "bi-sun",
+            "Balmy" => "bi-sun",
+            "Hot" => "bi-sun",
+            "Sweltering" => "bi-fire",
+            "Scorching" => "bi-fire",
+            _ => "bi-cloud"
+        };
+    }
+    
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public string? Summary { get; set; }
+    }
+}

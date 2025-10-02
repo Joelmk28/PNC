@@ -1,0 +1,116 @@
+/* Bootstrap Toasts - Positionnement en haut à droite */
+
+#toast-main-container {
+    z-index: 9999;
+}
+
+#toast-container {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+/* Amélioration de la taille des toasts */
+.toast {
+    min-width: 280px;
+    max-width: 350px;
+    font-size: 13px;
+    border: 1px solid #fbbf24;
+    border-left: 3px solid #fbbf24;
+}
+
+.toast-header {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-height: auto;
+}
+
+.toast-header strong {
+    font-size: 12px;
+    color: #374151;
+}
+
+.toast-header small {
+    font-size: 10px;
+}
+
+.toast-body {
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+/* Bouton fermeture simple */
+.toast .simple-close-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.toast .simple-close-btn:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+    border-radius: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #toast-container {
+        top: 10px !important;
+        right: 10px !important;
+        left: 10px !important;
+        max-width: none;
+    }
+    
+    .toast {
+        min-width: auto;
+        max-width: none;
+        font-size: 12px;
+    }
+    
+    .toast-header {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+    
+    .toast-header strong {
+        font-size: 11px;
+    }
+    
+    .toast-header small {
+        font-size: 9px;
+    }
+    
+    .toast-body {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .toast .simple-close-btn {
+        width: 14px;
+        height: 14px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    #toast-container {
+        top: 8px !important;
+        right: 8px !important;
+        left: 8px !important;
+        padding: 0.5rem !important;
+    }
+}

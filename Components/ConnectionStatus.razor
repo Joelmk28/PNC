@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<div id="connection-status" class="connection-status @(isConnected ? "connected" : "disconnected")" style="display: none;">
+    <div class="connection-indicator">
+        <i class="bi @(isConnected ? "bi-wifi" : "bi-wifi-off")"></i>
+        <span>@(isConnected ? "Connecté" : "Déconnecté")</span>
+    </div>
+</div>
+
+@code {
+    private bool isConnected = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                // Écouter les événements de connexion Blazor
+                window.addEventListener('beforeunload', function() {
+                    // Page en cours de fermeture
+                });
+
+                // Gérer les erreurs de connexion
+                if (window.Blazor) {
+                    window.Blazor.defaultReconnectionHandler = {
+                        onConnectionDown: function() {
+                            console.log('🔴 Connexion Blazor perdue');
+                            document.getElementById('connection-status').style.display = 'block';
+                            document.getElementById('connection-status').classList.remove('connected');
+                            document.getElementById('connection-status').classList.add('disconnected');
+                        },
+                        onConnectionUp: function() {
+                            console.log('🟢 Connexion Blazor rétablie');
+                            document.getElementById('connection-status').style.display = 'none';
+                        },
+                        onReconnectionAttempt: function() {
+                            console.log('🔄 Tentative de reconnexion...');
+                        }
+                    };
+                }
+            ");
+        }
+    }
+}

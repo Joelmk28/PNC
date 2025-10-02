@@ -1,0 +1,1077 @@
+@page "/policiers/capture-photo/{PolicierId}"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@using PNC.Services
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject IPhotoService PhotoService
+@implements IAsyncDisposable
+
+<PageTitle>Capture Photo - Policier @PolicierId - PNC</PageTitle>
+
+<!-- Cropper.js CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+
+<!-- Cropper.js JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+<div class="capture-photo-page">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-camera-video-fill me-3"></i>
+                Capture Photo
+            </h1>
+            @if (policier != null)
+            {
+                <p class="page-subtitle">
+                    @policier.Nom @policier.PostNom @policier.Prenom - Matricule: @policier.Matricule
+                </p>
+            }
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-outline" @onclick="GoBack">
+                <i class="bi bi-arrow-left"></i>
+                Retour
+            </button>
+        </div>
+    </div>
+
+    <!-- Messages d'état -->
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = null"></button>
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (isLoading)
+    {
+        <div class="loading-container">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <p>Chargement de la caméra...</p>
+            </div>
+        </div>
+    }
+    else if (policier == null)
+    {
+        <div class="error-container">
+            <div class="error-card">
+                <i class="bi bi-exclamation-triangle"></i>
+                <h3>Policier non trouvé</h3>
+                <p>Le policier demandé n'existe pas ou a été supprimé.</p>
+                <button class="btn-modern btn-primary" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Retour à la liste
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Main Content Grid -->
+        <div class="main-content-grid">
+            <!-- Section caméra -->
+            <div class="camera-card" id="cameraSection">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="bi bi-camera-video"></i>
+                        Caméra
+                    </h3>
+                    @if (isCameraActive)
+                    {
+                        <span class="status-badge status-active">
+                            <i class="bi bi-circle-fill"></i> 
+                            Caméra @(currentCameraIndex + 1) active
+                        </span>
+                    }
+                </div>
+                <div class="camera-video-container @(isCameraActive ? "active" : "")">
+                    <video id="video" autoplay playsinline></video>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-modern btn-primary" @onclick="StartCamera" disabled="@isCameraActive">
+                        <i class="bi bi-camera-video"></i> 
+                        @if (isCameraActive)
+                        {
+                            <span>Caméra activée</span>
+                        }
+                        else
+                        {
+                            <span>Activer la caméra</span>
+                        }
+                    </button>
+                    <button class="btn-modern btn-info" @onclick="ToggleCameraSelection" disabled="@isCameraActive">
+                        <i class="bi bi-gear"></i> 
+                        @if (showCameraSelection)
+                        {
+                            <span>Masquer les options</span>
+                        }
+                        else
+                        {
+                            <span>Choisir la caméra</span>
+                        }
+                    </button>
+                    <button class="btn-modern btn-success" @onclick="TakePhoto" disabled="@(!isCameraActive)">
+                        <i class="bi bi-camera-fill"></i> Prendre une photo
+                    </button>
+                    <button class="btn-modern btn-secondary" @onclick="StopCamera" disabled="@(!isCameraActive)">
+                        <i class="bi bi-stop-circle"></i> Arrêter la caméra
+                    </button>
+                </div>
+                
+                @if (showCameraSelection)
+                {
+                    <div class="camera-selection">
+                        <h5><i class="bi bi-camera-video"></i> Sélection de la caméra</h5>
+                        @if (availableCameras.Any())
+                        {
+                            <div class="camera-select-container">
+                                <label for="cameraSelect" class="camera-select-label">
+                                    <i class="bi bi-camera-video"></i>
+                                    Choisir une caméra :
+                                </label>
+                                <select id="cameraSelect" 
+                                        class="camera-select" 
+                                        @bind="selectedCameraId">
+                                    @foreach (var camera in availableCameras)
+                                    {
+                                        <option value="@camera.DeviceId">
+                                            @if (string.IsNullOrEmpty(camera.Label))
+                                            {
+                                                <text>Caméra @(availableCameras.IndexOf(camera) + 1)</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@camera.Label</text>
+                                            }
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="camera-actions">
+                                <button class="btn-modern btn-primary btn-sm" @onclick="SwitchCamera" disabled="@(!isCameraActive)">
+                            <i class="bi bi-arrow-repeat"></i> Changer de caméra
+                        </button>
+                                <button class="btn-modern btn-secondary btn-sm" @onclick="LoadAvailableCameras">
+                                    <i class="bi bi-arrow-clockwise"></i> Actualiser
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="no-cameras">
+                                <i class="bi bi-exclamation-triangle"></i>
+                                <p>Aucune caméra détectée. Vérifiez que votre caméra est connectée et autorisée.</p>
+                                <button class="btn-modern btn-primary btn-sm" @onclick="LoadAvailableCameras">
+                                    <i class="bi bi-arrow-clockwise"></i> Réessayer
+                                </button>
+                </div>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <!-- Section photo prise avec recadrage -->
+            <div class="photo-card" id="photoSection" style="display:none;">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="bi bi-image-fill"></i>
+                        Photo et Recadrage
+                    </h3>
+                </div>
+                
+                <div class="photo-layout">
+                    <!-- Colonne gauche : Photo originale avec contrôles -->
+                    <div class="photo-original-column">
+                        <h4 class="section-title">
+                            <i class="bi bi-image-fill"></i> Photo capturée
+                        </h4>
+                        <div class="photo-container">
+                            @if (!string.IsNullOrEmpty(currentPhotoData))
+                            {
+                                <img id="photo" src="@currentPhotoData" alt="Photo capturée" />
+                            }
+                            else
+                            {
+                                <div class="photo-placeholder">
+                                    <i class="bi bi-image"></i>
+                                    <p>Aucune photo capturée</p>
+                                </div>
+                            }
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn-modern btn-secondary" @onclick="ApplyCrop">
+                                <i class="bi bi-scissors"></i> Rogner
+                            </button>
+                            <button class="btn-modern btn-warning" @onclick="ApplyCropFinal" disabled="@(!showCropper)">
+                                <i class="bi bi-check-circle"></i> Appliquer le recadrage
+                            </button>
+                            <button class="btn-modern btn-success" @onclick="SavePhoto">
+                                <i class="bi bi-check-circle-fill"></i> Sauvegarder
+                            </button>
+                            <button class="btn-modern btn-outline" @onclick="RetakePhoto">
+                                <i class="bi bi-arrow-clockwise"></i> Reprendre
+                            </button>
+                            <button class="btn-modern btn-info" @onclick="DownloadPhoto" style="display:none;" id="downloadBtn">
+                                <i class="bi bi-download"></i> Télécharger
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Colonne droite : Résultat du recadrage -->
+                    <div class="photo-result-column">
+                        <h4 class="section-title">
+                            <i class="bi bi-crop"></i> Résultat du recadrage
+                        </h4>
+                        <div class="result-container" id="resultSection" style="display:none;">
+                            <div class="cropped-image-container">
+                                @if (!string.IsNullOrEmpty(currentPhotoData))
+                                {
+                                    <img id="croppedResult" src="@currentPhotoData" alt="Image rognée" />
+                                }
+                                else
+                                {
+                                    <div class="photo-placeholder">
+                                        <i class="bi bi-crop"></i>
+                                        <p>Résultat du recadrage</p>
+                                    </div>
+                                }
+                            </div>
+                            <div class="crop-info">
+                                <i class="bi bi-info-circle-fill"></i> 
+                                <span id="cropDimensions">Dimensions: -- x -- px</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-modern btn-success" @onclick="SaveCroppedPhoto">
+                                    <i class="bi bi-save"></i> Sauvegarder cette partie
+                                </button>
+                                <button class="btn-modern btn-secondary" @onclick="ReturnToOriginalPhoto">
+                                    <i class="bi bi-arrow-left-circle"></i> Revenir à la caméra
+                                </button>
+                                <button class="btn-modern btn-outline" @onclick="CancelCrop">
+                                    <i class="bi bi-x-circle"></i> Annuler
+                                </button>
+                            </div>
+                        </div>
+                        <div class="crop-instructions" id="cropInstructions">
+                            <i class="bi bi-lightbulb-fill"></i>
+                            <p>Sélectionnez la zone à rogner sur la photo de gauche</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Modal de sélection de caméra -->
+    @if (showCameraModal)
+    {
+        <div class="modal-backdrop show" style="display: block;"></div>
+        <div class="modal show" style="display: block;" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-camera-video"></i>
+                            Sélection de la caméra
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-3">Choisissez la caméra que vous souhaitez utiliser :</p>
+                        
+                        @if (availableCameras.Any())
+                        {
+                            <div class="camera-modal-list">
+                                @foreach (var camera in availableCameras)
+                                {
+                                    <div class="camera-modal-option @(camera.DeviceId == selectedCameraId ? "selected" : "")"
+                                         @onclick="@(() => selectedCameraId = camera.DeviceId)">
+                                        <div class="camera-info">
+                                            <i class="bi bi-camera-video"></i>
+                                            <div class="camera-details">
+                                                @if (string.IsNullOrEmpty(camera.Label))
+                                                {
+                                                    <span class="camera-name">Caméra @(availableCameras.IndexOf(camera) + 1)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="camera-name">@camera.Label</span>
+                                                }
+                                                <small class="camera-id">ID: @camera.DeviceId.Substring(0, 8)...</small>
+                                            </div>
+                                        </div>
+                                        @if (camera.DeviceId == selectedCameraId)
+                                        {
+                                            <i class="bi bi-check-circle-fill text-primary"></i>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted">
+                                <i class="bi bi-exclamation-triangle fs-1"></i>
+                                <p class="mt-2">Aucune caméra détectée</p>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CancelCameraSelection">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="ConfirmCameraSelection" disabled="@(!availableCameras.Any())">
+                            <i class="bi bi-check-circle"></i> Confirmer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string PolicierId { get; set; } = "";
+    
+    // Data properties
+    private Policier? policier;
+    private bool isLoading = true;
+    
+    // Camera state
+    private bool isCameraActive = false;
+    private string? currentPhotoData = null;
+    private bool showCropper = false;
+    private int currentCameraIndex = 0;
+    private int totalCameras = 0;
+    private string? errorMessage;
+    private string? successMessage;
+    private List<MediaDeviceInfo> availableCameras = new();
+    private string selectedCameraId = string.Empty;
+    private bool showCameraSelection = false;
+    private bool showCameraModal = false;
+
+    // Classe pour représenter les informations de la caméra
+    public class MediaDeviceInfo
+    {
+        public string DeviceId { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
+        public string Kind { get; set; } = string.Empty;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPolicierData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Pas besoin de charger de script externe, le JavaScript est intégré
+            Console.WriteLine("✅ Page de capture de photo initialisée");
+            
+            // Charger les caméras disponibles et afficher le modal de sélection
+            await LoadAvailableCameras();
+            
+            if (availableCameras.Any())
+            {
+                showCameraModal = true;
+                StateHasChanged();
+            }
+            else
+            {
+                // Si aucune caméra, essayer de démarrer directement
+                await Task.Delay(500);
+                await StartCamera();
+            }
+        }
+    }
+
+    private async Task LoadPolicierData()
+    {
+        try
+        {
+            using var context = DbFactory.CreateDbContext();
+            policier = await context.Policiers
+                .FirstOrDefaultAsync(p => p.Id == PolicierId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement du policier: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+
+
+
+
+
+
+    private async Task StartCamera()
+    {
+        try
+        {
+            Console.WriteLine("🎥 Démarrage de la caméra pour les photos...");
+            errorMessage = null;
+            successMessage = null;
+            
+            // Utiliser la caméra sélectionnée (pas besoin de recharger les caméras)
+            Console.WriteLine($"📹 Utilisation de la caméra sélectionnée: {selectedCameraId}");
+            var success = await JSRuntime.InvokeAsync<bool>("startPhotoCamera", selectedCameraId);
+            
+            if (success)
+            {
+                isCameraActive = true;
+                StateHasChanged();
+                Console.WriteLine("✅ Caméra démarrée avec succès");
+                successMessage = "✅ Caméra activée avec succès ! Vous pouvez maintenant capturer des photos.";
+            }
+            else
+            {
+                errorMessage = "❌ Impossible de démarrer la caméra. Vérifiez les autorisations et que votre caméra est disponible.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du démarrage de la caméra: {ex.Message}");
+            errorMessage = $"Erreur lors du démarrage de la caméra: {ex.Message}";
+        }
+    }
+
+    private async Task LoadAvailableCameras()
+    {
+        try
+        {
+            var cameras = await JSRuntime.InvokeAsync<List<MediaDeviceInfo>>("getAvailableCameras");
+            availableCameras = cameras ?? new List<MediaDeviceInfo>();
+            
+            if (availableCameras.Any())
+            {
+                selectedCameraId = availableCameras.First().DeviceId;
+                Console.WriteLine($"📹 {availableCameras.Count} caméra(s) trouvée(s)");
+            }
+            else
+            {
+                Console.WriteLine("⚠️ Aucune caméra trouvée");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du chargement des caméras: {ex.Message}");
+            availableCameras = new List<MediaDeviceInfo>();
+        }
+    }
+
+    private async Task SwitchCamera()
+    {
+        try
+        {
+            if (!isCameraActive)
+            {
+                errorMessage = "❌ Veuillez d'abord démarrer la caméra";
+                return;
+            }
+            
+            Console.WriteLine("🔄 Changement de caméra...");
+            
+            // Arrêter la caméra actuelle
+            await JSRuntime.InvokeVoidAsync("stopPhotoCamera");
+            isCameraActive = false;
+            
+            // Démarrer avec la nouvelle caméra
+            await Task.Delay(500);
+            var success = await JSRuntime.InvokeAsync<bool>("startPhotoCamera", selectedCameraId);
+            
+            if (success)
+            {
+                isCameraActive = true;
+                successMessage = "✅ Caméra changée avec succès";
+                Console.WriteLine("✅ Caméra changée avec succès");
+            }
+            else
+            {
+                errorMessage = "❌ Impossible de changer de caméra";
+                Console.WriteLine("❌ Échec du changement de caméra");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors du changement de caméra: {ex.Message}");
+            errorMessage = $"Erreur lors du changement de caméra: {ex.Message}";
+        }
+    }
+
+    private void ToggleCameraSelection()
+    {
+        showCameraSelection = !showCameraSelection;
+    }
+
+    private async Task ConfirmCameraSelection()
+    {
+        try
+        {
+            showCameraModal = false;
+            StateHasChanged();
+            
+            // Démarrer la caméra avec la sélection
+            await Task.Delay(100);
+            await StartCamera();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la confirmation de sélection: {ex.Message}");
+            errorMessage = $"Erreur lors de la sélection de caméra: {ex.Message}";
+        }
+    }
+
+    private void CancelCameraSelection()
+    {
+        showCameraModal = false;
+                    StateHasChanged();
+    }
+
+    private async Task StopCamera()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("stopPhotoCamera");
+            isCameraActive = false;
+            StateHasChanged();
+            Console.WriteLine("✅ Caméra arrêtée");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'arrêt de la caméra: {ex.Message}");
+        }
+    }
+
+    private async Task TakePhoto()
+    {
+        try
+        {
+            Console.WriteLine("📸 Capture de la photo...");
+            errorMessage = null; // Effacer les erreurs précédentes
+            successMessage = null; // Effacer les messages de succès précédents
+            
+            // Utiliser directement JSRuntime au lieu du module
+            currentPhotoData = await JSRuntime.InvokeAsync<string>("capturePhoto");
+            
+            if (!string.IsNullOrEmpty(currentPhotoData))
+            {
+                // Masquer la section caméra et afficher la section photo
+                await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'none'");
+                await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('photoSection').style.display = 'block'");
+                
+                // Activer automatiquement l'interface de recadrage
+                showCropper = true;
+                StateHasChanged();
+                
+                Console.WriteLine("✅ Photo capturée avec succès");
+                successMessage = "Photo capturée ! Sélectionnez la zone à rogner, puis cliquez sur 'Appliquer le recadrage'";
+            }
+            else
+            {
+                Console.WriteLine("❌ Erreur lors de la capture de la photo");
+                errorMessage = "Erreur lors de la capture de la photo";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de la capture: {ex.Message}");
+            errorMessage = $"Erreur lors de la capture: {ex.Message}";
+        }
+    }
+
+    private async Task ApplyCrop()
+    {
+        try
+        {
+            Console.WriteLine("✂️ Activation du recadrage...");
+            
+            // Activer l'interface de recadrage
+            showCropper = true;
+            StateHasChanged();
+            
+            // Attendre que l'image soit rendue et que l'élément soit disponible
+            await Task.Delay(500);
+            
+            // Vérifier que l'élément existe avant d'initialiser
+            var elementExists = await JSRuntime.InvokeAsync<bool>("eval", "document.getElementById('photo') !== null");
+            
+            if (!elementExists)
+            {
+                errorMessage = "❌ L'image n'est pas encore chargée. Veuillez réessayer.";
+                Console.WriteLine("❌ Élément image non trouvé");
+                return;
+            }
+            
+            // Initialiser le cropper sur l'image
+            var success = await JSRuntime.InvokeAsync<bool>("initCropper", "photo");
+            
+            if (success)
+            {
+                successMessage = "✂️ Sélectionnez la zone à rogner avec la souris, puis cliquez sur 'Appliquer le recadrage'";
+                Console.WriteLine("✅ Recadrage activé avec succès");
+            }
+            else
+            {
+                errorMessage = "❌ Erreur lors de l'initialisation du recadrage";
+                Console.WriteLine("❌ Échec de l'initialisation du recadrage");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'activation du recadrage: {ex.Message}");
+            errorMessage = $"Erreur lors de l'activation du recadrage: {ex.Message}";
+        }
+    }
+
+    private async Task ApplyCropFinal()
+    {
+        try
+        {
+            Console.WriteLine("✂️ Application du recadrage final...");
+            
+            // Utiliser la nouvelle fonction JavaScript
+            var success = await JSRuntime.InvokeAsync<bool>("applyCrop");
+            
+            if (success)
+            {
+                showCropper = false;
+                StateHasChanged();
+                
+                Console.WriteLine("✅ Recadrage appliqué avec succès");
+                successMessage = "✅ Recadrage appliqué ! Le résultat est affiché à droite";
+            }
+            else
+            {
+                Console.WriteLine("❌ Échec de l'application du recadrage");
+                errorMessage = "❌ Erreur lors de l'application du recadrage";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur lors de l'application du recadrage: {ex.Message}");
+            errorMessage = $"❌ Erreur: {ex.Message}";
+        }
+    }
+
+    private async Task SavePhoto()
+    {
+        try
+        {
+            if (currentPhotoData != null)
+            {
+                var filePath = await PhotoService.SavePhotoAsync(currentPhotoData, PolicierId, "original");
+                Console.WriteLine($"✅ Photo sauvegardée: {filePath}");
+                
+                successMessage = "✅ Photo sauvegardée avec succès !";
+                
+                // Rediriger vers la page des policiers
+                Navigation.NavigateTo("/policiers");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+            errorMessage = $"❌ Erreur: {ex.Message}";
+        }
+    }
+
+    private async Task SaveCroppedPhoto()
+    {
+        try
+        {
+            // Utiliser directement JSRuntime au lieu du module
+            var croppedPhotoData = await JSRuntime.InvokeAsync<string>("getCurrentCroppedPhotoData");
+            if (!string.IsNullOrEmpty(croppedPhotoData))
+            {
+                var filePath = await PhotoService.SavePhotoAsync(croppedPhotoData, PolicierId, "cropped");
+                Console.WriteLine($"✅ Photo recadrée sauvegardée: {filePath}");
+                
+                successMessage = "✅ Photo recadrée sauvegardée !";
+                
+                // Rediriger vers la page des policiers
+                Navigation.NavigateTo("/policiers");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+            errorMessage = $"❌ Erreur: {ex.Message}";
+        }
+    }
+
+    private async Task RetakePhoto()
+    {
+        try
+        {
+            // Réinitialiser les données
+            currentPhotoData = null;
+            showCropper = false;
+            
+            // Masquer la section photo et réafficher la section caméra
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('photoSection').style.display = 'none'");
+            await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('cameraSection').style.display = 'block'");
+            
+            StateHasChanged();
+            
+            successMessage = "📸 Prêt pour une nouvelle photo";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la reprise: {ex.Message}");
+        }
+    }
+
+    private void CancelCrop()
+    {
+        showCropper = false;
+        StateHasChanged();
+    }
+
+    private async Task DownloadPhoto()
+    {
+        try
+        {
+            // Utiliser directement JSRuntime au lieu du module
+            await JSRuntime.InvokeVoidAsync("downloadCurrentPhoto", $"photo_policier_{PolicierId}.png");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du téléchargement: {ex.Message}");
+        }
+    }
+
+
+
+    private async Task ReturnToOriginalPhoto()
+    {
+        try
+        {
+            // Utiliser directement JSRuntime au lieu du module
+            await JSRuntime.InvokeVoidAsync("returnToOriginalPhoto");
+            Console.WriteLine("✅ Retour à la photo originale");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du retour à la photo originale: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/policiers");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        // Nettoyage des ressources JavaScript si nécessaire
+        await Task.CompletedTask;
+    }
+}
+
+<script>
+    // Variables globales pour la caméra
+    let video;
+    let stream;
+
+    // Obtenir la liste des caméras disponibles
+    window.getAvailableCameras = async function() {
+        try {
+            console.log('📹 Recherche des caméras disponibles...');
+            
+            // Vérifier si getUserMedia est supporté
+            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                console.warn('⚠️ enumerateDevices non supporté');
+                return [];
+            }
+            
+            // Obtenir la liste des périphériques
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const cameras = devices
+                .filter(device => device.kind === 'videoinput')
+                .map(device => ({
+                    deviceId: device.deviceId,
+                    label: device.label || `Caméra ${device.deviceId.substring(0, 8)}...`,
+                    kind: device.kind
+                }));
+            
+            console.log(`📹 ${cameras.length} caméra(s) trouvée(s):`, cameras);
+            return cameras;
+        } catch (error) {
+            console.error('❌ Erreur lors de la recherche des caméras:', error);
+            return [];
+        }
+    };
+
+    // Démarrer la caméra pour les photos
+    window.startPhotoCamera = async function(cameraId = null) {
+        try {
+            console.log('🎥 Initialisation de la caméra pour les photos...');
+            
+            // Récupérer l'élément vidéo
+            video = document.getElementById("video");
+            if (!video) {
+                console.error('❌ Élément vidéo non trouvé');
+                return false;
+            }
+
+            console.log('📹 Élément vidéo trouvé, demande d\'accès à la caméra...');
+            console.log('📹 ID de caméra sélectionnée:', cameraId);
+
+            // Configuration de la caméra
+            const constraints = {
+                video: cameraId ? { deviceId: { exact: cameraId } } : true
+            };
+
+            // Demander l'accès à la caméra
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
+            console.log('✅ Accès à la caméra accordé');
+            
+            video.srcObject = stream;
+            console.log('✅ Caméra photo activée');
+            return true;
+        } catch (err) {
+            console.error("❌ Erreur d'accès à la caméra:", err);
+            
+            // Messages d'erreur clairs
+            let errorMessage = '';
+            switch (err.name) {
+                case 'NotAllowedError':
+                    errorMessage = '🔐 Accès à la caméra refusé\n\nVeuillez cliquer sur "Autoriser" dans la popup de votre navigateur.';
+                    break;
+                case 'NotFoundError':
+                    errorMessage = '📷 Aucune caméra trouvée\n\nVérifiez que votre caméra est connectée.';
+                    break;
+                case 'NotReadableError':
+                    errorMessage = '⚠️ Caméra déjà utilisée\n\nFermez les autres applications qui utilisent la caméra.';
+                    break;
+                case 'OverconstrainedError':
+                    errorMessage = '⚠️ Caméra non compatible\n\nEssayez une autre caméra.';
+                    break;
+                default:
+                    errorMessage = '❌ Erreur: ' + err.message;
+            }
+            
+            alert(errorMessage);
+            return false;
+        }
+    };
+
+    // Arrêter la caméra pour les photos
+    window.stopPhotoCamera = function() {
+        try {
+            console.log('🛑 Arrêt de la caméra photo...');
+            
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            if (video) {
+                video.srcObject = null;
+            }
+            
+            console.log('✅ Caméra photo arrêtée');
+        } catch (error) {
+            console.error('❌ Erreur lors de l\'arrêt de la caméra:', error);
+        }
+    };
+
+    // Capturer une photo (inspiré de votre exemple)
+    window.capturePhoto = function() {
+        return new Promise((resolve, reject) => {
+            try {
+                console.log('📸 Capture de la photo...');
+                
+                if (!video || !video.srcObject) {
+                    reject('Aucune caméra active');
+                    return;
+                }
+
+                // Créer un canvas temporaire
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                
+                // Définir les dimensions du canvas
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                // Dessiner l'image de la vidéo sur le canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Récupérer l'image en Base64
+                const imageData = canvas.toDataURL("image/png");
+                console.log('📸 Image capturée, taille:', imageData.length);
+                
+                resolve(imageData);
+            } catch (error) {
+                console.error('❌ Erreur capture photo:', error);
+                reject(error);
+            }
+        });
+    };
+
+    // Variables pour le recadrage
+    let cropper = null;
+    let croppedImageData = null;
+
+    // Attendre qu'un élément soit disponible
+    window.waitForElement = function(elementId, maxWaitTime = 5000) {
+        return new Promise((resolve, reject) => {
+            const startTime = Date.now();
+            
+            const checkElement = () => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    console.log('✅ Élément trouvé:', elementId);
+                    resolve(element);
+                } else if (Date.now() - startTime > maxWaitTime) {
+                    console.error('❌ Timeout: Élément non trouvé après', maxWaitTime, 'ms');
+                    reject(new Error('Element not found'));
+                } else {
+                    setTimeout(checkElement, 100);
+                }
+            };
+            
+            checkElement();
+        });
+    };
+
+    // Initialiser le recadrage
+    window.initCropper = async function(imageElementId) {
+        try {
+            console.log('✂️ Initialisation du recadrage...');
+            
+            // Attendre que l'élément soit disponible
+            const imageElement = await window.waitForElement(imageElementId);
+            
+            console.log('✅ Élément image trouvé:', imageElement);
+            
+            if (cropper) {
+                cropper.destroy();
+            }
+            
+            // Créer un nouveau cropper
+            cropper = new Cropper(imageElement, {
+                aspectRatio: 1, // Ratio carré
+                viewMode: 1,
+                dragMode: 'move',
+                autoCropArea: 0.8,
+                restore: false,
+                guides: true,
+                center: true,
+                highlight: true,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                toggleDragModeOnDblclick: false,
+                background: false,
+                zoomable: true,
+                zoomOnTouch: true,
+                zoomOnWheel: true,
+                wheelZoomRatio: 0.1,
+                cropstart: function(event) {
+                    console.log('✂️ Début du recadrage');
+                },
+                cropmove: function(event) {
+                    console.log('✂️ Recadrage en cours');
+                },
+                cropend: function(event) {
+                    console.log('✂️ Fin du recadrage');
+                }
+            });
+            
+            console.log('✅ Recadrage initialisé');
+            return true;
+        } catch (error) {
+            console.error('❌ Erreur initialisation recadrage:', error);
+            return false;
+        }
+    };
+
+    // Appliquer le recadrage
+    window.applyCrop = function() {
+        try {
+            console.log('✂️ Application du recadrage...');
+            
+            if (!cropper) {
+                console.error('❌ Cropper non initialisé');
+                return false;
+            }
+            
+            // Obtenir l'image recadrée
+            const canvas = cropper.getCroppedCanvas({
+                width: 300,
+                height: 300,
+                minWidth: 100,
+                minHeight: 100,
+                maxWidth: 800,
+                maxHeight: 800,
+                fillColor: '#fff',
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+            
+            if (canvas) {
+                // Convertir en base64
+                croppedImageData = canvas.toDataURL('image/png');
+                console.log('✅ Recadrage appliqué, taille:', croppedImageData.length);
+                
+                // Afficher le résultat
+                const resultImg = document.getElementById('croppedResult');
+                if (resultImg) {
+                    resultImg.src = croppedImageData;
+                }
+                
+                // Afficher la section résultat
+                const resultSection = document.getElementById('resultSection');
+                if (resultSection) {
+                    resultSection.style.display = 'block';
+                }
+                
+                return true;
+            } else {
+                console.error('❌ Impossible de créer l\'image recadrée');
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Erreur application recadrage:', error);
+            return false;
+        }
+    };
+
+    // Obtenir les données de l'image recadrée
+    window.getCurrentCroppedPhotoData = function() {
+        return croppedImageData;
+    };
+
+    // Détruire le cropper
+    window.destroyCropper = function() {
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+            console.log('✅ Cropper détruit');
+        }
+    };
+</script>

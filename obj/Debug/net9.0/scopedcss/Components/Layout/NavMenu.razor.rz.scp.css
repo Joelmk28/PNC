@@ -1,0 +1,201 @@
+/* Sidebar Navigation Styles */
+.sidebar-header[b-jo94u0ehbd] {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand[b-jo94u0ehbd] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.brand-logo[b-jo94u0ehbd] {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.brand-text[b-jo94u0ehbd] {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav[b-jo94u0ehbd] {
+    flex: 1;
+    padding: 1rem 0;
+    overflow-y: auto;
+}
+
+.nav-menu[b-jo94u0ehbd] {
+    padding: 0 1rem;
+}
+
+.nav-section[b-jo94u0ehbd] {
+    margin-bottom: 2rem;
+}
+
+.nav-title[b-jo94u0ehbd] {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.nav-item[b-jo94u0ehbd] {
+    margin-bottom: 0.25rem;
+}
+
+/* Styles spécifiques pour forcer la couleur blanche */
+.nav-item .nav-link[b-jo94u0ehbd],
+.nav-item .nav-link:visited[b-jo94u0ehbd],
+.nav-item .nav-link:active[b-jo94u0ehbd],
+.nav-item .nav-link:focus[b-jo94u0ehbd] {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.nav-item .nav-link:hover[b-jo94u0ehbd] {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+    text-decoration: none;
+}
+
+.nav-item .nav-link.active[b-jo94u0ehbd] {
+    background-color: #3b82f6;
+    color: white !important;
+}
+
+.nav-link i[b-jo94u0ehbd] {
+    font-size: 1.125rem;
+    width: 1.25rem;
+    text-align: center;
+    color: #fbbf24;
+}
+
+.nav-text[b-jo94u0ehbd] {
+    flex: 1;
+    color: white !important;
+}
+
+/* Sidebar Footer */
+.sidebar-footer[b-jo94u0ehbd] {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-card[b-jo94u0ehbd] {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.user-card:hover[b-jo94u0ehbd] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar-placeholder[b-jo94u0ehbd] {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.user-details[b-jo94u0ehbd] {
+    flex: 1;
+}
+
+.user-name[b-jo94u0ehbd] {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.125rem;
+}
+
+.user-status[b-jo94u0ehbd] {
+    display: block;
+    color: #10b981;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar[b-jo94u0ehbd] {
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .brand-text[b-jo94u0ehbd],
+    .nav-text[b-jo94u0ehbd],
+    .user-details[b-jo94u0ehbd] {
+        display: block;
+    }
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed .brand-text[b-jo94u0ehbd],
+.sidebar.collapsed .nav-text[b-jo94u0ehbd],
+.sidebar.collapsed .nav-title[b-jo94u0ehbd],
+.sidebar.collapsed .user-details[b-jo94u0ehbd] {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-header[b-jo94u0ehbd],
+.sidebar.collapsed .sidebar-footer[b-jo94u0ehbd] {
+    padding: 1rem 0.5rem;
+}
+
+.sidebar.collapsed .nav-menu[b-jo94u0ehbd] {
+    padding: 0 0.5rem;
+}
+
+.sidebar.collapsed .nav-link[b-jo94u0ehbd] {
+    padding: 0.75rem;
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-link i[b-jo94u0ehbd] {
+    margin: 0;
+}
+
+.sidebar.collapsed .user-card[b-jo94u0ehbd] {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.sidebar.collapsed .user-avatar-placeholder[b-jo94u0ehbd] {
+    width: 32px;
+    height: 32px;
+}
+
+.sidebar.collapsed .brand-logo[b-jo94u0ehbd] {
+    width: 32px;
+    height: 32px;
+}

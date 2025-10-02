@@ -1,0 +1,237 @@
+/* Styles pour la page de débogage de la caméra */
+.camera-debug-page {
+    padding: 20px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.camera-debug-page .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.camera-debug-page h1 {
+    text-align: center;
+    color: #1e1b4b;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.camera-debug-page .description {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.debug-sections {
+    display: grid;
+    gap: 30px;
+}
+
+.debug-section {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    background: #fafbfc;
+}
+
+.debug-section h3 {
+    color: #1e1b4b;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+/* Section environnement */
+.debug-info p {
+    margin: 10px 0;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.debug-info strong {
+    color: #1e1b4b;
+    min-width: 150px;
+    display: inline-block;
+}
+
+/* Section test caméra */
+.camera-test {
+    text-align: center;
+}
+
+#debugVideo {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    background-color: #000;
+    margin-bottom: 20px;
+}
+
+.camera-test button {
+    margin: 8px;
+    min-width: 140px;
+}
+
+/* Section logs */
+.debug-logs {
+    max-height: 300px;
+    overflow-y: auto;
+    background: #1e1b4b;
+    color: #e5e7eb;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.log-entry {
+    margin: 5px 0;
+    padding: 3px 0;
+    border-bottom: 1px solid #374151;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+/* Section informations système */
+.system-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.system-info p {
+    margin: 5px 0;
+}
+
+.system-info strong {
+    color: #1e1b4b;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .camera-debug-page .container {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .camera-debug-page h1 {
+        font-size: 2rem;
+    }
+    
+    .debug-sections {
+        gap: 20px;
+    }
+    
+    .debug-section {
+        padding: 15px;
+    }
+    
+    #debugVideo {
+        max-width: 100%;
+    }
+    
+    .camera-test button {
+        min-width: 120px;
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+}
+
+/* Animations */
+.debug-section {
+    transition: all 0.3s ease-in-out;
+}
+
+.debug-section:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+/* États spéciaux */
+.debug-section.success {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.debug-section.error {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.debug-section.warning {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
+
+/* Boutons de débogage */
+.btn-debug {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.btn-debug:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-debug.secondary {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+.btn-debug.secondary:hover {
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+/* Indicateurs de statut */
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-indicator.success {
+    background-color: #10b981;
+}
+
+.status-indicator.error {
+    background-color: #ef4444;
+}
+
+.status-indicator.warning {
+    background-color: #f59e0b;
+}
+
+.status-indicator.info {
+    background-color: #3b82f6;
+}

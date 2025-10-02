@@ -1,0 +1,115 @@
+/* Styles pour la page de test rapide de la caméra */
+.camera-quick-test {
+    padding: 20px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.camera-quick-test .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.camera-quick-test h1 {
+    text-align: center;
+    color: #1e1b4b;
+    margin-bottom: 10px;
+}
+
+.camera-quick-test p {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 30px;
+}
+
+.test-section, .debug-section {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fafbfc;
+}
+
+.test-section h3, .debug-section h3 {
+    color: #1e1b4b;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+.camera-display {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.status-info {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.status-info p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.status-info strong {
+    color: #1e1b4b;
+    min-width: 80px;
+    display: inline-block;
+}
+
+.debug-info {
+    background: #1e1b4b;
+    color: #e5e7eb;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.debug-info p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.debug-info strong {
+    color: #3b82f6;
+}
+
+.btn {
+    margin: 5px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+}

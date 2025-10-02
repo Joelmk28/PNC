@@ -1,0 +1,92 @@
+@page "/test-photo"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Test Capture Photo</PageTitle>
+
+<div class="test-container">
+    <h1>Test de Capture Photo</h1>
+    
+    <div class="test-section">
+        <h3>Test des Fonctions JavaScript</h3>
+        <button @onclick="TestCameraAvailability">Tester Disponibilité Caméra</button>
+        <button @onclick="TestGetCameras">Lister les Caméras</button>
+        
+        @if (!string.IsNullOrEmpty(testResult))
+        {
+            <div class="test-result">
+                <strong>Résultat:</strong> @testResult
+            </div>
+        }
+    </div>
+    
+    <div class="test-section">
+        <h3>Composant PhotoCapture</h3>
+        @if (showPhotoCapture)
+        {
+            <PhotoCapture OnPhotoCaptured="OnPhotoCaptured" OnClose="ClosePhotoCapture" />
+        }
+        else
+        {
+            <button @onclick="ShowPhotoCapture">Ouvrir Capture Photo</button>
+        }
+        
+        @if (!string.IsNullOrEmpty(capturedPhoto))
+        {
+            <div class="captured-photo">
+                <h4>Photo Capturée:</h4>
+                <img src="@capturedPhoto" alt="Photo test" style="max-width: 300px; border-radius: 8px;" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string testResult = "";
+    private bool showPhotoCapture = false;
+    private string capturedPhoto = "";
+
+    private async Task TestCameraAvailability()
+    {
+        try
+        {
+            var isAvailable = await JSRuntime.InvokeAsync<bool>("isCameraAvailable");
+            testResult = $"Caméra disponible: {isAvailable}";
+        }
+        catch (Exception ex)
+        {
+            testResult = $"Erreur: {ex.Message}";
+        }
+    }
+
+    private async Task TestGetCameras()
+    {
+        try
+        {
+            var cameras = await JSRuntime.InvokeAsync<object>("getAvailableCameras");
+            testResult = $"Caméras trouvées: {cameras}";
+        }
+        catch (Exception ex)
+        {
+            testResult = $"Erreur: {ex.Message}";
+        }
+    }
+
+    private void ShowPhotoCapture()
+    {
+        showPhotoCapture = true;
+    }
+
+    private void ClosePhotoCapture()
+    {
+        showPhotoCapture = false;
+    }
+
+    private async Task OnPhotoCaptured(string photoDataUrl)
+    {
+        capturedPhoto = photoDataUrl;
+        showPhotoCapture = false;
+        await Task.Delay(1); // Éviter l'avertissement CS1998
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,153 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PNC
+build_property.RootNamespace = PNC
+build_property.ProjectDir = D:\C#\web\PNC\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\C#\web\PNC
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/C\#/web/PNC/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/ConnectionStatus.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb25uZWN0aW9uU3RhdHVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Pages/CameraDebug.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYW1lcmFEZWJ1Zy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Pages/CameraQuickTest.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYW1lcmFRdWlja1Rlc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Pages/CameraTest.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYW1lcmFUZXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/C\#/web/PNC/Components/Layout/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTG9naW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-b0t0xiy69y
+
+[D:/C\#/web/PNC/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-tqx62n6t2r
+
+[D:/C\#/web/PNC/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-jo94u0ehbd
+
+[D:/C\#/web/PNC/Components/Pages/CaptureDocuments.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYXB0dXJlRG9jdW1lbnRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-9p0ffcgc1c
+
+[D:/C\#/web/PNC/Components/Pages/CaptureEmpreintes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYXB0dXJlRW1wcmVpbnRlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-flyc2gieog
+
+[D:/C\#/web/PNC/Components/Pages/CapturePhoto.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYXB0dXJlUGhvdG8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-lr9elsqd9b
+
+[D:/C\#/web/PNC/Components/Pages/Commissariats.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb21taXNzYXJpYXRzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-z17mch3rnj
+
+[D:/C\#/web/PNC/Components/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-tq12zk8p0i
+
+[D:/C\#/web/PNC/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-2c6x9eoqoa
+
+[D:/C\#/web/PNC/Components/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-vhw3aacvw4
+
+[D:/C\#/web/PNC/Components/Pages/Logout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-4zohmetiyt
+
+[D:/C\#/web/PNC/Components/Pages/PolicierDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQb2xpY2llckRldGFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-0lu2t8b66u
+
+[D:/C\#/web/PNC/Components/Pages/PolicierForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQb2xpY2llckZvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-9cvwillk6a
+
+[D:/C\#/web/PNC/Components/Pages/Policiers.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xQb2xpY2llcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-qwpzaybrym
+
+[D:/C\#/web/PNC/Components/Pages/RoleForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSb2xlRm9ybS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-c2bbbkhnva
+
+[D:/C\#/web/PNC/Components/Pages/Roles.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSb2xlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-gj62n07t6l
+
+[D:/C\#/web/PNC/Components/Pages/UtilisateurDetail.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVdGlsaXNhdGV1ckRldGFpbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-awdbnme34b
+
+[D:/C\#/web/PNC/Components/Pages/UtilisateurForm.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVdGlsaXNhdGV1ckZvcm0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-p9c44xhv7a
+
+[D:/C\#/web/PNC/Components/Pages/Utilisateurs.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVdGlsaXNhdGV1cnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-sga9cem4f8
+
+[D:/C\#/web/PNC/Components/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-qqj2w7n5gm
+
+[D:/C\#/web/PNC/Components/PhotoCapture.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQaG90b0NhcHR1cmUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-chkmrl7uda
+
+[D:/C\#/web/PNC/Components/SimpleCameraTest.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTaW1wbGVDYW1lcmFUZXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-wqou3veqyf
+
+[D:/C\#/web/PNC/Components/TestPhotoCapture.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xUZXN0UGhvdG9DYXB0dXJlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-bj7zuv7vz7

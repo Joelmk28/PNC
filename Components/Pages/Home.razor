@@ -1,0 +1,435 @@
+@page "/"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@using PNC.Services
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject IJSRuntime JSRuntime
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Mvc
+
+
+
+
+<PageTitle>Tableau de Bord - PNC</PageTitle>
+
+<div class="modern-dashboard">
+    <!-- Header -->
+    <div class="dashboard-header-modern">
+        <div>
+            <h1>Tableau de Bord</h1>
+            <p class="subtitle">Police Nationale Congolaise - Vue d'ensemble</p>
+        </div>
+        <div class="header-actions-modern">
+            <button class="btn-modern btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Nouveau
+            </button>
+            <button class="btn-modern btn-outline">
+                <i class="bi bi-download"></i>
+                Exporter
+            </button>
+        </div>
+    </div>
+
+    <!-- Statistics Cards Grid -->
+    <div class="stats-grid-modern">
+        <!-- Total Policiers -->
+        <div class="stat-card-modern primary">
+            <div class="stat-header">
+                <div class="stat-info">
+                    <h3>Total Policiers</h3>
+                    <p class="stat-change positive">
+                        <i class="bi bi-arrow-up"></i>
+                        @(nouveauxCeMois > 0 ? $"+{nouveauxCeMois}" : "0") ce mois
+                    </p>
+                </div>
+                <div class="stat-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+            </div>
+            <div class="stat-value">@totalPoliciers.ToString("N0")</div>
+            <div class="mini-chart">
+                <canvas id="policiersChart" width="200" height="60"></canvas>
+            </div>
+        </div>
+
+        <!-- Hommes -->
+        <div class="stat-card-modern info">
+            <div class="stat-header">
+                <div class="stat-info">
+                    <h3>Hommes</h3>
+                    <p class="stat-change">
+                        @(totalPoliciers > 0 ? Math.Round((double)hommes / totalPoliciers * 100, 1) : 0)% du total
+                    </p>
+                </div>
+                <div class="stat-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+            </div>
+            <div class="stat-value">@hommes.ToString("N0")</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: @(totalPoliciers > 0 ? (double)hommes / totalPoliciers * 100 : 0)%"></div>
+            </div>
+        </div>
+
+        <!-- Commissariats -->
+        <div class="stat-card-modern success">
+            <div class="stat-header">
+                <div class="stat-info">
+                    <h3>Commissariats Actifs</h3>
+                    <p class="stat-change">
+                        Répartis nationalement
+                    </p>
+                </div>
+                <div class="stat-icon">
+                    <i class="bi bi-building"></i>
+                </div>
+            </div>
+            <div class="stat-value">@totalCommissariats.ToString("N0")</div>
+            <div class="mini-chart">
+                <canvas id="commissariatsChart" width="200" height="60"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid-modern">
+        <!-- Répartition par Grade -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h4>Répartition par Grade</h4>
+                <button class="btn-dots">
+                    <i class="bi bi-three-dots"></i>
+                </button>
+            </div>
+            <div class="card-content-modern">
+                @if (gradeDistribution?.Any() == true)
+                {
+                    <div class="chart-wrapper">
+                        <canvas id="gradeChart" width="300" height="200"></canvas>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state-modern">
+                        <i class="bi bi-pie-chart"></i>
+                        <p>Aucune donnée disponible</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Activités Récentes -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h4>Dernières Activités</h4>
+                <button class="btn-link">Voir tout</button>
+            </div>
+            <div class="card-content-modern">
+                <div class="activity-list-modern">
+                    @if (recentActivities?.Any() == true)
+                    {
+                        @foreach (var activity in recentActivities.Take(5))
+                        {
+                            <div class="activity-item-modern">
+                                <div class="activity-avatar-modern">
+                                    <i class="bi bi-person-plus"></i>
+                                </div>
+                                <div class="activity-content-modern">
+                                    <p class="activity-title">@activity.Nom @activity.Prenom</p>
+                                    <p class="activity-subtitle">@activity.FonctionActuelle</p>
+                                </div>
+                                <div class="activity-time-modern">
+                                    @GetTimeAgo(activity.DateEntreePolice)
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state-modern">
+                            <i class="bi bi-clock-history"></i>
+                            <p>Aucune activité récente</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiques Détaillées -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h4>Statistiques Détaillées</h4>
+                <select class="select-modern">
+                    <option>Cette semaine</option>
+                    <option>Ce mois</option>
+                    <option>Cette année</option>
+                </select>
+            </div>
+            <div class="card-content-modern">
+                <div class="stats-list-modern">
+                    <div class="stat-item-modern">
+                        <div class="stat-item-icon bg-blue">
+                            <i class="bi bi-award"></i>
+                        </div>
+                        <div class="stat-item-content">
+                            <span class="stat-item-label">Grades Différents</span>
+                            <span class="stat-item-value">@totalGrades</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item-modern">
+                        <div class="stat-item-icon bg-green">
+                            <i class="bi bi-mortarboard"></i>
+                        </div>
+                        <div class="stat-item-content">
+                            <span class="stat-item-label">Formations</span>
+                            <span class="stat-item-value">@totalFormations</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item-modern">
+                        <div class="stat-item-icon bg-orange">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <div class="stat-item-content">
+                            <span class="stat-item-label">Distinctions</span>
+                            <span class="stat-item-value">@totalDistinctions</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item-modern">
+                        <div class="stat-item-icon bg-purple">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <div class="stat-item-content">
+                            <span class="stat-item-label">Enquêteurs</span>
+                            <span class="stat-item-value">@totalEnqueteurs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des Derniers Policiers -->
+        <div class="card-modern full-width">
+            <div class="card-header-modern">
+                <h4>Derniers Policiers Enregistrés</h4>
+                <div class="card-actions-modern">
+                    <button class="btn-modern btn-sm">
+                        <i class="bi bi-funnel"></i>
+                        Filtrer
+                    </button>
+                    <button class="btn-modern btn-primary btn-sm">
+                        <i class="bi bi-plus"></i>
+                        Ajouter
+                    </button>
+                </div>
+            </div>
+            <div class="card-content-modern no-padding">
+                <div class="table-modern-wrapper">
+                    <table class="table-modern">
+                        <thead>
+                            <tr>
+                                <th>Policier</th>
+                                <th>Matricule</th>
+                                <th>Grade</th>
+                                <th>Fonction</th>
+                                <th>Unité</th>
+                                <th>Date d'entrée</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (recentPoliciers?.Any() == true)
+                            {
+                                @foreach (var policier in recentPoliciers.Take(6))
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="user-modern">
+                                                <div class="user-avatar-modern">
+                                                    @policier.Nom.Substring(0, 1)@policier.Prenom?.Substring(0, 1)
+                                                </div>
+                                                <div class="user-info-modern">
+                                                    <span class="user-name">@policier.Nom @policier.PostNom</span>
+                                                    <span class="user-subtitle">@policier.Prenom</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge-modern secondary">@policier.Matricule</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge-modern primary">@policier.NatureGrade</span>
+                                        </td>
+                                        <td class="text-secondary">@policier.FonctionActuelle</td>
+                                        <td class="text-secondary">@policier.NomUnite</td>
+                                        <td class="text-secondary">@policier.DateEntreePolice.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            <div class="actions-modern">
+                                                <button class="btn-action" title="Voir">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button class="btn-action" title="Modifier">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn-action danger" title="Supprimer">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="empty-state-modern">
+                                            <i class="bi bi-people"></i>
+                                            <p>Aucun policier enregistré</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int totalPoliciers = 0;
+    private int totalCommissariats = 0;
+    private int totalGrades = 0;
+    private int totalEnqueteurs = 0;
+    private int nouveauxCeMois = 0;
+    private int hommes = 0;
+    private int femmes = 0;
+    private int totalFormations = 0;
+    private int totalDistinctions = 0;
+    
+    private List<Policier>? recentPoliciers;
+    private List<Policier>? recentActivities;
+    private Dictionary<string, int>? gradeDistribution;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Vérifier si l'utilisateur est authentifié
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        if (authState.User.Identity?.IsAuthenticated != true)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+        
+        await LoadDashboardData();
+    }
+
+    private async Task LoadDashboardData()
+    {
+        using var context = DbFactory.CreateDbContext();
+        
+        try
+        {
+            // Statistiques générales
+            totalPoliciers = await context.Policiers.CountAsync();
+            totalCommissariats = await context.Commissariats.CountAsync();
+            totalEnqueteurs = await context.Enqueteurs.CountAsync();
+            
+            // Nouveaux ce mois
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+            nouveauxCeMois = await context.Policiers
+                .Where(p => p.DateEntreePolice.Month == currentMonth && p.DateEntreePolice.Year == currentYear)
+                .CountAsync();
+            
+            // Répartition par sexe
+            hommes = await context.Policiers.Where(p => p.Sexe == "M").CountAsync();
+            femmes = await context.Policiers.Where(p => p.Sexe == "F").CountAsync();
+            
+            // Autres statistiques
+            totalFormations = await context.Formations.CountAsync();
+            totalDistinctions = await context.DistinctionHonorifiques.CountAsync();
+            
+            // Compter les grades uniques
+            totalGrades = await context.Policiers.Select(p => p.NatureGrade).Distinct().CountAsync();
+            
+            // Derniers policiers
+            recentPoliciers = await context.Policiers
+                .OrderByDescending(p => p.DateEntreePolice)
+                .Take(10)
+                .ToListAsync();
+                
+            recentActivities = recentPoliciers;
+            
+            // Distribution par grade
+            gradeDistribution = await context.Policiers
+                .GroupBy(p => p.NatureGrade)
+                .Select(g => new { Grade = g.Key, Count = g.Count() })
+                .OrderByDescending(x => x.Count)
+                .Take(6)
+                .ToDictionaryAsync(x => x.Grade, x => x.Count);
+        }
+        catch (Exception ex)
+        {
+            // Log error - pour l'instant, on initialise avec des valeurs par défaut
+            Console.WriteLine($"Erreur lors du chargement des données: {ex.Message}");
+        }
+    }
+
+    private string GetTimeAgo(DateTime date)
+    {
+        var timeSpan = DateTime.Now - date;
+        
+        if (timeSpan.Days > 30)
+            return $"{timeSpan.Days / 30}m";
+        if (timeSpan.Days > 0)
+            return $"{timeSpan.Days}j";
+        if (timeSpan.Hours > 0)
+            return $"{timeSpan.Hours}h";
+        
+        return "maintenant";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeCharts();
+        }
+    }
+
+    private async Task InitializeCharts()
+    {
+        try
+        {
+            // S'assurer que Chart.js est chargé
+            var chartJSLoaded = await JSRuntime.InvokeAsync<bool>("ensureChartJS");
+            if (!chartJSLoaded) return;
+            
+            await Task.Delay(300);
+            
+            // Graphique des grades
+            if (gradeDistribution?.Any() == true)
+            {
+                var gradeLabels = gradeDistribution.Keys.ToArray();
+                var gradeData = gradeDistribution.Values.ToArray();
+                
+                await JSRuntime.InvokeVoidAsync("initializeModernGradeChart", gradeLabels, gradeData);
+            }
+            
+            // Mini graphiques
+            await JSRuntime.InvokeVoidAsync("initializeMiniCharts", totalPoliciers, nouveauxCeMois);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de l'initialisation des graphiques: {ex.Message}");
+        }
+    }
+}

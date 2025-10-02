@@ -1,0 +1,1212 @@
+@page "/policiers"
+@using Microsoft.EntityFrameworkCore
+@using PNC.Data
+@using PNC.Models
+@using PNC.Services
+@inject IDbContextFactory<BdPolicePncContext> DbFactory
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject IPhotoService PhotoService
+@implements IAsyncDisposable
+
+<PageTitle>Gestion des Policiers - PNC</PageTitle>
+
+<div class="policiers-page">
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="bi bi-people-fill me-3"></i>
+                Gestion des Policiers
+            </h1>
+            <p class="page-subtitle">
+                Gérez le personnel de la Police Nationale Congolaise
+            </p>
+        </div>
+        <div class="header-actions">
+            <button class="btn-modern btn-outline" @onclick="ExportData">
+                <i class="bi bi-download"></i>
+                Exporter
+            </button>
+            <button class="btn-modern btn-primary" @onclick="ShowAddPolicierModal">
+                <i class="bi bi-plus-circle"></i>
+                Nouveau Policier
+            </button>
+        </div>
+    </div>
+
+
+
+    <!-- Filters and Search -->
+    <div class="search-filters-container">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Rechercher par nom, matricule, fonction..." 
+                   @bind="searchTerm" @oninput="OnSearchInput" />
+        </div>
+        
+        <select class="filter-select" @bind="selectedGrade" @bind:after="ApplyFilters">
+            <option value="">Tous les grades</option>
+            @if (grades?.Any() == true)
+            {
+                @foreach (var grade in grades)
+                {
+                    <option value="@grade">@grade</option>
+                }
+            }
+        </select>
+        
+        <select class="filter-select" @bind="selectedUnite" @bind:after="ApplyFilters">
+            <option value="">Toutes les unités</option>
+            @if (unites?.Any() == true)
+            {
+                @foreach (var unite in unites)
+                {
+                    <option value="@unite">@unite</option>
+                }
+            }
+        </select>
+        
+        <select class="filter-select" @bind="selectedSexe" @bind:after="ApplyFilters">
+            <option value="">Tous</option>
+            <option value="M">Hommes</option>
+            <option value="F">Femmes</option>
+        </select>
+        
+        <button class="btn-filter" @onclick="ClearFilters">
+            <i class="bi bi-x-circle"></i>
+            Effacer
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content-card">
+        <div class="card-header">
+            <div class="results-info">
+                <span class="results-count">@filteredPoliciers?.Count() policiers trouvés</span>
+                @if (isFiltered)
+                {
+                    <span class="filter-indicator">
+                        <i class="bi bi-funnel-fill"></i>
+                        Filtré
+                    </span>
+                }
+            </div>
+            
+            <div class="view-options">
+                <button class="view-btn @(viewMode == "grid" ? "active" : "")" 
+                        @onclick="@(() => SetViewMode("grid"))">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </button>
+                <button class="view-btn @(viewMode == "list" ? "active" : "")" 
+                        @onclick="@(() => SetViewMode("list"))">
+                    <i class="bi bi-list"></i>
+                </button>
+            </div>
+        </div>
+
+      
+
+        <div class="card-content">
+            @if (isLoading)
+            {
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Chargement des données...</p>
+                </div>
+            }
+            else if (filteredPoliciers?.Any() == true)
+            {
+                @if (viewMode == "grid")
+                {
+                    <div class="policiers-grid">
+                                                    @if (paginatedPoliciers != null)
+                            {
+                                @foreach (var policier in paginatedPoliciers)
+                                {
+                                    <div class="policier-card" @onclick="() => ViewPolicierDetails(policier.Id)">
+                                <div class="policier-avatar">
+                                            @if (!string.IsNullOrEmpty(policier.Photo))
+                                            {
+                                                <img src="@policier.Photo" alt="Photo de @policier.Nom @policier.Prenom" class="policier-photo" />
+                                            }
+                                            else
+                                            {
+                                                <span class="policier-initials">@GetInitials(policier.Nom, policier.Prenom)</span>
+                                            }
+                                            <button class="camera-btn" @onclick:stopPropagation="true" @onclick="() => NavigateToCapturePhoto(policier.Id)" title="Prendre une photo">
+                                                <i class="bi bi-camera-fill"></i>
+                                            </button>
+                                </div>
+                                <div class="policier-info">
+                                            <!-- Section 1: Identité et Informations Personnelles -->
+                                            <div class="info-section personal-info">
+                                                <div class="section-header">
+                                                    <i class="bi bi-person-circle"></i>
+                                    <h4 class="policier-name">@policier.Nom @policier.PostNom</h4>
+                                    <p class="policier-prenom">@policier.Prenom</p>
+                                                </div>
+                                                <div class="info-grid">
+                                                    <div class="info-item">
+                                                        <span class="info-label">Matricule:</span>
+                                        <span class="badge-modern primary">@policier.Matricule</span>
+                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">NUTP:</span>
+                                                        <span class="badge-modern secondary">@policier.NumeroNutp</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Sexe:</span>
+                                                        <span class="info-value">@policier.Sexe</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Né(e) le:</span>
+                                                        <span class="info-value">@policier.DateNaissance.ToString("dd/MM/yyyy")</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Lieu:</span>
+                                                        <span class="info-value">@policier.VilleNaissance, @policier.PaysNaissance</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">État civil:</span>
+                                                        <span class="info-value">@policier.EtatCivil</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Groupe sanguin:</span>
+                                                        <span class="info-value">@policier.GroupeSanguin @policier.Rhesus</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Section 2: Carrière et Fonction -->
+                                            <div class="info-section career-info">
+                                                <div class="section-header">
+                                                    <i class="bi bi-briefcase"></i>
+                                                    <h5>Carrière</h5>
+                                                </div>
+                                                <div class="info-grid">
+                                                    <div class="info-item">
+                                                        <span class="info-label">Grade:</span>
+                                                        <span class="badge-modern accent">@policier.NatureGrade</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Fonction:</span>
+                                                        <span class="info-value">@policier.FonctionActuelle</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Unité:</span>
+                                                        <span class="info-value">@policier.NomUnite</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Entrée police:</span>
+                                                        <span class="info-value">@policier.DateEntreePolice.ToString("dd/MM/yyyy")</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Lieu entrée:</span>
+                                                        <span class="info-value">@policier.LieuEntreePolice</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Section 3: Adresse et Contact -->
+                                            <div class="info-section contact-info">
+                                                <div class="section-header">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <h5>Adresse & Contact</h5>
+                                                </div>
+                                                <div class="info-grid">
+                                                    <div class="info-item">
+                                                        <span class="info-label">Province:</span>
+                                                        <span class="info-value">@policier.ProvinceOrigine</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">District:</span>
+                                                        <span class="info-value">@policier.DistrictOrigine</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Territoire:</span>
+                                                        <span class="info-value">@policier.TerritoireOrigine</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Secteur:</span>
+                                                        <span class="info-value">@policier.SecteurOrigine</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Village:</span>
+                                                        <span class="info-value">@policier.VillageOrigine</span>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <span class="info-label">Téléphone:</span>
+                                                        <span class="info-value">@policier.Telephone</span>
+                                                    </div>
+                                                    @if (!string.IsNullOrEmpty(policier.CategoriePermis))
+                                                    {
+                                                        <div class="info-item">
+                                                            <span class="info-label">Permis:</span>
+                                                            <span class="info-value">@policier.CategoriePermis - @policier.NumeroPermis</span>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <!-- Section 4: Collections et Relations -->
+                                            <div class="info-section collections-info">
+                                                <div class="section-header">
+                                                    <i class="bi bi-collection"></i>
+                                                    <h5>Collections & Relations</h5>
+                                                </div>
+                                                <div class="collections-grid">
+                                                    <!-- Conjoints -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-heart-fill collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Conjoints?.Count ?? 0)</span>
+                                                            <span class="collection-label">Conjoints</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Enfants -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-people-fill collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Enfants?.Count ?? 0)</span>
+                                                            <span class="collection-label">Enfants</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Formations -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-mortarboard-fill collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Formations?.Count ?? 0)</span>
+                                                            <span class="collection-label">Formations</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Langues -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-translate collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Langues?.Count ?? 0)</span>
+                                                            <span class="collection-label">Langues</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Sports -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-trophy-fill collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Sports?.Count ?? 0)</span>
+                                                            <span class="collection-label">Sports</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Distinctions -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-award-fill collection-icon"></i>
+                                                            <span class="collection-count">@(policier.DistinctionHonorifiques?.Count ?? 0)</span>
+                                                            <span class="collection-label">Distinctions</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Affectations -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-building collection-icon"></i>
+                                                            <span class="collection-count">@(policier.HistAffectations?.Count ?? 0)</span>
+                                                            <span class="collection-label">Affectations</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Fonctions -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-briefcase collection-icon"></i>
+                                                            <span class="collection-count">@(policier.HistFonctions?.Count ?? 0)</span>
+                                                            <span class="collection-label">Fonctions</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Grades -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-star collection-icon"></i>
+                                                            <span class="collection-count">@(policier.HistGrades?.Count ?? 0)</span>
+                                                            <span class="collection-label">Grades</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Empreintes -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-fingerprint collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Empreintes?.Count ?? 0)</span>
+                                                            <span class="collection-label">Empreintes</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- Contacts -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-telephone collection-icon"></i>
+                                                            <span class="collection-count">@(policier.PersonnePrevenirs?.Count ?? 0)</span>
+                                                            <span class="collection-label">Contacts</span>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <!-- FRI -->
+                                                    <div class="collection-item">
+                                                        <div class="collection-content">
+                                                            <i class="bi bi-file-text collection-icon"></i>
+                                                            <span class="collection-count">@(policier.Fris?.Count ?? 0)</span>
+                                                            <span class="collection-label">FRI</span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                                <div class="policier-actions">
+                                    @if (policier.Status?.ToUpper() != "COMPLETED")
+                                    {
+                                        <div class="actions-dropdown">
+                                            <button class="btn-action dropdown-toggle" @onclick:stopPropagation="true" 
+                                                    @onclick="() => ToggleActionsMenu(policier.Id)" title="Actions">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                            @if (showActionsMenu == policier.Id)
+                                            {
+                                                <div class="dropdown-menu show">
+                                                    <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                            @onclick="() => ViewPolicierDetails(policier.Id)">
+                                                        <i class="bi bi-eye"></i> Voir
+                                                    </button>
+                                                    <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                            @onclick="() => EditPolicier(policier)">
+                                                    <i class="bi bi-pencil"></i> Modifier
+                                                </button>
+                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                        @onclick="() => NavigateToCapturePhoto(policier.Id)">
+                                                    <i class="bi bi-camera-fill"></i> Photo
+                                                </button>
+                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                        @onclick="() => NavigateToCaptureEmpreintes(policier.Id)">
+                                                    <i class="bi bi-fingerprint"></i> Empreintes
+                                                </button>
+                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                        @onclick="() => NavigateToCaptureDocuments(policier.Id)">
+                                                    <i class="bi bi-file-earmark-image"></i> Documents
+                                                </button>
+                                                <button class="dropdown-item danger" @onclick:stopPropagation="true" 
+                                                        @onclick="() => DeletePolicier(policier.Id)">
+                                                    <i class="bi bi-trash"></i> Supprimer
+                                    </button>
+                                            </div>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                                }
+                            }
+                    </div>
+                }
+                else
+                {
+                    <div class="table-container">
+                        <table class="policiers-table">
+                            <thead>
+                                <tr>
+                                    <th @onclick="@(() => SortBy("Nom"))" class="sortable">
+                                        Nom
+                                        @if (sortColumn == "Nom")
+                                        {
+                                            <i class="bi bi-@(sortDirection == "asc" ? "arrow-up" : "arrow-down")"></i>
+                                        }
+                                    </th>
+                                    <th @onclick="@(() => SortBy("Matricule"))" class="sortable ">
+                                        Matricule
+                                        @if (sortColumn == "Matricule")
+                                        {
+                                            <i class="bi bi-@(sortDirection == "asc" ? "arrow-up" : "arrow-down")"></i>
+                                        }
+                                    </th>
+                                    <th @onclick="@(() => SortBy("NatureGrade"))" class="sortable">
+                                        Grade
+                                        @if (sortColumn == "NatureGrade")
+                                        {
+                                            <i class="bi bi-@(sortDirection == "asc" ? "arrow-up" : "arrow-down")"></i>
+                                        }
+                                    </th>
+                                    <th>Fonction</th>
+                                    <th>Unité</th>
+                                    <th>Collections</th>
+                                    <th @onclick="@(() => SortBy("DateEntreePolice"))" class="sortable">
+                                        Date d'entrée
+                                        @if (sortColumn == "DateEntreePolice")
+                                        {
+                                            <i class="bi bi-@(sortDirection == "asc" ? "arrow-up" : "arrow-down")"></i>
+                                        }
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (paginatedPoliciers != null)
+                                {
+                                    @foreach (var policier in paginatedPoliciers)
+                                    {
+                                    <tr @onclick="() => ViewPolicierDetails(policier.Id)" class="table-row">
+                                        <td>
+                                            <div class="user-cell">
+                                                <div class="user-avatar">
+                                                    @if (!string.IsNullOrEmpty(policier.Photo))
+                                                    {
+                                                        <img src="@policier.Photo" alt="Photo de @policier.Nom @policier.Prenom" class="user-photo" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="user-initials">@GetInitials(policier.Nom, policier.Prenom)</span>
+                                                    }
+                                                    <button class="camera-btn-small" @onclick:stopPropagation="true" @onclick="() => NavigateToCapturePhoto(policier.Id)" title="Prendre une photo">
+                                                        <i class="bi bi-camera-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="user-info">
+                                                    <span class="user-name">@policier.Nom @policier.PostNom</span>
+                                                    <span class="user-subtitle">@policier.Prenom</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge-modern primary">@policier.Matricule</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge-modern accent">@policier.NatureGrade</span>
+                                        </td>
+                                        <td class="text-secondary">@policier.FonctionActuelle</td>
+                                        <td class="text-secondary">@policier.NomUnite</td>
+                                        <td>
+                                            <div class="collections-integrated-table">
+                                                @if (policier.Conjoints?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-heart-fill"></i> @policier.Conjoints.Count
+                                                    </span>
+                                                }
+                                                @if (policier.Enfants?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-people-fill"></i> @policier.Enfants.Count
+                                                    </span>
+                                                }
+                                                @if (policier.Formations?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-mortarboard-fill"></i> @policier.Formations.Count
+                                                    </span>
+                                                }
+                                                @if (policier.Langues?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-translate"></i> @policier.Langues.Count
+                                                    </span>
+                                                }
+                                                @if (policier.Sports?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-trophy-fill"></i> @policier.Sports.Count
+                                                    </span>
+                                                }
+                                                @if (policier.DistinctionHonorifiques?.Any() == true)
+                                                {
+                                                    <span class="collection-tag-table">
+                                                        <i class="bi bi-award-fill"></i> @policier.DistinctionHonorifiques.Count
+                                                    </span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-secondary">@policier.DateEntreePolice.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            @if (policier.Status?.ToUpper() != "COMPLETED")
+                                            {
+                                                <div class="actions-modern">
+                                                    <div class="actions-dropdown">
+                                                        <button class="btn-action dropdown-toggle" @onclick:stopPropagation="true" 
+                                                                @onclick="() => ToggleActionsMenu(policier.Id)" title="Actions">
+                                                            <i class="bi bi-three-dots-vertical"></i>
+                                                    </button>
+                                                        @if (showActionsMenu == policier.Id)
+                                                        {
+                                                            <div class="dropdown-menu show">
+                                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => ViewPolicierDetails(policier.Id)">
+                                                                    <i class="bi bi-eye"></i> Voir
+                                                    </button>
+                                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => EditPolicier(policier)">
+                                                                    <i class="bi bi-pencil"></i> Modifier
+                                                                </button>
+                                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => NavigateToCapturePhoto(policier.Id)">
+                                                                    <i class="bi bi-camera-fill"></i> Photo
+                                                                </button>
+                                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => NavigateToCaptureEmpreintes(policier.Id)">
+                                                                    <i class="bi bi-fingerprint"></i> Empreintes
+                                                                </button>
+                                                                <button class="dropdown-item" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => NavigateToCaptureDocuments(policier.Id)">
+                                                                    <i class="bi bi-file-earmark-image"></i> Documents
+                                                                </button>
+                                                                <button class="dropdown-item danger" @onclick:stopPropagation="true" 
+                                                                        @onclick="() => DeletePolicier(policier.Id)">
+                                                                    <i class="bi bi-trash"></i> Supprimer
+                                                    </button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                                    Complété
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <!-- Pagination -->
+                <div class="pagination-container">
+                    <div class="pagination-info">
+                        Affichage de @((currentPage - 1) * pageSize + 1) à @Math.Min(currentPage * pageSize, totalResults) 
+                        sur @totalResults résultats
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="pagination-btn" @onclick="PreviousPage" disabled="@(currentPage == 1)">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        
+                        @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                        {
+                            <button class="pagination-btn @(i == currentPage ? "active" : "")" 
+                                    @onclick="() => GoToPage(i)">
+                                @i
+                            </button>
+                        }
+                        
+                        <button class="pagination-btn" @onclick="NextPage" disabled="@(currentPage == totalPages)">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <select class="page-size-select" @bind="pageSize" @bind:after="OnPageSizeChanged">
+                        <option value="10">10 par page</option>
+                        <option value="25">25 par page</option>
+                        <option value="50">50 par page</option>
+                        <option value="100">100 par page</option>
+                    </select>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="bi bi-people"></i>
+                    <h3>Aucun policier trouvé</h3>
+                    <p>
+                        @if (isFiltered)
+                        {
+                            <span>Aucun policier ne correspond aux critères de recherche.</span>
+                        }
+                        else
+                        {
+                            <span>Commencez par ajouter des policiers à votre base de données.</span>
+                        }
+                    </p>
+                    @if (!isFiltered)
+                    {
+                        <button class="btn-modern btn-primary btn-sm" @onclick="ShowAddPolicierModal">
+                            <i class="bi bi-plus-circle"></i>
+                            Ajouter un policier
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Modal de détails du policier -->
+    @if (showDetailsModal && selectedPolicier != null)
+    {
+        <div class="modal-overlay" @onclick="() => showDetailsModal = false">
+            <div class="modal-content" @onclick:stopPropagation="true">
+                <div class="modal-header">
+                    <h3>Détails du Policier</h3>
+                    <button class="modal-close" @onclick="() => showDetailsModal = false">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- Informations de base -->
+                    <div class="policier-basic-info">
+                        <div class="policier-avatar-large">
+                            @if (!string.IsNullOrEmpty(selectedPolicier.Photo))
+                            {
+                                                <img src="@selectedPolicier.Photo" alt="Photo de @selectedPolicier.Nom @selectedPolicier.Prenom" class="policier-photo-large" />
+                            }
+                            else
+                            {
+                                                <span class="policier-initials-large">@GetInitials(selectedPolicier.Nom, selectedPolicier.Prenom)</span>
+                            }
+                            <button class="camera-btn-large" @onclick="() => NavigateToCapturePhoto(selectedPolicier.Id)" title="Prendre une photo">
+                                <i class="bi bi-camera-fill"></i>
+                            </button>
+                        </div>
+                        <div class="policier-details">
+                            <h4>@selectedPolicier.Nom @selectedPolicier.PostNom @selectedPolicier.Prenom</h4>
+                            <p class="policier-matricule">Matricule: @selectedPolicier.Matricule</p>
+                            <p class="policier-grade">Grade: @selectedPolicier.NatureGrade</p>
+                            <p class="policier-fonction">Fonction: @selectedPolicier.FonctionActuelle</p>
+                            <p class="policier-unite">Unité: @selectedPolicier.NomUnite</p>
+                        </div>
+                    </div>
+
+                    <!-- Collections détaillées -->
+                    <div class="collections-details">
+                        <!-- Conjoints -->
+                        @if (selectedPolicier.Conjoints?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-heart-fill"></i> Conjoints (@selectedPolicier.Conjoints.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var conjoint in selectedPolicier.Conjoints)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@conjoint.Nom @conjoint.Prenom</span>
+                                            @if (!string.IsNullOrEmpty(conjoint.Profession))
+                                            {
+                                                <span class="item-detail">@conjoint.Profession</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Enfants -->
+                        @if (selectedPolicier.Enfants?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-people-fill"></i> Enfants (@selectedPolicier.Enfants.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var enfant in selectedPolicier.Enfants)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@enfant.Nom @enfant.Prenom</span>
+                                                                                    <span class="item-detail">@enfant.DateNaissance.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Formations -->
+                        @if (selectedPolicier.Formations?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-mortarboard-fill"></i> Formations (@selectedPolicier.Formations.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var formation in selectedPolicier.Formations)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@formation.TypeFormation</span>
+                                            @if (!string.IsNullOrEmpty(formation.Ecole))
+                                            {
+                                                <span class="item-detail">@formation.Ecole</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Langues -->
+                        @if (selectedPolicier.Langues?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-translate"></i> Langues (@selectedPolicier.Langues.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var langue in selectedPolicier.Langues)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@langue.Libelle</span>
+                                            <span class="item-detail">Écriture: @langue.NiveauEcriture, Lecture: @langue.NiveauLecture</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Sports -->
+                        @if (selectedPolicier.Sports?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-trophy-fill"></i> Sports (@selectedPolicier.Sports.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var sport in selectedPolicier.Sports)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@sport.Libelle</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Distinctions -->
+                        @if (selectedPolicier.DistinctionHonorifiques?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-award-fill"></i> Distinctions (@selectedPolicier.DistinctionHonorifiques.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var distinction in selectedPolicier.DistinctionHonorifiques)
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@distinction.Motif</span>
+                                            <span class="item-detail">@distinction.DateDecision.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Historique des affectations -->
+                        @if (selectedPolicier.HistAffectations?.Any() == true)
+                        {
+                            <div class="collection-section">
+                                <h5><i class="bi bi-building"></i> Historique des Affectations (@selectedPolicier.HistAffectations.Count)</h5>
+                                <div class="collection-items">
+                                    @foreach (var affectation in selectedPolicier.HistAffectations.OrderByDescending(a => a.DateActe))
+                                    {
+                                        <div class="collection-item">
+                                            <span class="item-name">@affectation.Denomination</span>
+                                            <span class="item-detail">@affectation.DateActe.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn-modern btn-outline" @onclick="() => EditPolicier(selectedPolicier)">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </button>
+                    <button class="btn-modern btn-primary" @onclick="() => showDetailsModal = false">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>
+
+@code {
+    // Data properties
+    private List<Policier>? allPoliciers;
+    private IEnumerable<Policier>? filteredPoliciers;
+    private IEnumerable<Policier>? paginatedPoliciers;
+    private List<string>? grades;
+    private List<string>? unites;
+    
+    // Module JavaScript
+    // private IJSObjectReference? photoEditorModule;
+
+    // Filters and search
+    private string searchTerm = "";
+    private string selectedGrade = "";
+    private string selectedUnite = "";
+    private string selectedSexe = "";
+    private bool isFiltered => !string.IsNullOrEmpty(searchTerm) || !string.IsNullOrEmpty(selectedGrade) || 
+                               !string.IsNullOrEmpty(selectedUnite) || !string.IsNullOrEmpty(selectedSexe);
+
+    // Sorting
+    private string sortColumn = "Nom";
+    private string sortDirection = "asc";
+
+    // Pagination
+    private int currentPage = 1;
+    private int pageSize = 25;
+    private int totalResults = 0;
+    private int totalPages => (int)Math.Ceiling((double)totalResults / pageSize);
+
+    // View mode
+    private string viewMode = "list";
+
+    // State
+    private bool isLoading = true;
+    private Timer? searchTimer;
+    private bool showDetailsModal = false;
+    private Policier? selectedPolicier;
+    private string? showActionsMenu = null;
+    
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+        
+        // Charger le module JavaScript
+        try
+        {
+            // photoEditorModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
+            //     "import", "./js/photo-editor.js");
+            Console.WriteLine("✅ Module Photo Editor chargé");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erreur chargement module Photo Editor: {ex.Message}");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Ajouter un gestionnaire d'événements pour fermer le menu en cliquant ailleurs
+            await JSRuntime.InvokeVoidAsync("addEventListener", "click", DotNetObjectReference.Create(this), "CloseActionsMenu");
+        }
+    }
+
+    private async Task LoadData()
+    {
+        isLoading = true;
+        using var context = DbFactory.CreateDbContext();
+
+        try
+        {
+            // Load all policiers with related collections
+            allPoliciers = await context.Policiers
+                .Include(p => p.Conjoints)
+                .Include(p => p.Enfants)
+                .Include(p => p.Formations)
+                .Include(p => p.Langues)
+                .Include(p => p.Sports)
+                .Include(p => p.DistinctionHonorifiques)
+                .Include(p => p.HistAffectations)
+                .Include(p => p.HistFonctions)
+                .Include(p => p.HistGrades)
+                .Include(p => p.PersonnePrevenirs)
+                .Include(p => p.Empreintes)
+                .Include(p => p.Fris)
+                .Include(p => p.IdCommissariatNavigation)
+                .ToListAsync();
+
+            // Load filter options
+            grades = await context.Policiers
+                .Select(p => p.NatureGrade)
+                .Distinct()
+                .OrderBy(g => g)
+                .ToListAsync();
+
+            unites = await context.Policiers
+                .Select(p => p.NomUnite)
+                .Distinct()
+                .OrderBy(u => u)
+                .ToListAsync();
+
+            // Apply initial filters
+            ApplyFilters();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des données: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? "";
+        
+        // Debounce search
+        searchTimer?.Dispose();
+        searchTimer = new Timer(async _ => 
+        {
+            await InvokeAsync(() =>
+            {
+                ApplyFilters();
+                StateHasChanged();
+            });
+        }, null, 300, Timeout.Infinite);
+    }
+
+    private void ApplyFilters()
+    {
+        if (allPoliciers == null) return;
+
+        filteredPoliciers = allPoliciers.AsEnumerable();
+
+        // Apply search
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            var search = searchTerm.ToLower();
+            filteredPoliciers = filteredPoliciers.Where(p =>
+                p.Nom.ToLower().Contains(search) ||
+                (p.Prenom?.ToLower().Contains(search) ?? false) ||
+                (p.PostNom?.ToLower().Contains(search) ?? false) ||
+                p.Matricule.ToLower().Contains(search) ||
+                p.FonctionActuelle.ToLower().Contains(search) ||
+                p.NomUnite.ToLower().Contains(search));
+        }
+
+        // Apply filters
+        if (!string.IsNullOrEmpty(selectedGrade))
+        {
+            filteredPoliciers = filteredPoliciers.Where(p => p.NatureGrade == selectedGrade);
+        }
+
+        if (!string.IsNullOrEmpty(selectedUnite))
+        {
+            filteredPoliciers = filteredPoliciers.Where(p => p.NomUnite == selectedUnite);
+        }
+
+        if (!string.IsNullOrEmpty(selectedSexe))
+        {
+            filteredPoliciers = filteredPoliciers.Where(p => p.Sexe == selectedSexe);
+        }
+
+        // Apply sorting
+        filteredPoliciers = sortColumn switch
+        {
+            "Nom" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.Nom) : filteredPoliciers.OrderByDescending(p => p.Nom),
+            "Matricule" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.Matricule) : filteredPoliciers.OrderByDescending(p => p.Matricule),
+            "Grade" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.NatureGrade) : filteredPoliciers.OrderByDescending(p => p.NatureGrade),
+            "Fonction" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.FonctionActuelle) : filteredPoliciers.OrderByDescending(p => p.FonctionActuelle),
+            "Unité" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.NomUnite) : filteredPoliciers.OrderByDescending(p => p.NomUnite),
+            "Date d'entrée" => sortDirection == "asc" ? filteredPoliciers.OrderBy(p => p.DateEntreePolice) : filteredPoliciers.OrderByDescending(p => p.DateEntreePolice),
+            _ => filteredPoliciers.OrderBy(p => p.Nom)
+        };
+
+        totalResults = filteredPoliciers.Count();
+        currentPage = 1; // Reset to first page when filters change
+        UpdatePagination();
+    }
+
+    private void UpdatePagination()
+    {
+        if (filteredPoliciers == null) return;
+
+        paginatedPoliciers = filteredPoliciers
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize);
+    }
+
+    private void SortBy(string column)
+    {
+        if (sortColumn == column)
+        {
+            sortDirection = sortDirection == "asc" ? "desc" : "asc";
+        }
+        else
+        {
+            sortColumn = column;
+            sortDirection = "asc";
+        }
+        
+        ApplyFilters();
+    }
+
+    private void ClearFilters()
+    {
+        searchTerm = "";
+        selectedGrade = "";
+        selectedUnite = "";
+        selectedSexe = "";
+        ApplyFilters();
+    }
+
+    private void SetViewMode(string mode)
+    {
+        viewMode = mode;
+    }
+
+    private void PreviousPage()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            UpdatePagination();
+        }
+    }
+
+    private void NextPage()
+    {
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            UpdatePagination();
+        }
+    }
+
+    private void GoToPage(int page)
+    {
+        currentPage = page;
+        UpdatePagination();
+    }
+
+    private void OnPageSizeChanged()
+    {
+        currentPage = 1;
+        UpdatePagination();
+    }
+
+    private string GetInitials(string nom, string? prenom)
+    {
+        var initials = nom.Substring(0, 1);
+        if (!string.IsNullOrEmpty(prenom))
+        {
+            initials += prenom.Substring(0, 1);
+        }
+        return initials.ToUpper();
+    }
+
+    // Action methods (to be implemented)
+    private void ShowAddPolicierModal()
+    {
+        Navigation.NavigateTo("/policier/ajouter");
+    }
+
+    private void ViewPolicierDetails(string policierId)
+    {
+        // Rediriger vers la page de détail du policier
+        Navigation.NavigateTo($"/policiers/{policierId}");
+    }
+
+    private void ToggleActionsMenu(string policierId)
+    {
+        // Fermer le menu si c'est le même, sinon ouvrir le nouveau
+        showActionsMenu = showActionsMenu == policierId ? null : policierId;
+    }
+
+    [JSInvokable]
+    public void CloseActionsMenu()
+    {
+        showActionsMenu = null;
+        StateHasChanged();
+    }
+
+
+
+
+
+    // Méthode de navigation vers la page de capture photo
+    private void NavigateToCapturePhoto(string policierId)
+    {
+        Navigation.NavigateTo($"/policiers/capture-photo/{policierId}");
+    }
+
+    // Méthode de navigation vers la page de capture d'empreintes
+    private void NavigateToCaptureEmpreintes(string policierId)
+    {
+        Navigation.NavigateTo($"/policiers/capture-empreintes/{policierId}");
+    }
+
+    // Méthode de navigation vers la page de capture de documents
+    private void NavigateToCaptureDocuments(string policierId)
+    {
+        Navigation.NavigateTo($"/capture-documents/{policierId}");
+    }
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+    // Nettoyer les ressources JavaScript
+    public async ValueTask DisposeAsync()
+    {
+        // if (photoEditorModule != null)
+        // {
+        //     await photoEditorModule.DisposeAsync();
+        // }
+    }
+
+
+
+
+
+    private void EditPolicier(Policier policier)
+    {
+        Navigation.NavigateTo($"/policier/modifier/{policier.Id}");
+    }
+
+    private async Task DeletePolicier(string policierId)
+    {
+        // TODO: Implement delete with confirmation
+        await Task.CompletedTask;
+    }
+
+    private void ExportData()
+    {
+        // TODO: Implement data export
+    }
+
+    public void Dispose()
+    {
+        searchTimer?.Dispose();
+    }
+}
+

@@ -1,0 +1,422 @@
+@page "/role/ajouter"
+@page "/role/modifier/{Id}"
+@using PNC.Models
+@using PNC.Services
+@using PNC.Data
+@using Microsoft.EntityFrameworkCore
+@inject IRoleService RoleService
+@inject NavigationManager Navigation
+@inject IDbContextFactory<BdPolicePncContext> ContextFactory
+
+<PageTitle>@(IsEdit ? "Modifier Rôle" : "Nouveau Rôle")</PageTitle>
+
+<div class="role-form-page">
+    <div class="form-container">
+        <!-- En-tête avec titre et bouton retour -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="bi bi-shield-plus me-3"></i>
+                    @(IsEdit ? "Modifier le Rôle" : "Nouveau Rôle")
+                </h1>
+                <p class="page-subtitle">
+                    @(IsEdit ? "Modifiez les informations du rôle" : "Créez un nouveau rôle pour le système")
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-modern btn-outline" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Retour
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire -->
+        <form @onsubmit="SubmitForm" class="form-content">
+            <div class="form-section">
+                <div class="section-header">
+                    <i class="bi bi-shield"></i>
+                    <h3>Informations du rôle</h3>
+                    <p>Définissez les propriétés du rôle</p>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nom">NOM DU RÔLE *</label>
+                        <input type="text" id="nom" @bind="Role.Nom" required 
+                               class="form-input" placeholder="Entrez le nom du rôle" />
+                        @if (HasValidationError("Nom"))
+                        {
+                            <div class="validation-error">@GetValidationError("Nom")</div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">DESCRIPTION (optionnel)</label>
+                        <textarea id="description" @bind="Role.Description" 
+                                  class="form-textarea" placeholder="Décrivez le rôle et ses responsabilités"
+                                  rows="4"></textarea>
+                        @if (HasValidationError("Description"))
+                        {
+                            <div class="validation-error">@GetValidationError("Description")</div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" @bind="Role.EstActif" />
+                            <span class="checkmark"></span>
+                            RÔLE ACTIF
+                        </label>
+                        <small class="form-help">Cochez cette case si le rôle doit être disponible pour les utilisateurs</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section des permissions -->
+            <div class="form-section">
+                <div class="section-header">
+                    <i class="bi bi-key"></i>
+                    <h3>Permissions du rôle</h3>
+                    <p>Sélectionnez les permissions que ce rôle doit avoir</p>
+                </div>
+                
+                @if (permissions != null && permissions.Any())
+                {
+                    <div class="permissions-container">
+                        <div class="permissions-header">
+                            <div class="permissions-count">
+                                @(selectedPermissions.Count) permission(s) sélectionnée(s) sur @permissions.Count
+                            </div>
+                            <div class="permissions-actions">
+                                <button type="button" class="btn-modern btn-outline btn-sm" @onclick="SelectAllPermissions">
+                                    <i class="bi bi-check-all"></i>
+                                    Tout sélectionner
+                                </button>
+                                <button type="button" class="btn-modern btn-outline btn-sm" @onclick="ClearAllPermissions">
+                                    <i class="bi bi-x-circle"></i>
+                                    Tout effacer
+                                </button>
+                            </div>
+                        </div>
+                        
+                                                 <div class="permissions-grid">
+                             @foreach (var permission in permissions.OrderBy(p => p.Module).ThenBy(p => p.Action))
+                             {
+                                 <div class="permission-item">
+                                     <label class="permission-checkbox">
+                                         <input type="checkbox" 
+                                                checked="@selectedPermissions.Contains(permission.Id)"
+                                                @onchange="@(e => OnPermissionChanged(permission.Id, e.Value))" />
+                                         <span class="permission-checkmark"></span>
+                                         <div class="permission-info">
+                                             <div class="permission-name">@permission.Nom</div>
+                                             <div class="permission-module">@permission.Module - @permission.Action</div>
+                                             @if (!string.IsNullOrEmpty(permission.Description))
+                                             {
+                                                 <div class="permission-description">@permission.Description</div>
+                                             }
+                                         </div>
+                                     </label>
+                                 </div>
+                             }
+                         </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="no-permissions">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <p>Aucune permission disponible pour le moment.</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Actions du formulaire -->
+            <div class="form-actions">
+                <button type="button" class="btn-modern btn-outline" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Annuler
+                </button>
+                <button type="submit" class="btn-modern btn-primary" disabled="@IsSubmitting">
+                    <i class="bi bi-check"></i>
+                    @if (IsSubmitting)
+                    {
+                        <span>Enregistrement en cours...</span>
+                    }
+                    else
+                    {
+                        @(IsEdit ? "Modifier le rôle" : "Créer le rôle")
+                    }
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    private Role Role { get; set; } = new();
+    private bool IsEdit => !string.IsNullOrEmpty(Id);
+    private bool IsSubmitting = false;
+    private Dictionary<string, string> validationErrors = new();
+    
+    // Gestion des permissions
+    private List<Permission> permissions = new();
+    private HashSet<string> selectedPermissions = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            await LoadRoleAsync();
+        }
+        else
+        {
+            // Définir la date de création automatiquement pour les nouveaux rôles
+            Role.DateCreation = DateTime.Now;
+        }
+        
+        // Charger toutes les permissions disponibles
+        await LoadPermissionsAsync();
+    }
+
+    private async Task LoadRoleAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(Id))
+            {
+                var role = await RoleService.GetRoleByIdAsync(Id);
+                if (role != null)
+                {
+                    Role = role;
+                    
+                    // Charger les permissions actuelles du rôle
+                    var rolePermissions = await RoleService.GetPermissionsDuRoleAsync(Id);
+                    selectedPermissions = rolePermissions.Select(p => p.Id).ToHashSet();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement du rôle: {ex.Message}");
+        }
+    }
+
+    private async Task LoadPermissionsAsync()
+    {
+        try
+        {
+            using var context = await ContextFactory.CreateDbContextAsync();
+            permissions = await context.Permissions
+                .Where(p => p.EstActif)
+                .OrderBy(p => p.Module)
+                .ThenBy(p => p.Action)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des permissions: {ex.Message}");
+        }
+    }
+
+    private void SelectAllPermissions()
+    {
+        selectedPermissions = permissions.Select(p => p.Id).ToHashSet();
+    }
+
+         private void ClearAllPermissions()
+     {
+         selectedPermissions.Clear();
+     }
+
+     private void OnPermissionChanged(string permissionId, object? isChecked)
+     {
+         if (isChecked is bool checkedValue)
+         {
+             if (checkedValue)
+             {
+                 selectedPermissions.Add(permissionId);
+             }
+             else
+             {
+                 selectedPermissions.Remove(permissionId);
+             }
+         }
+     }
+
+    private void AddValidationError(string field, string message)
+    {
+        validationErrors[field] = message;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+    }
+
+    private bool HasValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field);
+    }
+
+    private string GetValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field) ? validationErrors[field] : "";
+    }
+
+    private bool ValidateForm()
+    {
+        bool isValid = true;
+        ClearValidationErrors();
+
+        if (string.IsNullOrWhiteSpace(Role.Nom))
+        {
+            AddValidationError("Nom", "Le nom du rôle est obligatoire.");
+            isValid = false;
+        }
+
+        // La description est optionnelle dans le modèle, pas besoin de validation stricte
+
+        return isValid;
+    }
+
+         private async Task SubmitForm()
+     {
+         if (!ValidateForm())
+         {
+             return;
+         }
+
+         IsSubmitting = true;
+
+         try
+         {
+             if (!IsEdit)
+             {
+                 Console.WriteLine("=== CRÉATION D'UN NOUVEAU RÔLE ===");
+                 
+                 // 1. Créer d'abord le rôle
+                 Console.WriteLine("Étape 1: Création du rôle...");
+                 var result = await RoleService.CreateRoleAsync(Role);
+                 
+                 if (result != null)
+                 {
+                     Console.WriteLine($"Rôle créé avec succès. ID: {result.Id}");
+                     
+                     // 2. Ensuite, insérer les lignes dans RolePermission
+                     if (selectedPermissions.Any())
+                     {
+                         Console.WriteLine("=== ASSIGNATION DES PERMISSIONS :  "+selectedPermissions.Count+" ===");
+                         Console.WriteLine("Étape 2: Insertion des permissions dans RolePermission...");
+                         await AssignPermissionsToRole(result.Id);
+                     }
+                     else
+                     {
+                         Console.WriteLine("Aucune permission sélectionnée, passage à l'étape suivante.");
+                     }
+                     
+                     Console.WriteLine("Navigation vers la liste des rôles...");
+                     Navigation.NavigateTo("/roles");
+                 }
+                 else
+                 {
+                     Console.WriteLine("Échec de la création du rôle.");
+                 }
+             }
+             else
+             {
+                 Console.WriteLine("=== MODIFICATION D'UN RÔLE EXISTANT ===");
+                 
+                 // Modifier un rôle existant
+                 var result = await RoleService.UpdateRoleAsync(Role);
+                 if (result != null)
+                 {
+                     Console.WriteLine($"Rôle modifié avec succès. ID: {result.Id}");
+                     
+                     // Mettre à jour les permissions du rôle
+                     await UpdateRolePermissions(Role.Id);
+                     Navigation.NavigateTo("/roles");
+                 }
+             }
+         }
+         catch (Exception ex)
+         {
+             Console.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+             Console.WriteLine($"Stack trace: {ex.StackTrace}");
+         }
+         finally
+         {
+             IsSubmitting = false;
+         }
+     }
+
+         private async Task AssignPermissionsToRole(string roleId)
+     {
+         try
+         {
+             Console.WriteLine($"Assignation des permissions pour le rôle {roleId}");
+             Console.WriteLine($"Permissions à assigner: {string.Join(", ", selectedPermissions)}");
+             
+             foreach (var permissionId in selectedPermissions)
+             {
+                 var result = await RoleService.AssignerPermissionAsync(roleId, permissionId);
+                 Console.WriteLine($"Permission {permissionId} assignée: {result}");
+             }
+             
+             Console.WriteLine("Assignation des permissions terminée");
+         }
+         catch (Exception ex)
+         {
+             Console.WriteLine($"Erreur lors de l'assignation des permissions: {ex.Message}");
+         }
+     }
+
+         private async Task UpdateRolePermissions(string roleId)
+     {
+         try
+         {
+             Console.WriteLine($"Mise à jour des permissions pour le rôle {roleId}");
+             
+             // Récupérer les permissions actuelles du rôle
+             var currentPermissions = await RoleService.GetPermissionsDuRoleAsync(roleId);
+             var currentPermissionIds = currentPermissions.Select(p => p.Id).ToHashSet();
+             
+             Console.WriteLine($"Permissions actuelles: {string.Join(", ", currentPermissionIds)}");
+             Console.WriteLine($"Permissions sélectionnées: {string.Join(", ", selectedPermissions)}");
+             
+             // Ajouter les nouvelles permissions
+             foreach (var permissionId in selectedPermissions)
+             {
+                 if (!currentPermissionIds.Contains(permissionId))
+                 {
+                     var result = await RoleService.AssignerPermissionAsync(roleId, permissionId);
+                     Console.WriteLine($"Permission {permissionId} ajoutée: {result}");
+                 }
+             }
+             
+             // Retirer les permissions non sélectionnées
+             foreach (var permissionId in currentPermissionIds)
+             {
+                 if (!selectedPermissions.Contains(permissionId))
+                 {
+                     var result = await RoleService.RetirerPermissionAsync(roleId, permissionId);
+                     Console.WriteLine($"Permission {permissionId} retirée: {result}");
+                 }
+             }
+             
+             Console.WriteLine("Mise à jour des permissions terminée");
+         }
+         catch (Exception ex)
+         {
+             Console.WriteLine($"Erreur lors de la mise à jour des permissions: {ex.Message}");
+         }
+     }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/roles");
+    }
+}

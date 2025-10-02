@@ -1,0 +1,493 @@
+@page "/utilisateurs/ajouter"
+@page "/utilisateurs/modifier/{Id}"
+@using PNC.Models
+@using PNC.Services
+@using PNC.Data
+@using Microsoft.EntityFrameworkCore
+@inject IUtilisateurService UtilisateurService
+@inject IRoleService RoleService
+@inject IDbContextFactory<BdPolicePncContext> ContextFactory
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>@(IsEdit ? "Modifier Utilisateur" : "Nouvel Utilisateur")</PageTitle>
+
+<div class="utilisateur-form-page">
+    <div class="form-container">
+        <!-- En-tête avec titre et bouton retour -->
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="bi bi-person-plus me-3"></i>
+                    @(IsEdit ? "Modifier l'Utilisateur" : "Nouvel Utilisateur")
+                </h1>
+                <p class="page-subtitle">
+                    @(IsEdit ? "Modifiez les informations de l'utilisateur" : "Remplissez le formulaire pour ajouter un nouvel utilisateur")
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-modern btn-outline" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Retour
+                </button>
+            </div>
+        </div>
+
+        <!-- Header avec onglets de navigation -->
+        <div class="form-header">
+            <div class="nav-tabs">
+                <div class="nav-tab active">
+                    <span>INFORMATIONS *</span>
+                </div>
+                <div class="nav-tab">
+                    <span>SÉCURITÉ</span>
+                </div>
+                <div class="nav-tab">
+                    <span>RÔLE *</span>
+                </div>
+                <div class="nav-tab">
+                    <span>ASSOCIATION</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire en grille 4 colonnes -->
+        <form @onsubmit="SubmitForm" class="form-grid-4">
+            <!-- Row 1 -->
+            <div class="form-group">
+                <label for="nom">NOM *</label>
+                <input type="text" id="nom" @bind="Utilisateur.Nom" required 
+                       class="form-input" placeholder="Entrez le nom" />
+                @if (HasValidationError("Nom"))
+                {
+                    <div class="validation-error">@GetValidationError("Nom")</div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="prenom">PRÉNOM *</label>
+                <input type="text" id="prenom" @bind="Utilisateur.Prenom" required 
+                       class="form-input" placeholder="Entrez le prénom" />
+                @if (HasValidationError("Prenom"))
+                {
+                    <div class="validation-error">@GetValidationError("Prenom")</div>
+                }
+            </div>
+
+         
+
+            <div class="form-group">
+                <label for="email">EMAIL *</label>
+                <input type="email" id="email" @bind="Utilisateur.Email" required 
+                       class="form-input" placeholder="Entrez l'email" />
+                @if (HasValidationError("Email"))
+                {
+                    <div class="validation-error">@GetValidationError("Email")</div>
+                }
+            </div>
+
+            <!-- Row 2 -->
+            <div class="form-group">
+                <label for="telephone">TÉLÉPHONE</label>
+                <input type="tel" id="telephone" @bind="Utilisateur.Telephone" 
+                       class="form-input" placeholder="Entrez le téléphone" />
+                @if (HasValidationError("Telephone"))
+                {
+                    <div class="validation-error">@GetValidationError("Telephone")</div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="motDePasse">MOT DE PASSE GÉNÉRÉ *</label>
+                <div class="password-display-group">
+                    <input type="@(showPassword ? "text" : "password")" 
+                           id="motDePasse" @bind="motDePasse" readonly
+                           class="form-input" placeholder="Mot de passe généré automatiquement" />
+                    <div class="password-actions">
+                        <button type="button" class="password-toggle" @onclick="TogglePassword" title="Afficher/Masquer">
+                            <i class="bi @(showPassword ? "bi-eye-slash" : "bi-eye")"></i>
+                        </button>
+                        <button type="button" class="password-copy" @onclick="CopyPassword" title="Copier le mot de passe">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                        <button type="button" class="password-regenerate" @onclick="RegeneratePassword" title="Générer un nouveau mot de passe">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </div>
+                <small class="form-help">Le mot de passe est généré automatiquement. Utilisez le bouton copier pour le récupérer.</small>
+                @if (HasValidationError("MotDePasse"))
+                {
+                    <div class="validation-error">@GetValidationError("MotDePasse")</div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="estActif">UTILISATEUR ACTIF</label>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="estActif" @bind="Utilisateur.EstActif" />
+                    <label for="estActif" class="checkbox-label">Actif</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!-- Espace vide pour maintenir la grille -->
+            </div>
+
+            <!-- Row 3 -->
+            <div class="form-group">
+                <label for="role">RÔLE *</label>
+                <select id="role" @bind="Utilisateur.IdRole" required class="form-select">
+                    <option value="">Sélectionnez un rôle</option>
+                    @if (roles?.Any() == true)
+                    {
+                        @foreach (var role in roles)
+                        {
+                            <option value="@role.Id">@role.Nom - @role.Description</option>
+                        }
+                    }
+                </select>
+                @if (HasValidationError("IdRole"))
+                {
+                    <div class="validation-error">@GetValidationError("IdRole")</div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" @bind="estEnqueteur" />
+                    <span class="checkmark"></span>
+                    ÊTRE ENQUÊTEUR
+                </label>
+                <small class="form-help">Cochez cette case si l'utilisateur doit être enquêteur</small>
+            </div>
+
+            <div class="form-group">
+                <!-- Espace vide pour maintenir la grille -->
+            </div>
+
+            <div class="form-group">
+                <!-- Espace vide pour maintenir la grille -->
+            </div>
+
+            <div class="form-group">
+                <!-- Espace vide pour maintenir la grille -->
+            </div>
+
+            <!-- Actions du formulaire -->
+            <div class="form-actions">
+                <button type="button" class="btn-modern btn-outline" @onclick="GoBack">
+                    <i class="bi bi-arrow-left"></i>
+                    Annuler
+                </button>
+                <button type="submit" class="btn-modern btn-primary" disabled="@IsSubmitting">
+                    <i class="bi bi-check"></i>
+                    @if (IsSubmitting)
+                    {
+                        <span>Enregistrement en cours...</span>
+                    }
+                    else
+                    {
+                        @(IsEdit ? "Modifier" : "Créer l'utilisateur")
+                    }
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    private Utilisateur Utilisateur { get; set; } = new();
+    private bool IsEdit => !string.IsNullOrEmpty(Id);
+    private bool IsSubmitting = false;
+    private string motDePasse = "";
+    private bool showPassword = false;
+    private List<Role>? roles;
+    private Dictionary<string, string> validationErrors = new();
+    private bool estEnqueteur = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDataAsync();
+        
+        if (IsEdit)
+        {
+            await LoadUtilisateurAsync();
+        }
+        else
+        {
+            // Générer automatiquement un mot de passe pour les nouveaux utilisateurs
+            GeneratePassword();
+        }
+    }
+
+    private async Task LoadDataAsync()
+    {
+        try
+        {
+            roles = await RoleService.GetAllRolesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des données: {ex.Message}");
+        }
+    }
+
+    private async Task LoadUtilisateurAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(Id))
+            {
+                var utilisateur = await UtilisateurService.GetUtilisateurByIdAsync(Id);
+                if (utilisateur != null)
+                {
+                    Utilisateur = utilisateur;
+                    estEnqueteur = !string.IsNullOrEmpty(utilisateur.IdEnqueteur);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement de l'utilisateur: {ex.Message}");
+        }
+    }
+
+    private void TogglePassword()
+    {
+        showPassword = !showPassword;
+    }
+
+    private void GeneratePassword()
+    {
+        // Générer un mot de passe sécurisé de 12 caractères
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        var random = new Random();
+        motDePasse = new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+
+    private async Task CopyPassword()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", motDePasse);
+            // Optionnel : afficher un message de confirmation
+            Console.WriteLine("Mot de passe copié dans le presse-papiers");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la copie: {ex.Message}");
+        }
+    }
+
+    private void RegeneratePassword()
+    {
+        GeneratePassword();
+        StateHasChanged();
+    }
+
+    private void AddValidationError(string field, string message)
+    {
+        validationErrors[field] = message;
+    }
+
+    private void ClearValidationErrors()
+    {
+        validationErrors.Clear();
+    }
+
+    private bool HasValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field);
+    }
+
+    private string GetValidationError(string field)
+    {
+        return validationErrors.ContainsKey(field) ? validationErrors[field] : "";
+    }
+
+    private bool ValidateForm()
+    {
+        bool isValid = true;
+        ClearValidationErrors();
+
+        if (string.IsNullOrWhiteSpace(Utilisateur.Nom))
+        {
+            AddValidationError("Nom", "Le nom est obligatoire.");
+            isValid = false;
+        }
+
+        if (string.IsNullOrWhiteSpace(Utilisateur.Prenom))
+        {
+            AddValidationError("Prenom", "Le prénom est obligatoire.");
+            isValid = false;
+        }
+
+      
+
+        if (string.IsNullOrWhiteSpace(Utilisateur.Email))
+        {
+            AddValidationError("Email", "L'email est obligatoire.");
+            isValid = false;
+        }
+        else if (!IsValidEmail(Utilisateur.Email))
+        {
+            AddValidationError("Email", "L'email n'est pas valide.");
+            isValid = false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Utilisateur.Telephone) && !IsValidPhone(Utilisateur.Telephone))
+        {
+            AddValidationError("Telephone", "Le numéro de téléphone n'est pas valide.");
+            isValid = false;
+        }
+
+        if (!IsEdit)
+        {
+            if (string.IsNullOrWhiteSpace(motDePasse))
+            {
+                AddValidationError("MotDePasse", "Le mot de passe est obligatoire");
+                isValid = false;
+            }
+            else if (motDePasse.Length < 8)
+            {
+                AddValidationError("MotDePasse", "Le mot de passe doit contenir au moins 8 caractères");
+                isValid = false;
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(Utilisateur.IdRole))
+        {
+            AddValidationError("IdRole", "Le rôle est obligatoire.");
+            isValid = false;
+        }
+
+
+
+        return isValid;
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private bool IsValidPhone(string phone)
+    {
+        // Validation simple du téléphone
+        return phone.Length >= 10 && phone.All(c => char.IsDigit(c) || c == '+' || c == '-' || c == ' ');
+    }
+
+    private async Task SubmitForm()
+    {
+        if (!ValidateForm())
+        {
+            return;
+        }
+
+        IsSubmitting = true;
+
+        try
+        {
+            if (!IsEdit)
+            {
+                // Définir la date de création automatiquement
+                Utilisateur.DateCreation = DateTime.Now;
+                
+                // Si l'utilisateur doit être enquêteur, créer l'enquêteur d'abord
+                string? enqueteurId = null;
+                if (estEnqueteur)
+                {
+                    enqueteurId = await CreateEnqueteurAsync();
+                }
+
+                // Assigner l'ID de l'enquêteur si créé
+                if (!string.IsNullOrEmpty(enqueteurId))
+                {
+                    Utilisateur.IdEnqueteur = enqueteurId;
+                }
+
+                Utilisateur.NomUtilisateur = Utilisateur.Email;
+
+                // Créer l'utilisateur
+                var result = await UtilisateurService.CreateUtilisateurAsync(Utilisateur, motDePasse);
+                if (result != null)
+                {
+                    Navigation.NavigateTo("/utilisateurs");
+                }
+            }
+            else
+            {
+                // Modifier un utilisateur existant
+                var result = await UtilisateurService.UpdateUtilisateurAsync(Utilisateur);
+                if (result != null)
+                {
+                    Navigation.NavigateTo("/utilisateurs");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+        }
+        finally
+        {
+            IsSubmitting = false;
+        }
+    }
+
+    private async Task<string?> CreateEnqueteurAsync()
+    {
+        try
+        {
+            using var context = await ContextFactory.CreateDbContextAsync();
+            
+            // Créer un nouvel enquêteur avec les informations de base
+            var enqueteur = new Enqueteur
+            {
+                Id = Guid.NewGuid().ToString(),
+                CodeIdentification = GenerateEnqueteurCode(),
+                Nom = Utilisateur.Nom,
+                PostNom = Utilisateur.Nom, 
+                Prenom = Utilisateur.Prenom,
+                Telephone = Utilisateur.Telephone,
+                Adresse = "" 
+            };
+            
+            context.Enqueteurs.Add(enqueteur);
+            await context.SaveChangesAsync();
+            
+            return enqueteur.Id;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la création de l'enquêteur: {ex.Message}");
+            return null;
+        }
+    }
+
+    private string GenerateEnqueteurCode()
+    {
+        // Générer un code d'identification unique pour l'enquêteur
+        // Format: ENQ-YYYY-XXXX (ex: ENQ-2024-0001)
+        var year = DateTime.Now.Year;
+        var random = new Random();
+        var number = random.Next(1000, 9999);
+        return $"ENQ-{year}-{number:D4}";
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/utilisateurs");
+    }
+}
