@@ -385,7 +385,7 @@
                                             <button class="btn-action dropdown-toggle" @onclick:stopPropagation="true" 
                                                     @onclick="() => ToggleActionsMenu(policier.Id)" title="Actions">
                                                 <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
+                                    </button>
                                             @if (showActionsMenu == policier.Id)
                                             {
                                                 <div class="dropdown-menu show">
@@ -413,7 +413,7 @@
                                                         @onclick="() => DeletePolicier(policier.Id)">
                                                     <i class="bi bi-trash"></i> Supprimer
                                     </button>
-                                            </div>
+                                </div>
                                         }
                                     </div>
                                     }
@@ -542,19 +542,19 @@
                                         <td>
                                             @if (policier.Status?.ToUpper() != "COMPLETED")
                                             {
-                                                <div class="actions-modern">
+                                            <div class="actions-modern">
                                                     <div class="actions-dropdown">
                                                         <button class="btn-action dropdown-toggle" @onclick:stopPropagation="true" 
                                                                 @onclick="() => ToggleActionsMenu(policier.Id)" title="Actions">
                                                             <i class="bi bi-three-dots-vertical"></i>
-                                                    </button>
+                                                </button>
                                                         @if (showActionsMenu == policier.Id)
                                                         {
                                                             <div class="dropdown-menu show">
                                                                 <button class="dropdown-item" @onclick:stopPropagation="true" 
                                                                         @onclick="() => ViewPolicierDetails(policier.Id)">
                                                                     <i class="bi bi-eye"></i> Voir
-                                                    </button>
+                                                </button>
                                                                 <button class="dropdown-item" @onclick:stopPropagation="true" 
                                                                         @onclick="() => EditPolicier(policier)">
                                                                     <i class="bi bi-pencil"></i> Modifier
@@ -574,8 +574,8 @@
                                                                 <button class="dropdown-item danger" @onclick:stopPropagation="true" 
                                                                         @onclick="() => DeletePolicier(policier.Id)">
                                                                     <i class="bi bi-trash"></i> Supprimer
-                                                    </button>
-                                                            </div>
+                                                </button>
+                                            </div>
                                                         }
                                                     </div>
                                                 </div>

@@ -142,7 +142,7 @@
                             }
                         </div>
                     
-
+                    
                         <div class="form-group">
                             <label for="nom">Nom *</label>
                             <input type="text" id="nom" @bind="Policier.Nom" required 
@@ -234,7 +234,7 @@
                                 <option value="Officier">Officier</option>
                                 <option value="Sous-officier">Sous-officier</option>
                       
-                                            <option value="Agent">Agent</option>
+                                <option value="Agent">Agent</option>
                                             <option value="Agent de 1ère classe">Agent de 1ère classe</option>
                                             <option value="Brigadier">Brigadier</option>
                                             <option value="Brigadier-chef">Brigadier-chef</option>
@@ -1499,11 +1499,11 @@
                     </div>
                 }
                 else
-                {
-                    <button type="button" class="btn-modern btn-primary" @onclick="NextStep">
-                        Suivant
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
+            {
+                <button type="button" class="btn-modern btn-primary" @onclick="NextStep">
+                    Suivant
+                    <i class="bi bi-arrow-right"></i>
+                </button>
                 }
             }
             else
@@ -2634,7 +2634,7 @@
             isValid = false;
         }
         
-       
+        
         // Validation du nom (obligatoire)
         if (string.IsNullOrEmpty(Policier.Nom))
         {
