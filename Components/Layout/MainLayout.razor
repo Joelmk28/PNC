@@ -1,58 +1,71 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@using PNC.Services
+@using System.Security.Claims
 
-<div class="layout-wrapper @(sidebarCollapsed ? "sidebar-collapsed" : "")">
-    <!-- Sidebar -->
-    <div class="sidebar @(sidebarCollapsed ? "collapsed" : "")">
-        <NavMenu />
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top Header -->
-        <header class="top-header">
-            <div class="header-left">
-                <button class="sidebar-toggle" @onclick="ToggleSidebar">
-                    <i class="bi bi-list"></i>
-                </button>
-                
+@if (IsLoginPage)
+{
+    @Body
+}
+else
+{
+    <RequireAuth>
+        <div class="layout-wrapper @(sidebarCollapsed ? "sidebar-collapsed" : "")">
+            <!-- Sidebar -->
+            <div class="sidebar @(sidebarCollapsed ? "collapsed" : "")">
+                <NavMenu />
             </div>
-            
-            <div class="header-right">
-                <div class="header-actions">
-                    <button class="action-btn" title="Notifications">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge">3</span>
-                    </button>
-                    <button class="action-btn" title="Messages">
-                        <i class="bi bi-envelope"></i>
-                        <span class="badge">5</span>
-                    </button>
-                    <button class="action-btn" title="Settings">
-                        <i class="bi bi-gear"></i>
-                    </button>
-                </div>
-                
-                <div class="user-profile">
-                    <div class="avatar-placeholder">
-                        <i class="bi bi-person-circle"></i>
-                    </div>
-                    <div class="user-info">
-                        <span class="user-name">Joel Muhindo</span>
-                        <span class="user-role">Super Admin</span>
-                    </div>
-                    <a href="/logout" class="logout-link" title="Se déconnecter">
-                        <i class="bi bi-box-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </header>
 
-        <!-- Page Content -->
-        <main class="page-content">
-            @Body
-        </main>
-    </div>
-</div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Top Header -->
+                <header class="top-header">
+                    <div class="header-left">
+                        <button class="sidebar-toggle" @onclick="ToggleSidebar">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        
+                    </div>
+                    
+                    <div class="header-right">
+                        <div class="header-actions">
+                            <button class="action-btn" title="Notifications">
+                                <i class="bi bi-bell"></i>
+                                <span class="badge">3</span>
+                            </button>
+                            <button class="action-btn" title="Messages">
+                                <i class="bi bi-envelope"></i>
+                                <span class="badge">5</span>
+                            </button>
+                            <button class="action-btn" title="Settings">
+                                <i class="bi bi-gear"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="user-profile">
+                            <div class="avatar-placeholder">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">@userDisplayName</span>
+                                <span class="user-email">@userEmail</span>
+                            </div>
+                            <a href="/logout" class="logout-link" title="Se déconnecter">
+                                <i class="bi bi-box-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Page Content -->
+                <main class="page-content">
+                    @Body
+                </main>
+            </div>
+        </div>
+    </RequireAuth>
+}
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
@@ -62,6 +75,47 @@
 
 @code {
     private bool sidebarCollapsed = false;
+    private bool IsLoginPage => Navigation.Uri.EndsWith("/login") || Navigation.Uri.EndsWith("/login/");
+    private string userDisplayName = "Utilisateur";
+    private string userEmail = "";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserInfo();
+    }
+    
+    private async Task LoadUserInfo()
+    {
+        try
+        {
+            var currentUser = await AuthStateProvider.GetCurrentUserAsync();
+            if (currentUser != null)
+            {
+                userDisplayName = $"{currentUser.Prenom} {currentUser.Nom}".Trim();
+                userEmail = currentUser.Email ?? "";
+            }
+            else
+            {
+                // Essayer de récupérer depuis l'état d'authentification
+                var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+                if (authState.User.Identity?.IsAuthenticated == true)
+                {
+                    var prenom = authState.User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
+                    var nom = authState.User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+                    var email = authState.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+                    
+                    userDisplayName = $"{prenom} {nom}".Trim();
+                    userEmail = email;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors du chargement des informations utilisateur: {ex.Message}");
+            userDisplayName = "Utilisateur";
+            userEmail = "";
+        }
+    }
     
     private void ToggleSidebar()
     {

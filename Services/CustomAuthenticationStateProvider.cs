@@ -3,6 +3,8 @@ using System.Security.Claims;
 using PNC.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.JSInterop;
+using System.Text.Json;
 
 namespace PNC.Services;
 
@@ -10,12 +12,14 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly IUtilisateurService _utilisateurService;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IJSRuntime _jsRuntime;
     private Utilisateur? _currentUser;
 
-    public CustomAuthenticationStateProvider(IUtilisateurService utilisateurService, IHttpContextAccessor httpContextAccessor)
+    public CustomAuthenticationStateProvider(IUtilisateurService utilisateurService, IHttpContextAccessor httpContextAccessor, IJSRuntime jsRuntime)
     {
         _utilisateurService = utilisateurService;
         _httpContextAccessor = httpContextAccessor;
+        _jsRuntime = jsRuntime;
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -29,6 +33,28 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
                 var identity = new ClaimsIdentity(claims, "CustomAuth");
                 var principal = new ClaimsPrincipal(identity);
                 return new AuthenticationState(principal);
+            }
+
+            // Essayer de récupérer l'utilisateur depuis le localStorage
+            try
+            {
+                var userId = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "currentUserId");
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var user = await _utilisateurService.GetUtilisateurByIdAsync(userId);
+                    if (user != null && user.EstActif)
+                    {
+                        _currentUser = user;
+                        var claims = CreateUserClaims(_currentUser);
+                        var identity = new ClaimsIdentity(claims, "CustomAuth");
+                        var principal = new ClaimsPrincipal(identity);
+                        return new AuthenticationState(principal);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération depuis localStorage: {ex.Message}");
             }
 
             // Aucun utilisateur authentifié
@@ -74,6 +100,16 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
             // Stocker l'utilisateur en mémoire (session)
             _currentUser = utilisateur;
 
+            // Sauvegarder l'ID utilisateur dans le localStorage pour la persistance
+            try
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "currentUserId", utilisateur.Id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la sauvegarde dans localStorage: {ex.Message}");
+            }
+
             // Notifier le changement d'état d'authentification
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
 
@@ -98,8 +134,22 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         try
         {
+            Console.WriteLine("🔓 CustomAuthenticationStateProvider.SignOutAsync() - Début");
+            
             // Réinitialiser l'utilisateur courant
             _currentUser = null;
+            Console.WriteLine("✅ Utilisateur courant réinitialisé");
+
+            // Nettoyer le localStorage
+            try
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "currentUserId");
+                Console.WriteLine("✅ localStorage nettoyé");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Erreur lors du nettoyage du localStorage: {ex.Message}");
+            }
 
             // Créer un état d'authentification vide
             var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
@@ -107,10 +157,11 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
             // Notifier le changement d'état
             NotifyAuthenticationStateChanged(Task.FromResult(authState));
+            Console.WriteLine("✅ État d'authentification notifié");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erreur lors de la déconnexion: {ex.Message}");
+            Console.WriteLine($"❌ Erreur lors de la déconnexion: {ex.Message}");
         }
     }
 

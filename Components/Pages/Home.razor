@@ -5,8 +5,6 @@
 @using PNC.Services
 @inject IDbContextFactory<BdPolicePncContext> DbFactory
 @inject IJSRuntime JSRuntime
-@inject CustomAuthenticationStateProvider AuthStateProvider
-@inject NavigationManager Navigation
 @using Microsoft.AspNetCore.Mvc
 
 
@@ -320,14 +318,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Vérifier si l'utilisateur est authentifié
-        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-        if (authState.User.Identity?.IsAuthenticated != true)
-        {
-            Navigation.NavigateTo("/login");
-            return;
-        }
-        
         await LoadDashboardData();
     }
 

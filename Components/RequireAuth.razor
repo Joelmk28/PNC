@@ -1,0 +1,84 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using PNC.Services
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+@if (isLoading)
+{
+    <div class="loading-container">
+        <div class="loading-spinner">
+            <i class="bi bi-hourglass-split"></i>
+            <span>Vérification de l'authentification...</span>
+        </div>
+    </div>
+}
+else if (!isAuthenticated)
+{
+    <div class="auth-required-container">
+        <div class="auth-required-content">
+            <i class="bi bi-shield-exclamation"></i>
+            <h2>Accès non autorisé</h2>
+            <p>Vous devez être connecté pour accéder à cette page.</p>
+            <button class="btn-modern btn-primary" @onclick="RedirectToLogin">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Se connecter
+            </button>
+        </div>
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    
+    private bool isLoading = true;
+    private bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAuthenticationState();
+    }
+
+    private async Task CheckAuthenticationState()
+    {
+        try
+        {
+            // Vérifier d'abord si l'utilisateur est en mémoire
+            var currentUser = await AuthStateProvider.GetCurrentUserAsync();
+            if (currentUser != null)
+            {
+                isAuthenticated = true;
+                isLoading = false;
+                StateHasChanged();
+                return;
+            }
+
+            // Si pas d'utilisateur en mémoire, vérifier l'état d'authentification
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            isAuthenticated = authState.User.Identity?.IsAuthenticated == true;
+            
+            Console.WriteLine($"RequireAuth - isAuthenticated: {isAuthenticated}");
+            Console.WriteLine($"RequireAuth - User.Identity.IsAuthenticated: {authState.User.Identity?.IsAuthenticated}");
+            Console.WriteLine($"RequireAuth - Claims count: {authState.User.Claims.Count()}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erreur lors de la vérification de l'authentification: {ex.Message}");
+            isAuthenticated = false;
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void RedirectToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+}

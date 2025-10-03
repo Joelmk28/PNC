@@ -74,6 +74,20 @@ builder.Services.AddDbContextFactory<BdPolicePncContext>(options =>
 
 var app = builder.Build();
 
+// Réinitialisation automatique du mot de passe au démarrage
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var utilisateurService = scope.ServiceProvider.GetRequiredService<IUtilisateurService>();
+        await ResetPasswordOnStartup(utilisateurService);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erreur lors de la réinitialisation du mot de passe: {ex.Message}");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -95,5 +109,49 @@ app.MapRazorComponents<App>()
 
 // Mapper les contrôleurs API
 app.MapControllers();
+
+// Méthode pour réinitialiser le mot de passe au démarrage
+static async Task ResetPasswordOnStartup(IUtilisateurService utilisateurService)
+{
+    try
+    {
+        const string email = "joelmuhindok@gmail.com";
+        const string newPassword = "GOPgUnbP3CzS";
+        
+        Console.WriteLine($"🔄 Recherche de l'utilisateur avec l'email: {email}");
+        
+        // Rechercher l'utilisateur par email
+        var utilisateur = await utilisateurService.GetUtilisateurByEmailAsync(email);
+        
+        if (utilisateur != null)
+        {
+            Console.WriteLine($"✅ Utilisateur trouvé: {utilisateur.Nom} {utilisateur.Prenom} ({utilisateur.NomUtilisateur})");
+            
+            // Mettre à jour le mot de passe
+            var success = await utilisateurService.ResetMotDePasseAsync(utilisateur.Id, newPassword);
+            
+            if (success)
+            {
+                Console.WriteLine($"🔑 Mot de passe réinitialisé avec succès pour {email}");
+                Console.WriteLine($"📧 Email: {email}");
+                Console.WriteLine($"🔐 Nouveau mot de passe: {newPassword}");
+                Console.WriteLine(new string('=', 50));
+            }
+            else
+            {
+                Console.WriteLine($"❌ Échec de la réinitialisation du mot de passe pour {email}");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"❌ Aucun utilisateur trouvé avec l'email: {email}");
+            Console.WriteLine("💡 Vérifiez que l'utilisateur existe dans la base de données");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Erreur lors de la réinitialisation du mot de passe: {ex.Message}");
+    }
+}
 
 app.Run();

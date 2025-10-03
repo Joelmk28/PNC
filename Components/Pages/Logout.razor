@@ -1,8 +1,7 @@
 @page "/logout"
-@using Microsoft.AspNetCore.Authentication
-@using Microsoft.AspNetCore.Authentication.Cookies
-@inject IHttpContextAccessor HttpContextAccessor
+@inject CustomAuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Navigation
+@using PNC.Services
 
 <PageTitle>Déconnexion - PNC</PageTitle>
 
@@ -24,23 +23,24 @@
     {
         try
         {
-            var httpContext = HttpContextAccessor.HttpContext;
-            if (httpContext != null)
-            {
-                // Déconnexion de l'utilisateur
-                await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                
-                // Attendre un peu pour que l'utilisateur voie le message
-                await Task.Delay(1500);
-            }
+            Console.WriteLine("🔓 Début de la déconnexion...");
+            
+            // Déconnexion via le CustomAuthenticationStateProvider
+            await AuthStateProvider.SignOutAsync();
+            
+            Console.WriteLine("✅ Déconnexion réussie");
+            
+            // Attendre un peu pour que l'utilisateur voie le message
+            await Task.Delay(1500);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erreur lors de la déconnexion: {ex.Message}");
+            Console.WriteLine($"❌ Erreur lors de la déconnexion: {ex.Message}");
         }
         finally
         {
             // Rediriger vers la page de connexion
+            Console.WriteLine("🔄 Redirection vers la page de connexion...");
             Navigation.NavigateTo("/login");
         }
     }

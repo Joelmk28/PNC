@@ -977,5 +977,6 @@ D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\Pages\Logout.razor.rz.scp.cs
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\qfv86mn5mg-msuyyqss6b.gz
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\0ub85144ad-tnx8k7p3ix.gz
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\vkryi7xv7i-bp8cmggccg.gz
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\yqng7v48r4-ludg78pfcv.gz
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\hw4dw4dyei-ludg78pfcv.gz
+D:\C#\web\PNC\obj\Debug\net9.0\scopedcss\Components\RequireAuth.razor.rz.scp.css
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\yqng7v48r4-mn3kvcvjcu.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\hw4dw4dyei-mn3kvcvjcu.gz

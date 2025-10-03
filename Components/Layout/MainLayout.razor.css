@@ -174,11 +174,17 @@
     font-weight: 600;
     color: #212529;
     font-size: 0.875rem;
+    line-height: 1.2;
 }
 
-.user-role {
+.user-email {
     font-size: 0.75rem;
     color: #6c757d;
+    line-height: 1.2;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Page Content */
