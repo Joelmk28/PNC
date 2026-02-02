@@ -29,7 +29,7 @@ else
                     </div>
                     
                     <div class="header-right">
-                        <div class="user-profile">
+                        <div class="user-profile" @onclick="ToggleUserMenu">
                             <div class="avatar-placeholder">
                                 <i class="bi bi-person-circle"></i>
                             </div>
@@ -37,10 +37,56 @@ else
                                 <span class="user-name">@userDisplayName</span>
                                 <span class="user-email">@userEmail</span>
                             </div>
-                            <a href="/logout" class="logout-link" title="Se déconnecter">
-                                <i class="bi bi-box-arrow-right"></i>
-                            </a>
+                            <i class="bi bi-chevron-down dropdown-icon"></i>
                         </div>
+                        
+                        @if (showUserMenu)
+                        {
+                            <div class="user-dropdown">
+                                <div class="dropdown-header">
+                                    <div class="dropdown-avatar">
+                                        <i class="bi bi-person-circle"></i>
+                                    </div>
+                                    <div class="dropdown-user-info">
+                                        <strong>@userDisplayName</strong>
+                                        <span>@userEmail</span>
+                                        <span class="user-role-badge">@userRole</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-body">
+                                    <div class="info-row">
+                                        <i class="bi bi-person-badge"></i>
+                                        <span>@userDisplayName</span>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(userPhone))
+                                    {
+                                        <div class="info-row">
+                                            <i class="bi bi-telephone"></i>
+                                            <span>@userPhone</span>
+                                        </div>
+                                    }
+                                    @if (lastConnection.HasValue)
+                                    {
+                                        <div class="info-row">
+                                            <i class="bi bi-clock-history"></i>
+                                            <span>Dernière connexion: @lastConnection.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                                        </div>
+                                    }
+                                    <div class="info-row">
+                                        <i class="bi bi-check-circle"></i>
+                                        <span>Compte actif</span>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-footer">
+                                    <a href="/logout" class="logout-btn">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Se déconnecter
+                                    </a>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </header>
 
@@ -61,9 +107,14 @@ else
 
 @code {
     private bool sidebarCollapsed = false;
+    private bool showUserMenu = false;
     private bool IsLoginPage => Navigation.Uri.EndsWith("/login") || Navigation.Uri.EndsWith("/login/");
     private string userDisplayName = "Utilisateur";
     private string userEmail = "";
+    private string userRole = "";
+    private string userPhone = "";
+    private string userLogin = "";
+    private DateTime? lastConnection = null;
     
     protected override async Task OnInitializedAsync()
     {
@@ -79,6 +130,10 @@ else
             {
                 userDisplayName = $"{currentUser.Prenom} {currentUser.Nom}".Trim();
                 userEmail = currentUser.Email ?? "";
+                userRole = currentUser.IdRoleNavigation?.Nom ?? "Non défini";
+                userPhone = currentUser.Telephone ?? "";
+                userLogin = currentUser.NomUtilisateur ?? "";
+                lastConnection = currentUser.DerniereConnexion;
             }
             else
             {
@@ -89,9 +144,13 @@ else
                     var prenom = authState.User.FindFirst(ClaimTypes.GivenName)?.Value ?? "";
                     var nom = authState.User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
                     var email = authState.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+                    var role = authState.User.FindFirst(ClaimTypes.Role)?.Value ?? "Non défini";
+                    var login = authState.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
                     
                     userDisplayName = $"{prenom} {nom}".Trim();
                     userEmail = email;
+                    userRole = role;
+                    userLogin = login;
                 }
             }
         }
@@ -100,11 +159,20 @@ else
             Console.WriteLine($"Erreur lors du chargement des informations utilisateur: {ex.Message}");
             userDisplayName = "Utilisateur";
             userEmail = "";
+            userRole = "Non défini";
+            userPhone = "";
+            userLogin = "";
+            lastConnection = null;
         }
     }
     
     private void ToggleSidebar()
     {
         sidebarCollapsed = !sidebarCollapsed;
+    }
+    
+    private void ToggleUserMenu()
+    {
+        showUserMenu = !showUserMenu;
     }
 }
