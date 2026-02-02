@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using PNC.Components;
 using PNC.Data;
-using PNC.Services;
-using Microsoft.AspNetCore.Components.Authorization;
 using PNC.Middleware;
+using PNC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,13 @@ builder.Services.AddRazorComponents()
         // Activer les erreurs détaillées pour le débogage
         options.DetailedErrors = true;
     });
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\Keys\DataProtection"))
+    .SetApplicationName("PNC");
+
+
+builder.WebHost.UseIISIntegration();
 
 // Configuration du circuit Blazor Server pour les gros messages
 builder.Services.Configure<CircuitOptions>(options =>
@@ -71,6 +82,8 @@ builder.Services.AddDbContextFactory<BdPolicePncContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.CommandTimeout(1200) // Timeout en secondes (ici 20 minutes)
     ));
+
+
 
 var app = builder.Build();
 

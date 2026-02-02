@@ -57,6 +57,8 @@ public class UtilisateurService : IUtilisateurService
 {
     private readonly IDbContextFactory<BdPolicePncContext> _contextFactory;
 
+    
+
     public UtilisateurService(IDbContextFactory<BdPolicePncContext> contextFactory)
     {
         _contextFactory = contextFactory;
@@ -499,22 +501,30 @@ public class UtilisateurService : IUtilisateurService
                     .ThenInclude(r => r.RolePermissions)
                         .ThenInclude(rp => rp.Permission)
                 .FirstOrDefaultAsync(u => u.NomUtilisateur == nomUtilisateur && u.EstActif);
-            
+           
             if (utilisateur == null)
+            {
                 return null;
+            }    
+               
             
             if (!VerifierMotDePasse(motDePasse, utilisateur.MotDePasse))
+            {
                 return null;
+            }
+               
             
             // Enregistrer la connexion
             utilisateur.DerniereConnexion = DateTime.Now;
-            await context.SaveChangesAsync();
+            //await context.SaveChangesAsync();
+           
             
             return utilisateur;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Erreur lors de l'authentification: {ex.Message}");
+           
             return null;
         }
     }

@@ -7,6 +7,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
 @inject CustomAuthenticationStateProvider AuthStateProvider
+@inject IUtilisateurService UtilisateurService
 
 
 <PageTitle>Connexion - Police Nationale Congolaise</PageTitle>
@@ -147,7 +148,7 @@
     {
         // Reset errors
         ClearErrors();
-        
+
         // Basic validation
         if (string.IsNullOrWhiteSpace(username))
         {
@@ -162,26 +163,26 @@
         }
 
         isLoading = true;
-        
+
         try
         {
             // Utiliser le service d'authentification personnalisé
             var authResult = await AuthStateProvider.SignInAsync(username, password);
-            
+
             if (authResult.Success)
             {
                 // Récupérer l'utilisateur connecté
                 var currentUser = await AuthStateProvider.GetCurrentUserAsync();
-                
+
                 if (currentUser != null)
                 {
                     // Afficher les revendications de l'utilisateur connecté
                     await LogUserClaimsAsync(currentUser);
-                    
+
                     // Afficher une notification de succès (optionnel)
                     await JSRuntime.InvokeVoidAsync("console.log", 
                         $"Connexion réussie - Utilisateur: {currentUser.NomUtilisateur}");
-                    
+
                     // Rediriger vers le tableau de bord
                     Navigation.NavigateTo("/");
                 }
@@ -192,8 +193,27 @@
             }
             else
             {
+                /* var newUser = await UtilisateurService.CreateUtilisateurAsync(new Utilisateur
+                {
+                    NomUtilisateur = username,
+                         Email = username,
+                         DateCreation = DateTime.Now,
+                         Nom = "Joel",
+                         EstActif = true,
+                         IdRole = "DC0B6124" // Rôle par défaut (ex: Utilisateur)
+                     },"J123456789");*/
                 // Authentification échouée - afficher le message d'erreur
-                passwordError = authResult.ErrorMessage ?? "Nom d'utilisateur ou mot de passe incorrect";
+                passwordError = authResult.ErrorMessage;//?? "Nom d'utilisateur ou mot de passe incorrect";
+
+            // Créer l'utilisateur
+                var user =  await UtilisateurService.GetUtilisateurByEmailAsync(username);
+                /*
+                var result = await UtilisateurService.ResetMotDePasseAsync(user.Id,password);
+                if (result)
+                {
+                    Console.WriteLine($"Échec de connexion: {user.Id}");
+                    Navigation.NavigateTo("/utilisateurs");
+                }*/
                 Console.WriteLine($"❌ Échec de connexion: {authResult.ErrorMessage}");
             }
         }

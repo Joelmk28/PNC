@@ -1,4 +1,4 @@
-/* _content/PNC/Components/Layout/LoginLayout.razor.rz.scp.css */
+/* /Components/Layout/LoginLayout.razor.rz.scp.css */
 /* Login Layout Styles */
 .login-layout[b-b0t0xiy69y] {
     min-height: 100vh;
@@ -47,7 +47,7 @@
     50% { width: 70%; }
     100% { width: 100%; }
 }
-/* _content/PNC/Components/Layout/MainLayout.razor.rz.scp.css */
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
 /* Main Layout Styles */
 .layout-wrapper[b-tqx62n6t2r] {
     display: flex;
@@ -309,7 +309,7 @@
 .logout-link i[b-tqx62n6t2r] {
     font-size: 1.1rem;
 }
-/* _content/PNC/Components/Layout/NavMenu.razor.rz.scp.css */
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
 /* Sidebar Navigation Styles */
 .sidebar-header[b-jo94u0ehbd] {
     padding: 1.5rem;
@@ -511,7 +511,7 @@
     width: 32px;
     height: 32px;
 }
-/* _content/PNC/Components/Pages/CaptureDocuments.razor.rz.scp.css */
+/* /Components/Pages/CaptureDocuments.razor.rz.scp.css */
 /* Capture Documents Page Styles - Matching CapturePhoto Design */
 .capture-documents-page[b-9p0ffcgc1c] {
     padding: 16px;
@@ -1352,7 +1352,7 @@
         font-size: 10px;
     }
 }
-/* _content/PNC/Components/Pages/CaptureEmpreintes.razor.rz.scp.css */
+/* /Components/Pages/CaptureEmpreintes.razor.rz.scp.css */
 /* Capture Empreintes Page Styles - Matching Policiers Design */
 .capture-empreintes-page[b-flyc2gieog] {
     padding: 16px;
@@ -2060,7 +2060,7 @@
         min-height: 32px;
     }
 }
-/* _content/PNC/Components/Pages/CapturePhoto.razor.rz.scp.css */
+/* /Components/Pages/CapturePhoto.razor.rz.scp.css */
 /* Capture Photo Page Styles - Matching Policiers Design */
 .capture-photo-page[b-lr9elsqd9b] {
     padding: 16px;
@@ -2891,7 +2891,7 @@
         font-size: 10px;
     }
 }
-/* _content/PNC/Components/Pages/Commissariats.razor.rz.scp.css */
+/* /Components/Pages/Commissariats.razor.rz.scp.css */
 /* Commissariats Page Styles */
 .commissariats-container[b-z17mch3rnj] {
     padding: 16px;
@@ -3584,7 +3584,7 @@
         justify-content: center;
     }
 }
-/* _content/PNC/Components/Pages/Counter.razor.rz.scp.css */
+/* /Components/Pages/Counter.razor.rz.scp.css */
 /* Counter Page Styles */
 .counter-page[b-tq12zk8p0i] {
     max-width: 800px;
@@ -3675,7 +3675,7 @@
         width: 200px;
     }
 }
-/* _content/PNC/Components/Pages/Home.razor.rz.scp.css */
+/* /Components/Pages/Home.razor.rz.scp.css */
 /* Modern Dashboard Styles */
 .modern-dashboard[b-2c6x9eoqoa] {
     padding: 24px;
@@ -4317,7 +4317,7 @@
 html[b-2c6x9eoqoa] {
     scroll-behavior: smooth;
 }
-/* _content/PNC/Components/Pages/Login.razor.rz.scp.css */
+/* /Components/Pages/Login.razor.rz.scp.css */
 /* Login Page Styles */
 .login-container[b-vhw3aacvw4] {
     min-height: 100vh;
@@ -4803,7 +4803,7 @@ html[b-2c6x9eoqoa] {
         border: 2px solid #3b82f6;
     }
 }
-/* _content/PNC/Components/Pages/Logout.razor.rz.scp.css */
+/* /Components/Pages/Logout.razor.rz.scp.css */
 .logout-container[b-4zohmetiyt] {
     display: flex;
     justify-content: center;
@@ -4864,7 +4864,7 @@ html[b-2c6x9eoqoa] {
     100% { transform: rotate(360deg); }
 }
 
-/* _content/PNC/Components/Pages/PolicierDetail.razor.rz.scp.css */
+/* /Components/Pages/PolicierDetail.razor.rz.scp.css */
 /* Page de détail policier */
 .policier-detail-page[b-0lu2t8b66u] {
     padding: 16px;
@@ -5422,7 +5422,7 @@ html[b-2c6x9eoqoa] {
         padding: 16px;
     }
 }
-/* _content/PNC/Components/Pages/PolicierForm.razor.rz.scp.css */
+/* /Components/Pages/PolicierForm.razor.rz.scp.css */
 /* Policier Form Page Styles */
 .policier-form-page[b-9cvwillk6a] {
     padding: 16px;
@@ -7083,7 +7083,7 @@ html[b-2c6x9eoqoa] {
 
 
 
-/* _content/PNC/Components/Pages/Policiers.razor.rz.scp.css */
+/* /Components/Pages/Policiers.razor.rz.scp.css */
 /* Policiers Page Styles */
 .policiers-page[b-qwpzaybrym] {
     padding: 16px;
@@ -8914,7 +8914,7 @@ html[b-2c6x9eoqoa] {
     width: 16px;
     text-align: center;
 }
-/* _content/PNC/Components/Pages/RoleForm.razor.rz.scp.css */
+/* /Components/Pages/RoleForm.razor.rz.scp.css */
 /* Role Form Page Styles - Design compact et moderne */
 .role-form-page[b-c2bbbkhnva] {
     min-height: 100vh;
@@ -9413,7 +9413,7 @@ html[b-2c6x9eoqoa] {
     outline: 2px solid #1e1b4b;
     outline-offset: 1px;
 }
-/* _content/PNC/Components/Pages/Roles.razor.rz.scp.css */
+/* /Components/Pages/Roles.razor.rz.scp.css */
 /* Page Rôles - Style Compact et Moderne */
 .roles-page[b-gj62n07t6l] {
     padding: 16px;
@@ -10116,7 +10116,7 @@ html[b-2c6x9eoqoa] {
         justify-content: center;
     }
 }
-/* _content/PNC/Components/Pages/UtilisateurDetail.razor.rz.scp.css */
+/* /Components/Pages/UtilisateurDetail.razor.rz.scp.css */
 /* Page Détail Utilisateur */
 .utilisateur-detail-page[b-awdbnme34b] {
     padding: 2rem;
@@ -10684,7 +10684,7 @@ html[b-2c6x9eoqoa] {
     --background-light: #f8f9fa;
 }
 
-/* _content/PNC/Components/Pages/UtilisateurForm.razor.rz.scp.css */
+/* /Components/Pages/UtilisateurForm.razor.rz.scp.css */
 /* Utilisateur Form Page Styles - Design inspiré de la capture */
 .utilisateur-form-page[b-p9c44xhv7a] {
     min-height: 100vh;
@@ -11094,7 +11094,7 @@ html[b-2c6x9eoqoa] {
     outline: 2px solid #3b82f6;
     outline-offset: 1px;
 }
-/* _content/PNC/Components/Pages/Utilisateurs.razor.rz.scp.css */
+/* /Components/Pages/Utilisateurs.razor.rz.scp.css */
 /* Page Utilisateurs - Style Compact et Moderne */
 .utilisateurs-page[b-sga9cem4f8] {
     padding: 16px;
@@ -11893,7 +11893,7 @@ html[b-2c6x9eoqoa] {
     }
 }
 
-/* _content/PNC/Components/Pages/Weather.razor.rz.scp.css */
+/* /Components/Pages/Weather.razor.rz.scp.css */
 /* Weather Page Styles */
 .weather-page[b-qqj2w7n5gm] {
     max-width: 1200px;
@@ -12042,7 +12042,7 @@ html[b-2c6x9eoqoa] {
         font-size: 1.25rem;
     }
 }
-/* _content/PNC/Components/PhotoCapture.razor.rz.scp.css */
+/* /Components/PhotoCapture.razor.rz.scp.css */
 /* Photo Capture Component Styles */
 .photo-capture-container[b-chkmrl7uda] {
     background: white;
@@ -12298,7 +12298,7 @@ html[b-2c6x9eoqoa] {
         background-position: 20px 20px, 20px 30px, 30px 10px, 10px 20px;
     }
 }
-/* _content/PNC/Components/RequireAuth.razor.rz.scp.css */
+/* /Components/RequireAuth.razor.rz.scp.css */
 .loading-container[b-j7n6pjhirs] {
     display: flex;
     justify-content: center;
@@ -12407,7 +12407,7 @@ html[b-2c6x9eoqoa] {
 .btn-modern i[b-j7n6pjhirs] {
     font-size: 1rem;
 }
-/* _content/PNC/Components/SimpleCameraTest.razor.rz.scp.css */
+/* /Components/SimpleCameraTest.razor.rz.scp.css */
 .camera-test-container[b-wqou3veqyf] {
     max-width: 800px;
     margin: 0 auto;
@@ -12596,7 +12596,7 @@ html[b-2c6x9eoqoa] {
         max-height: 300px;
     }
 }
-/* _content/PNC/Components/TestPhotoCapture.razor.rz.scp.css */
+/* /Components/TestPhotoCapture.razor.rz.scp.css */
 .test-container[b-bj7zuv7vz7] {
     padding: 20px;
     max-width: 800px;

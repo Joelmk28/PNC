@@ -79,7 +79,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
                 return new AuthenticationResult
                 {
                     Success = false,
-                    ErrorMessage = "Nom d'utilisateur ou mot de passe incorrect"
+                    ErrorMessage = "Nom d'utilisateur ou mot de passe incorrect---"
                 };
             }
 
