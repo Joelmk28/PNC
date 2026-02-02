@@ -157,7 +157,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #1e1b4b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,19 +199,19 @@
     .sidebar[b-tqx62n6t2r] {
         transform: translateX(-100%);
     }
-    
+
     .sidebar.show[b-tqx62n6t2r] {
         transform: translateX(0);
     }
-    
+
     .main-content[b-tqx62n6t2r] {
         margin-left: 0;
     }
-    
+
     .search-box input[b-tqx62n6t2r] {
         width: 200px;
     }
-    
+
     .page-content[b-tqx62n6t2r] {
         padding: 1rem;
     }
