@@ -979,5 +979,5 @@ D:\C#\web\PNC\obj\Debug\net9.0\refint\PNC.dll
 D:\C#\web\PNC\obj\Debug\net9.0\PNC.pdb
 D:\C#\web\PNC\obj\Debug\net9.0\PNC.genruntimeconfig.cache
 D:\C#\web\PNC\obj\Debug\net9.0\ref\PNC.dll
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\p46c5sae41-{0}-kmt4prk44s-kmt4prk44s.gz
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\hvlykpktva-{0}-kmt4prk44s-kmt4prk44s.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\p46c5sae41-{0}-mrwo0zru6f-mrwo0zru6f.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\hvlykpktva-{0}-mrwo0zru6f-mrwo0zru6f.gz
