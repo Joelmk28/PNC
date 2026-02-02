@@ -7,10 +7,7 @@
 @if (isLoading)
 {
     <div class="loading-container">
-        <div class="loading-spinner">
-            <i class="bi bi-hourglass-split"></i>
-            <span>Vérification de l'authentification...</span>
-        </div>
+        <div class="loader-spinner"></div>
     </div>
 }
 else if (!isAuthenticated)
@@ -38,9 +35,12 @@ else
     private bool isLoading = true;
     private bool isAuthenticated = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await CheckAuthenticationState();
+        if (firstRender)
+        {
+            await CheckAuthenticationState();
+        }
     }
 
     private async Task CheckAuthenticationState()
