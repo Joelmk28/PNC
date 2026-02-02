@@ -968,8 +968,6 @@ D:\C#\web\PNC\obj\Debug\net9.0\compressed\ydp0auxjc8-{0}-zls3b6s7ro-zls3b6s7ro.g
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\djm7jfcj2x-{0}-ay2brt0oda-ay2brt0oda.gz
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\uwqfsaycbb-{0}-koqpat97a6-koqpat97a6.gz
 D:\C#\web\PNC\obj\Debug\net9.0\compressed\hfrein3rii-{0}-dl58hzntxt-dl58hzntxt.gz
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\p46c5sae41-{0}-mt4x96nswx-mt4x96nswx.gz
-D:\C#\web\PNC\obj\Debug\net9.0\compressed\hvlykpktva-{0}-mt4x96nswx-mt4x96nswx.gz
 D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.build.json
 D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.build.json.cache
 D:\C#\web\PNC\obj\Debug\net9.0\staticwebassets.development.json
@@ -981,3 +979,5 @@ D:\C#\web\PNC\obj\Debug\net9.0\refint\PNC.dll
 D:\C#\web\PNC\obj\Debug\net9.0\PNC.pdb
 D:\C#\web\PNC\obj\Debug\net9.0\PNC.genruntimeconfig.cache
 D:\C#\web\PNC\obj\Debug\net9.0\ref\PNC.dll
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\p46c5sae41-{0}-kmt4prk44s-kmt4prk44s.gz
+D:\C#\web\PNC\obj\Debug\net9.0\compressed\hvlykpktva-{0}-kmt4prk44s-kmt4prk44s.gz

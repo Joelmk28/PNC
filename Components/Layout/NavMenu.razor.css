@@ -77,9 +77,28 @@
     text-decoration: none;
 }
 
-.nav-item .nav-link.active {
-    background-color: #3b82f6;
-    color: white !important;
+/* Style pour l'élément de navigation actif - spécificité renforcée */
+.nav-item .nav-link.active,
+.nav-item a.nav-link.active,
+::deep .nav-item .nav-link.active {
+    background-color: #fbbf24 !important;
+    color: #1e293b !important;
+    border-left: 4px solid #f59e0b;
+    padding-left: calc(1rem - 4px);
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+    font-weight: 600;
+}
+
+.nav-item .nav-link.active i,
+.nav-item a.nav-link.active i,
+::deep .nav-item .nav-link.active i {
+    color: #1e293b !important;
+}
+
+.nav-item .nav-link.active .nav-text,
+.nav-item a.nav-link.active .nav-text,
+::deep .nav-item .nav-link.active .nav-text {
+    color: #1e293b !important;
 }
 
 .nav-link i {
@@ -151,7 +170,7 @@
         width: 100%;
         height: 100vh;
     }
-    
+
     .brand-text,
     .nav-text,
     .user-details {
