@@ -29,70 +29,70 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 50vh;
-    padding: 2rem;
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 1.5rem;
 }
 
 .auth-required-content {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem;
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e2e8f0;
-    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    max-width: 360px;
     width: 100%;
 }
 
 .auth-required-content i {
-    font-size: 4rem;
+    font-size: 2.5rem;
     color: #ef4444;
     margin-bottom: 1.5rem;
-    display: block;
+    display: inline-block;
 }
 
 .auth-required-content h2 {
-    color: #1e293b;
-    font-size: 1.5rem;
+    color: #1e1b4b;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .auth-required-content p {
     color: #64748b;
-    font-size: 1rem;
-    margin-bottom: 2rem;
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
     line-height: 1.5;
 }
 
-.btn-modern {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+.btn-modern.btn-primary {
+    background: #1e1b4b;
+    color: white;
+    padding: 0.625rem 1.5rem;
     border: none;
     border-radius: 8px;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 140px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
     justify-content: center;
 }
 
-.btn-modern.btn-primary {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    color: white;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
 .btn-modern.btn-primary:hover {
-    background: linear-gradient(135deg, #2563eb, #1e40af);
-    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    background: #2e2a70;
     transform: translateY(-1px);
 }
 
-.btn-modern i {
-    font-size: 1rem;
+.btn-modern.btn-primary i {
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
 }
