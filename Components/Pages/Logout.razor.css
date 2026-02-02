@@ -1,60 +1,26 @@
-.logout-container {
+.loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
+    background: #f8f9fa;
 }
 
-.logout-card {
-    background: white;
-    border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
-}
-
-.logout-header {
-    margin-bottom: 30px;
-}
-
-.logout-icon {
-    font-size: 3rem;
-    color: #dc3545;
-    margin-bottom: 20px;
-}
-
-.logout-header h2 {
-    color: #333;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-}
-
-.logout-header p {
-    color: #666;
-    margin: 0;
-}
-
-.spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e5e7eb;
+    border-top: 4px solid #1e1b4b;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    from {
+        transform: rotate(0deg);
+    }
 
+    to {
+        transform: rotate(360deg);
+    }
+}
